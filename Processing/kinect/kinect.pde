@@ -5,6 +5,9 @@ float screen1_x, screen1_y, screen1_w = 768, screen1_h = 960;
 float screen2_x, screen2_y, screen2_w = 960, screen2_h = 960;
 float screen3_x, screen3_y, screen3_w = 768, screen3_h = 960;
 ArrayList<Morph> morphs = new ArrayList<Morph>();;
+int LINE = 1;
+int SQ = 0;
+int []screen_type = new int[3];
 
 void setup () {
   size(screen_width, screen_height);
@@ -14,6 +17,10 @@ void setup () {
 
   morphs.add(new Morph(341, 384, 50, 80, color(0,0,0)));
   morphs.add(new Morph(541, 484, 50, 80, color(255,0,0)));
+
+  screen_type[0] = SQ;
+  screen_type[1] = LINE;
+  screen_type[2] = LINE;
 
 }
 
@@ -59,9 +66,9 @@ void draw() {
   for (Morph m : morphs) {
     m.update();
     m.draw();
+    m.draw_screen(0);
     m.draw_screen(1);
-    m.draw_screen(2);
-     m.draw_screen(3);
+     m.draw_screen(2);
   }
 }
 
