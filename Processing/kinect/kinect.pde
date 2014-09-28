@@ -1,5 +1,9 @@
 int screen_width = 1024;
 int screen_height = 768;
+float area_x = 341, area_y = 384, area_w = 341, area_h = 384;
+float screen1_x, screen1_y, screen1_w = 768, screen1_h = 960;
+float screen2_x, screen2_y, screen2_w = 960, screen2_h = 960;
+float screen3_x, screen3_y, screen3_w = 768, screen3_h = 960;
 ArrayList<Morph> morphs = new ArrayList<Morph>();;
 
 void setup () {
@@ -47,7 +51,8 @@ void draw_screens() {
 
 void draw() {
 
-  rect(341.0, 384.0, 341.0, 384.0);
+  // Draw area simulating kinect capture
+  rect(area_x, area_y, area_w, area_h);
 
   draw_screens();
 

@@ -19,16 +19,16 @@ public class Morph {
 
   void update() {
     this.x += this.vx;
-    if (this.x <= 341) {
-      this.x = 341;
-    } else if (this.x + this.w >= 682) {
-      this.x = 682 - this.w;
+    if (this.x <= area_x) {
+      this.x = floor(area_x);
+    } else if (this.x + this.w >= area_x + area_w) {
+      this.x = floor(area_x + area_w - this.w);
     }
     this.y += this.vy;
-    if (this.y <= 384) {
-      this.y = 384;
-    } else if (this.y + this.h >= 768) {
-      this.y = 768 - this.h;
+    if (this.y <= area_y) {
+      this.y = floor(area_y);
+    } else if (this.y + this.h >= area_y + area_h) {
+      this.y = floor(area_y + area_h - this.h);
     }
 
   }
@@ -45,8 +45,8 @@ public class Morph {
     float s_x, s_y, new_w;
     switch (screen_i) {
       case 1:
-        s_x = (this.y - 384)/(384.0 - this.h);
-        s_y = 1 - ((this.x - 341.0)/(341 - this.w));
+        s_x = (this.y - area_y)/(area_y - this.h);
+        s_y = 1 - ((this.x - area_x)/(area_x - this.w));
         new_w = this.w + s_y*this.w;
         pushStyle();
         fill(this.c);
@@ -55,15 +55,25 @@ public class Morph {
         popStyle();
         break;
       case 2:
-        s_x = (this.y - 384)/(384.0 - this.h);
-        s_y = 1 - ((this.x - 341.0)/(341 - this.w));
+        s_x = 1 - (this.y - area_y)/(area_y - this.h);
+        s_y = 1 - (this.x - area_x)/(area_x - this.w);
+        new_w = this.w + s_x*this.w;
+        pushStyle();
+        fill(this.c);
+        rectMode(CENTER);
+        rect(area_x + new_w/2 + (area_x - new_w)*(1 - s_y), 192, new_w, 384);
+        popStyle();
+        break;
+       case 3:
+        s_x = 1 - (this.y - area_y)/(area_y - this.h);
+        s_y = ((this.x - area_x)/(area_x - this.w));
         new_w = this.w + s_y*this.w;
         pushStyle();
         fill(this.c);
         rectMode(CENTER);
-        rect(341 + new_w/2 + (341 - new_w)*(1 - s_x), 192, this.w + s_x*this.w, 384);
+        rect(2*area_x + new_w/2 + (341 - new_w)*(1 - s_x), 192, this.w + s_y*this.w, 384);
         popStyle();
-        break;
+       break;
  
     }
   }
