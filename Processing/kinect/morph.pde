@@ -1,6 +1,3 @@
-int LINE = 1;
-int SQ = 0;
-
 public class Morph {
     int x, y, w, h, vx, vy;
     int type;
@@ -51,7 +48,7 @@ public class Morph {
         pushStyle();
         fill(this.c);
         rectMode(CENTER);
-        rect(new_w/2 + (341 - new_w)*(1 - s_x), 192, this.w + s_y*this.w, 384);
+        rect(new_w/2 + (screen1_w - new_w)*(1 - s_x), 192, this.w + s_y*this.w, screen3_h);
         popStyle();
         break;
       case 2:
@@ -61,17 +58,17 @@ public class Morph {
         pushStyle();
         fill(this.c);
         rectMode(CENTER);
-        rect(area_x + new_w/2 + (area_x - new_w)*(1 - s_y), 192, new_w, 384);
+        rect(screen2_x + new_w/2 + (screen2_w - new_w)*(1 - s_y), 192, new_w, screen3_h);
         popStyle();
         break;
        case 3:
         s_x = 1 - (this.y - area_y)/(area_y - this.h);
-        s_y = ((this.x - area_x)/(area_x - this.w));
+        s_y = (this.x - area_x)/(area_x - this.w);
         new_w = this.w + s_y*this.w;
         pushStyle();
         fill(this.c);
         rectMode(CENTER);
-        rect(2*area_x + new_w/2 + (341 - new_w)*(1 - s_x), 192, this.w + s_y*this.w, 384);
+        rect(screen3_x + new_w/2 + (screen3_w - new_w)*(1 - s_x), 192, this.w + s_y*this.w, screen3_h);
         popStyle();
        break;
  
@@ -79,28 +76,52 @@ public class Morph {
   }
 
   void draw_square(int screen_i) { 
+    float s_x, s_y, new_w, new_h;
     switch (screen_i) {
       case 1:
-        float s_x = (this.y - 384)/(384.0 - this.h);
-        float s_y = 1 - ((this.x - 341.0)/(341 - this.w));
-        float new_w = this.w + s_y*this.w;
-        float new_h = this.h + s_y*this.h;
+        s_x = (this.y - area_y)/(area_y - this.h);
+        s_y = 1 - ((this.x - area_x)/(area_x - this.w));
+        new_w = this.w + s_y*this.w;
+        new_h = this.h + s_y*this.h;
         pushStyle();
         fill(this.c);
         rectMode(CENTER);
-        rect(new_w/2 + (341 - new_w)*(1 - s_x), 192, this.w + s_y*this.w, this.h + s_y*this.h);
+        rect(screen1_x + new_w/2 + (screen1_w - new_w)*(1 - s_x), 192, this.w + s_y*this.w, this.h + s_y*this.h);
         popStyle();
         break;
+      case 2:
+        s_x = 1 - (this.y - area_y)/(area_y - this.h);
+        s_y = 1 - ((this.x - area_x)/(area_x - this.w));
+        new_w = this.w + s_x*this.w;
+        new_h = this.h + s_x*this.h;
+        pushStyle();
+        fill(this.c);
+        rectMode(CENTER);
+        rect(screen2_x + new_w/2 + (screen2_w - new_w)*(1 - s_y), 192, new_w, new_h);
+        popStyle();
+        break;
+       case 3:
+        s_x = 1 - (this.y - area_y)/(area_y - this.h);
+        s_y = (this.x - area_x)/(area_x - this.w);
+        new_w = this.w + s_y*this.w;
+        new_h = this.h + s_y*this.h;
+        pushStyle();
+        fill(this.c);
+        rectMode(CENTER);
+        rect(screen3_x + new_w/2 + (screen3_w - new_w)*(1 - s_x), 192, this.w + s_y*this.w, this.h + s_y*this.h);
+        popStyle();
+        break;
+ 
     }
   }
 
   void draw_screen(int i) {
-    switch(this.type) {
+    switch(screen_type[i]) {
       case 0:
-        draw_square(i);
+        draw_square(i+1);
         break;
       case 1:
-        draw_line(i);
+        draw_line(i+1);
         break;
     }
   }
