@@ -35,8 +35,10 @@ void ofApp::setup() {
 	grayThreshNear.allocate(kinect.width, kinect.height);
 	grayThreshFar.allocate(kinect.width, kinect.height);
 	
-	nearThreshold = 230;
-	farThreshold = 70;
+    
+    settings.loadFile("settings.xml");
+	nearThreshold = 255;
+    farThreshold = settings.getValue("tracking:farThreshold", 0);
 	bThreshWithOpenCV = true;
 	
 	ofSetFrameRate(60);
