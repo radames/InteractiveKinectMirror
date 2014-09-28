@@ -19,8 +19,8 @@ void setup () {
   morphs.add(new Morph(541, 484, 50, 80, color(255,0,0)));
 
   screen_type[0] = SQ;
-  screen_type[1] = LINE;
-  screen_type[2] = LINE;
+  screen_type[1] = SQ;
+  screen_type[2] = SQ;
 
 }
 
