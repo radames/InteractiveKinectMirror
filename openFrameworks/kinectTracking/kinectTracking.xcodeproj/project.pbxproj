@@ -20,10 +20,6 @@
 		5101F7D719D78A6600E8AD90 /* ofxSyphonServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7CC19D78A6600E8AD90 /* ofxSyphonServer.mm */; };
 		5101F7D819D78A6600E8AD90 /* ofxSyphonServerDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7CE19D78A6600E8AD90 /* ofxSyphonServerDirectory.mm */; };
 		5104B7D619D78EC4002EB372 /* Syphon.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 5101F7C119D78A6600E8AD90 /* Syphon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5104D13819D7DEEC002EB372 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13119D7DEEC002EB372 /* tinyxml.cpp */; };
-		5104D13919D7DEEC002EB372 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */; };
-		5104D13A19D7DEEC002EB372 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */; };
-		5104D13B19D7DEEC002EB372 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */; };
 		5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16919D8675A002EB372 /* ofxBaseGui.cpp */; };
 		5104D17B19D8675A002EB372 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16B19D8675A002EB372 /* ofxButton.cpp */; };
 		5104D17C19D8675A002EB372 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16E19D8675A002EB372 /* ofxGuiGroup.cpp */; };
@@ -128,12 +124,6 @@
 		5101F7CC19D78A6600E8AD90 /* ofxSyphonServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServer.mm; sourceTree = "<group>"; };
 		5101F7CD19D78A6600E8AD90 /* ofxSyphonServerDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphonServerDirectory.h; sourceTree = "<group>"; };
 		5101F7CE19D78A6600E8AD90 /* ofxSyphonServerDirectory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServerDirectory.mm; sourceTree = "<group>"; };
-		5104D13119D7DEEC002EB372 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
-		5104D13219D7DEEC002EB372 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
-		5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
-		5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
-		5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
-		5104D13719D7DEEC002EB372 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		5104D16919D8675A002EB372 /* ofxBaseGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
 		5104D16A19D8675A002EB372 /* ofxBaseGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
 		5104D16B19D8675A002EB372 /* ofxButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxButton.cpp; sourceTree = "<group>"; };
@@ -499,36 +489,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		5104D12F19D7DEEC002EB372 /* ofxXmlSettings */ = {
-			isa = PBXGroup;
-			children = (
-				5104D13019D7DEEC002EB372 /* libs */,
-				5104D13519D7DEEC002EB372 /* src */,
-			);
-			name = ofxXmlSettings;
-			path = ../../../openFrameworks/addons/ofxXmlSettings;
-			sourceTree = "<group>";
-		};
-		5104D13019D7DEEC002EB372 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				5104D13119D7DEEC002EB372 /* tinyxml.cpp */,
-				5104D13219D7DEEC002EB372 /* tinyxml.h */,
-				5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */,
-				5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */,
-			);
-			path = libs;
-			sourceTree = "<group>";
-		};
-		5104D13519D7DEEC002EB372 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */,
-				5104D13719D7DEEC002EB372 /* ofxXmlSettings.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 		5104D16719D8675A002EB372 /* ofxGui */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,7 +653,6 @@
 			isa = PBXGroup;
 			children = (
 				5104D16719D8675A002EB372 /* ofxGui */,
-				5104D12F19D7DEEC002EB372 /* ofxXmlSettings */,
 				5101F7A419D78A6600E8AD90 /* ofxSyphon */,
 				9683228C705CA3FF4F2EA945 /* ofxKinect */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
@@ -970,7 +929,6 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */,
-				5104D13919D7DEEC002EB372 /* tinyxmlerror.cpp in Sources */,
 				686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */,
 				D31F5C1B140C59B2AF1533A8 /* registration.c in Sources */,
 				5101F7D819D78A6600E8AD90 /* ofxSyphonServerDirectory.mm in Sources */,
@@ -980,7 +938,6 @@
 				5101F7D419D78A6600E8AD90 /* SyphonNameboundClient.m in Sources */,
 				F4135EEFC911E9ED211FB6F9 /* core.c in Sources */,
 				255A7B680DC81E543C875794 /* usb_libusb10.c in Sources */,
-				5104D13B19D7DEEC002EB372 /* ofxXmlSettings.cpp in Sources */,
 				ACE7DC9A3223ED5EE1B80074 /* cameras.c in Sources */,
 				5104D18019D8675A002EB372 /* ofxSliderGroup.cpp in Sources */,
 				49BEEB2DFA5319D55AA6899F /* tilt.c in Sources */,
@@ -988,7 +945,6 @@
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
 				5101F7D719D78A6600E8AD90 /* ofxSyphonServer.mm in Sources */,
-				5104D13819D7DEEC002EB372 /* tinyxml.cpp in Sources */,
 				5104D17F19D8675A002EB372 /* ofxSlider.cpp in Sources */,
 				5104D18119D8675A002EB372 /* ofxToggle.cpp in Sources */,
 				5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */,
@@ -996,7 +952,6 @@
 				5101F7D619D78A6600E8AD90 /* ofxSyphonClient.mm in Sources */,
 				FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */,
 				5104D17E19D8675A002EB372 /* ofxPanel.cpp in Sources */,
-				5104D13A19D7DEEC002EB372 /* tinyxmlparser.cpp in Sources */,
 				5104D17B19D8675A002EB372 /* ofxButton.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */,

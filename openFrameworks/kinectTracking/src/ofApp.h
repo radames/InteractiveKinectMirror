@@ -4,7 +4,6 @@
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
-#include "ofxXmlSettings.h"
 #include "ofxGui.h"
 
 // Windows users:
@@ -54,13 +53,16 @@ public:
 	
 	ofxCvContourFinder contourFinder;
 
-    ofxPanel gui; //
 
+    //GUI
+    ofxPanel gui; //
+    ofParameter<int> farThreshold;
+
+    
     bool bDebugMode;
 	bool bThreshWithOpenCV;
 	
 	int nearThreshold;
-	int farThreshold;
 	
 	int angle;
     
@@ -69,7 +71,6 @@ public:
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
     
-    ofxXmlSettings settings;
 
 
 };

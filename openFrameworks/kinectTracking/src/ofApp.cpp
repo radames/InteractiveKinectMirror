@@ -36,9 +36,10 @@ void ofApp::setup() {
 	grayThreshFar.allocate(kinect.width, kinect.height);
 	
     
-    settings.loadFile("settings.xml");
-	nearThreshold = 255;
-    farThreshold = settings.getValue("tracking:farThreshold", 0);
+    
+
+
+    
 	bThreshWithOpenCV = true;
 	
 	ofSetFrameRate(60);
@@ -48,7 +49,14 @@ void ofApp::setup() {
 	kinect.setCameraTiltAngle(angle);
 	
     bDebugMode = true;
-        
+
+    gui.setup("panel", "settings.xml", 310,100);
+    gui.add(farThreshold.set("farThreshold", nearThreshold,0, 255 ));
+    
+    
+    gui.loadFromFile("settings.xml");
+    
+    nearThreshold = 255;
 
 }
 
@@ -157,6 +165,10 @@ void ofApp::debugMode(){
     }
     
     ofDrawBitmapString(reportStream.str(), 20, 652);
+    
+    gui.draw();
+
+
 
 }
 
@@ -172,6 +184,13 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
+    
+        case 's':
+            gui.saveToFile("settings.xml");
+            break;
+        case 'l':
+            gui.loadFromFile("settings.xml");
+            break;
             
         case 'f':
             ofToggleFullscreen();

@@ -1,3 +1,4 @@
-<tracking>
-    <farThreshold>100</farThreshold>
-</tracking>
+<panel>
+	<Treshold>145</Treshold>
+<panel/>
+</panel>
