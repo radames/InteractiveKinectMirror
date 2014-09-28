@@ -56,7 +56,6 @@ void ofApp::setup() {
     
     
     gui.setup("Settings", "settings.xml", 310,100);
-
     
 
     parametersKinect.setName("Kinect");
@@ -172,12 +171,12 @@ void ofApp::debugMode(){
         ofPushMatrix();
         
             ofTranslate(0,400);
-        
             ofEllipse(b.centroid.x * 300/kinect.width,b.centroid.y * 200/kinect.height,10,10);
-        
-        
+            ofDrawBitmapString(ofToString(i), b.boundingRect.x*300/kinect.width, b.boundingRect.y*200/kinect.height);
 
         ofPopMatrix();
+        
+        
     }
     
     // draw instructions
