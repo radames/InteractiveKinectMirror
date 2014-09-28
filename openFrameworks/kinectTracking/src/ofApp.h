@@ -5,6 +5,7 @@
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxXmlSettings.h"
+#include "ofxGui.h"
 
 // Windows users:
 // You MUST install the libfreenect kinect drivers in order to be able to use
@@ -52,6 +53,8 @@ public:
 	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
 	
 	ofxCvContourFinder contourFinder;
+
+    ofxPanel gui; //
 
     bool bDebugMode;
 	bool bThreshWithOpenCV;
