@@ -1,4 +1,9 @@
-<panel>
-	<Treshold>145</Treshold>
-<panel/>
-</panel>
+<Settings>
+	<Kinect>
+		<Far_Threshold>0</Far_Threshold>
+		<Offset_X>0</Offset_X>
+		<Offset_Y>0</Offset_Y>
+	</Kinect>
+	<Shapes/>
+<Settings/>
+</Settings>

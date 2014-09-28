@@ -50,13 +50,29 @@ void ofApp::setup() {
 	
     bDebugMode = true;
 
-    gui.setup("panel", "settings.xml", 310,100);
-    gui.add(farThreshold.set("farThreshold", nearThreshold,0, 255 ));
+    nearThreshold = 255;
     
+    // GUI ------
+    
+    
+    gui.setup("Settings", "settings.xml", 310,100);
+
     
     gui.loadFromFile("settings.xml");
+
+    parametersKinect.setName("Kinect");
     
-    nearThreshold = 255;
+    parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
+    parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
+    parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
+    
+    parametersShapes.setName("Shapes");
+    
+    
+    gui.add(parametersKinect);
+    gui.add(parametersShapes);
+
+    
 
 }
 
@@ -168,8 +184,6 @@ void ofApp::debugMode(){
     
     gui.draw();
 
-
-
 }
 
 
@@ -187,6 +201,7 @@ void ofApp::keyPressed (int key) {
     
         case 's':
             gui.saveToFile("settings.xml");
+
             break;
         case 'l':
             gui.loadFromFile("settings.xml");

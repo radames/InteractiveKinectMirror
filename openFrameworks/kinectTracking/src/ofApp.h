@@ -56,7 +56,14 @@ public:
 
     //GUI
     ofxPanel gui; //
+
+    ofParameterGroup parametersKinect;
+    ofParameterGroup parametersShapes;
+
     ofParameter<int> farThreshold;
+    ofParameter<float> offsetX;
+    ofParameter<float> offsetY;
+    
 
     
     bool bDebugMode;
