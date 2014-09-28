@@ -63,6 +63,10 @@ public:
     ofParameter<int> farThreshold;
     ofParameter<float> offsetX;
     ofParameter<float> offsetY;
+    ofParameter<int> numMaxBlobs;
+    ofParameter<int> minBlobSize;
+    ofParameter<int> maxBlobSize;
+
     
 
     

@@ -58,20 +58,25 @@ void ofApp::setup() {
     gui.setup("Settings", "settings.xml", 310,100);
 
     
-    gui.loadFromFile("settings.xml");
 
     parametersKinect.setName("Kinect");
     
     parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
+    parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
+    parametersKinect.add(maxBlobSize.set("max Blob Size",10,30,(kinect.width*kinect.height)/10));
+    parametersKinect.add(minBlobSize.set("min Blob Size",10,30,(kinect.width*kinect.height)/10));
+
     parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
     parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
     
     parametersShapes.setName("Shapes");
     
+
     
     gui.add(parametersKinect);
     gui.add(parametersShapes);
 
+    gui.loadFromFile("settings.xml");
     
 
 }
@@ -117,7 +122,8 @@ void ofApp::update() {
 		
 		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
 		// also, find holes is set to true so we will get interior contours as well....
-		contourFinder.findContours(grayImage, 10, (kinect.width*kinect.height)/2, 20, false);
+		contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, numMaxBlobs, false);
+    
 	}
 
     
@@ -128,9 +134,12 @@ void ofApp::draw() {
     
     if(bDebugMode) debugMode(); //draw debug mode
     
-    syphonServer.publishScreen();
+    syphonServer.publishScreen(); //syphon screen
 
 }
+
+
+///DEBUG-MODE
 
 void ofApp::debugMode(){
     
@@ -151,9 +160,25 @@ void ofApp::debugMode(){
     kinect.drawDepth(0, 0, 300, 200);
     kinect.draw(0, 200, 300, 200);
     grayImage.draw(0, 400, 300, 200);
+
     contourFinder.draw(0, 400, 300, 200);
     
     
+    //loop through all blobs detected and draw the centroid
+    for(int i=0; i < contourFinder.blobs.size(); i++){
+        ofxCvBlob b = contourFinder.blobs[i];
+        ofSetColor(255,0,0);
+        ofFill();
+        ofPushMatrix();
+        
+            ofTranslate(0,400);
+        
+            ofEllipse(b.centroid.x * 300/kinect.width,b.centroid.y * 200/kinect.height,10,10);
+        
+        
+
+        ofPopMatrix();
+    }
     
     // draw instructions
     ofSetColor(255, 255, 255);
@@ -183,6 +208,8 @@ void ofApp::debugMode(){
     ofDrawBitmapString(reportStream.str(), 20, 652);
     
     gui.draw();
+    
+
 
 }
 

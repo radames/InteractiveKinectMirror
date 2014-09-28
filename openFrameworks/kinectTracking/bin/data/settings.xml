@@ -1,8 +1,11 @@
 <Settings>
 	<Kinect>
-		<Far_Threshold>0</Far_Threshold>
-		<Offset_X>0</Offset_X>
-		<Offset_Y>0</Offset_Y>
+		<Far_Threshold>81</Far_Threshold>
+		<Offset_X>143.878</Offset_X>
+		<Offset_Y>84.6939</Offset_Y>
+	<Num_Max_Blos>7</Num_Max_Blos>
+		<min_Blob_Size>3161</min_Blob_Size>
+		<max_Blob_Size>30720</max_Blob_Size>
 	</Kinect>
 	<Shapes/>
 <Settings/>
