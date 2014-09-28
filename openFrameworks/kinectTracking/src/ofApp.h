@@ -4,6 +4,8 @@
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
+#include "ofxXmlSettings.h"
+#include "ofxGui.h"
 
 // Windows users:
 // You MUST install the libfreenect kinect drivers in order to be able to use
@@ -52,6 +54,8 @@ public:
 	
 	ofxCvContourFinder contourFinder;
 
+    ofxPanel gui; //
+
     bool bDebugMode;
 	bool bThreshWithOpenCV;
 	
@@ -64,5 +68,8 @@ public:
     static const int CWIDTH1 = 768; //canvas width 1
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
+    
+    ofxXmlSettings settings;
+
 
 };

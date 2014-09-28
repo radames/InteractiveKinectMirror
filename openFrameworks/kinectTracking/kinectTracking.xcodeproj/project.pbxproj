@@ -16,11 +16,22 @@
 		49BEEB2DFA5319D55AA6899F /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = BF2F2AA872288D30F53983EF /* tilt.c */; };
 		5101F7D319D78A6600E8AD90 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5101F7C119D78A6600E8AD90 /* Syphon.framework */; };
 		5101F7D419D78A6600E8AD90 /* SyphonNameboundClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7C419D78A6600E8AD90 /* SyphonNameboundClient.m */; };
-		5101F7D519D78A6600E8AD90 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7C619D78A6600E8AD90 /* README.md */; };
 		5101F7D619D78A6600E8AD90 /* ofxSyphonClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7CA19D78A6600E8AD90 /* ofxSyphonClient.mm */; };
 		5101F7D719D78A6600E8AD90 /* ofxSyphonServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7CC19D78A6600E8AD90 /* ofxSyphonServer.mm */; };
 		5101F7D819D78A6600E8AD90 /* ofxSyphonServerDirectory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5101F7CE19D78A6600E8AD90 /* ofxSyphonServerDirectory.mm */; };
 		5104B7D619D78EC4002EB372 /* Syphon.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 5101F7C119D78A6600E8AD90 /* Syphon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5104D13819D7DEEC002EB372 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13119D7DEEC002EB372 /* tinyxml.cpp */; };
+		5104D13919D7DEEC002EB372 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */; };
+		5104D13A19D7DEEC002EB372 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */; };
+		5104D13B19D7DEEC002EB372 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */; };
+		5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16919D8675A002EB372 /* ofxBaseGui.cpp */; };
+		5104D17B19D8675A002EB372 /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16B19D8675A002EB372 /* ofxButton.cpp */; };
+		5104D17C19D8675A002EB372 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D16E19D8675A002EB372 /* ofxGuiGroup.cpp */; };
+		5104D17D19D8675A002EB372 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D17019D8675A002EB372 /* ofxLabel.cpp */; };
+		5104D17E19D8675A002EB372 /* ofxPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D17219D8675A002EB372 /* ofxPanel.cpp */; };
+		5104D17F19D8675A002EB372 /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D17419D8675A002EB372 /* ofxSlider.cpp */; };
+		5104D18019D8675A002EB372 /* ofxSliderGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D17619D8675A002EB372 /* ofxSliderGroup.cpp */; };
+		5104D18119D8675A002EB372 /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D17819D8675A002EB372 /* ofxToggle.cpp */; };
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */; };
 		7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01438542609FC64F1EC60EEB /* ofxKinectExtras.cpp */; };
@@ -59,13 +70,6 @@
 			containerPortal = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E4B27C1510CBEB8E00536013;
-			remoteInfo = openFrameworks;
-		};
-		E4EEB9AB138B136A00A80321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E4B27C1410CBEB8E00536013;
 			remoteInfo = openFrameworks;
 		};
 /* End PBXContainerItemProxy section */
@@ -117,7 +121,6 @@
 		5101F7C119D78A6600E8AD90 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
 		5101F7C319D78A6600E8AD90 /* SyphonNameboundClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SyphonNameboundClient.h; sourceTree = "<group>"; };
 		5101F7C419D78A6600E8AD90 /* SyphonNameboundClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SyphonNameboundClient.m; sourceTree = "<group>"; };
-		5101F7C619D78A6600E8AD90 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		5101F7C819D78A6600E8AD90 /* ofxSyphon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphon.h; sourceTree = "<group>"; };
 		5101F7C919D78A6600E8AD90 /* ofxSyphonClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphonClient.h; sourceTree = "<group>"; };
 		5101F7CA19D78A6600E8AD90 /* ofxSyphonClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonClient.mm; sourceTree = "<group>"; };
@@ -125,6 +128,29 @@
 		5101F7CC19D78A6600E8AD90 /* ofxSyphonServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServer.mm; sourceTree = "<group>"; };
 		5101F7CD19D78A6600E8AD90 /* ofxSyphonServerDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSyphonServerDirectory.h; sourceTree = "<group>"; };
 		5101F7CE19D78A6600E8AD90 /* ofxSyphonServerDirectory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxSyphonServerDirectory.mm; sourceTree = "<group>"; };
+		5104D13119D7DEEC002EB372 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		5104D13219D7DEEC002EB372 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		5104D13719D7DEEC002EB372 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
+		5104D16919D8675A002EB372 /* ofxBaseGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxBaseGui.cpp; sourceTree = "<group>"; };
+		5104D16A19D8675A002EB372 /* ofxBaseGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBaseGui.h; sourceTree = "<group>"; };
+		5104D16B19D8675A002EB372 /* ofxButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxButton.cpp; sourceTree = "<group>"; };
+		5104D16C19D8675A002EB372 /* ofxButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxButton.h; sourceTree = "<group>"; };
+		5104D16D19D8675A002EB372 /* ofxGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGui.h; sourceTree = "<group>"; };
+		5104D16E19D8675A002EB372 /* ofxGuiGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxGuiGroup.cpp; sourceTree = "<group>"; };
+		5104D16F19D8675A002EB372 /* ofxGuiGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxGuiGroup.h; sourceTree = "<group>"; };
+		5104D17019D8675A002EB372 /* ofxLabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLabel.cpp; sourceTree = "<group>"; };
+		5104D17119D8675A002EB372 /* ofxLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxLabel.h; sourceTree = "<group>"; };
+		5104D17219D8675A002EB372 /* ofxPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxPanel.cpp; sourceTree = "<group>"; };
+		5104D17319D8675A002EB372 /* ofxPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxPanel.h; sourceTree = "<group>"; };
+		5104D17419D8675A002EB372 /* ofxSlider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSlider.cpp; sourceTree = "<group>"; };
+		5104D17519D8675A002EB372 /* ofxSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSlider.h; sourceTree = "<group>"; };
+		5104D17619D8675A002EB372 /* ofxSliderGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxSliderGroup.cpp; sourceTree = "<group>"; };
+		5104D17719D8675A002EB372 /* ofxSliderGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxSliderGroup.h; sourceTree = "<group>"; };
+		5104D17819D8675A002EB372 /* ofxToggle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxToggle.cpp; sourceTree = "<group>"; };
+		5104D17919D8675A002EB372 /* ofxToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxToggle.h; sourceTree = "<group>"; };
 		516717F84C0146512C47A3EC /* ofxCvHaarFinder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvHaarFinder.h; path = ../../../openFrameworks/addons/ofxOpenCv/src/ofxCvHaarFinder.h; sourceTree = SOURCE_ROOT; };
 		586A8EC141BDFA82B3B0518C /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = config.h; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann/config.h; sourceTree = SOURCE_ROOT; };
 		59626D03C690200AD4E8B3A6 /* ml.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ml.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp; sourceTree = SOURCE_ROOT; };
@@ -411,7 +437,6 @@
 			isa = PBXGroup;
 			children = (
 				5101F7BD19D78A6600E8AD90 /* libs */,
-				5101F7C619D78A6600E8AD90 /* README.md */,
 				5101F7C719D78A6600E8AD90 /* src */,
 			);
 			name = ofxSyphon;
@@ -470,6 +495,69 @@
 				5101F7CC19D78A6600E8AD90 /* ofxSyphonServer.mm */,
 				5101F7CD19D78A6600E8AD90 /* ofxSyphonServerDirectory.h */,
 				5101F7CE19D78A6600E8AD90 /* ofxSyphonServerDirectory.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		5104D12F19D7DEEC002EB372 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				5104D13019D7DEEC002EB372 /* libs */,
+				5104D13519D7DEEC002EB372 /* src */,
+			);
+			name = ofxXmlSettings;
+			path = ../../../openFrameworks/addons/ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		5104D13019D7DEEC002EB372 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				5104D13119D7DEEC002EB372 /* tinyxml.cpp */,
+				5104D13219D7DEEC002EB372 /* tinyxml.h */,
+				5104D13319D7DEEC002EB372 /* tinyxmlerror.cpp */,
+				5104D13419D7DEEC002EB372 /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		5104D13519D7DEEC002EB372 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5104D13619D7DEEC002EB372 /* ofxXmlSettings.cpp */,
+				5104D13719D7DEEC002EB372 /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		5104D16719D8675A002EB372 /* ofxGui */ = {
+			isa = PBXGroup;
+			children = (
+				5104D16819D8675A002EB372 /* src */,
+			);
+			name = ofxGui;
+			path = ../../../openFrameworks/addons/ofxGui;
+			sourceTree = "<group>";
+		};
+		5104D16819D8675A002EB372 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				5104D16919D8675A002EB372 /* ofxBaseGui.cpp */,
+				5104D16A19D8675A002EB372 /* ofxBaseGui.h */,
+				5104D16B19D8675A002EB372 /* ofxButton.cpp */,
+				5104D16C19D8675A002EB372 /* ofxButton.h */,
+				5104D16D19D8675A002EB372 /* ofxGui.h */,
+				5104D16E19D8675A002EB372 /* ofxGuiGroup.cpp */,
+				5104D16F19D8675A002EB372 /* ofxGuiGroup.h */,
+				5104D17019D8675A002EB372 /* ofxLabel.cpp */,
+				5104D17119D8675A002EB372 /* ofxLabel.h */,
+				5104D17219D8675A002EB372 /* ofxPanel.cpp */,
+				5104D17319D8675A002EB372 /* ofxPanel.h */,
+				5104D17419D8675A002EB372 /* ofxSlider.cpp */,
+				5104D17519D8675A002EB372 /* ofxSlider.h */,
+				5104D17619D8675A002EB372 /* ofxSliderGroup.cpp */,
+				5104D17719D8675A002EB372 /* ofxSliderGroup.h */,
+				5104D17819D8675A002EB372 /* ofxToggle.cpp */,
+				5104D17919D8675A002EB372 /* ofxToggle.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -604,6 +692,8 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				5104D16719D8675A002EB372 /* ofxGui */,
+				5104D12F19D7DEEC002EB372 /* ofxXmlSettings */,
 				5101F7A419D78A6600E8AD90 /* ofxSyphon */,
 				9683228C705CA3FF4F2EA945 /* ofxKinect */,
 				A0B90D3B0ADB9C1716816714 /* ofxOpenCv */,
@@ -806,7 +896,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E4EEB9AC138B136A00A80321 /* PBXTargetDependency */,
 			);
 			name = kinectTracking;
 			productName = myOFApp;
@@ -881,8 +970,8 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */,
+				5104D13919D7DEEC002EB372 /* tinyxmlerror.cpp in Sources */,
 				686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */,
-				5101F7D519D78A6600E8AD90 /* README.md in Sources */,
 				D31F5C1B140C59B2AF1533A8 /* registration.c in Sources */,
 				5101F7D819D78A6600E8AD90 /* ofxSyphonServerDirectory.mm in Sources */,
 				E55DEEF784A10419E444669E /* flags.c in Sources */,
@@ -891,30 +980,33 @@
 				5101F7D419D78A6600E8AD90 /* SyphonNameboundClient.m in Sources */,
 				F4135EEFC911E9ED211FB6F9 /* core.c in Sources */,
 				255A7B680DC81E543C875794 /* usb_libusb10.c in Sources */,
+				5104D13B19D7DEEC002EB372 /* ofxXmlSettings.cpp in Sources */,
 				ACE7DC9A3223ED5EE1B80074 /* cameras.c in Sources */,
+				5104D18019D8675A002EB372 /* ofxSliderGroup.cpp in Sources */,
 				49BEEB2DFA5319D55AA6899F /* tilt.c in Sources */,
 				0F8F016776681D468C0D0949 /* audio.c in Sources */,
 				63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */,
 				169D3C72FDE6C5590A1616F5 /* ofxCvFloatImage.cpp in Sources */,
 				5101F7D719D78A6600E8AD90 /* ofxSyphonServer.mm in Sources */,
+				5104D13819D7DEEC002EB372 /* tinyxml.cpp in Sources */,
+				5104D17F19D8675A002EB372 /* ofxSlider.cpp in Sources */,
+				5104D18119D8675A002EB372 /* ofxToggle.cpp in Sources */,
+				5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				5101F7D619D78A6600E8AD90 /* ofxSyphonClient.mm in Sources */,
 				FB09C6B2A1DA0EA217240CB8 /* ofxCvGrayscaleImage.cpp in Sources */,
+				5104D17E19D8675A002EB372 /* ofxPanel.cpp in Sources */,
+				5104D13A19D7DEEC002EB372 /* tinyxmlparser.cpp in Sources */,
+				5104D17B19D8675A002EB372 /* ofxButton.cpp in Sources */,
 				1D5F3298C2FA073628012944 /* ofxCvContourFinder.cpp in Sources */,
 				D3301F6A0B43BB293ED97C1D /* ofxCvShortImage.cpp in Sources */,
+				5104D17D19D8675A002EB372 /* ofxLabel.cpp in Sources */,
 				E212C821D1064B92DD953A42 /* ofxCvHaarFinder.cpp in Sources */,
+				5104D17C19D8675A002EB372 /* ofxGuiGroup.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		E4EEB9AC138B136A00A80321 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = openFrameworks;
-			targetProxy = E4EEB9AB138B136A00A80321 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		E4B69B4E0A3A1720003C02F2 /* Debug */ = {
@@ -940,42 +1032,42 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
-					../../../openFrameworks/addons/ofxKinect/libs,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/include,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/platform,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/src,
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/include",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib/osx",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-win32",
-					../../../openFrameworks/addons/ofxKinect/src,
-					../../../openFrameworks/addons/ofxKinect/src/extra,
-					../../../openFrameworks/addons/ofxOpenCv/libs,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/core,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ts,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/video,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx,
-					../../../openFrameworks/addons/ofxOpenCv/src,
+					"$(OF_PATH)/addons/ofxKinect/libs",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/platform",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/src",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-win32",
+					"$(OF_PATH)/addons/ofxKinect/src",
+					"$(OF_PATH)/addons/ofxKinect/src/extra",
+					"$(OF_PATH)/addons/ofxOpenCv/libs",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/core",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/flann",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ml",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ts",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/video",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/src",
 					src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -986,8 +1078,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib/osx/usb-1.0.a",
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx/usb-1.0.a",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a",
 				);
 				SDKROOT = macosx;
 			};
@@ -1017,42 +1109,42 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
-					../../../openFrameworks/addons/ofxKinect/libs,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/include,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/platform,
-					../../../openFrameworks/addons/ofxKinect/libs/libfreenect/src,
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/include",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib/osx",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-win32",
-					../../../openFrameworks/addons/ofxKinect/src,
-					../../../openFrameworks/addons/ofxKinect/src/extra,
-					../../../openFrameworks/addons/ofxOpenCv/libs,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/core,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ts,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/video,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l,
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx,
-					../../../openFrameworks/addons/ofxOpenCv/src,
+					"$(OF_PATH)/addons/ofxKinect/libs",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/platform",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/src",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-win32",
+					"$(OF_PATH)/addons/ofxKinect/src",
+					"$(OF_PATH)/addons/ofxKinect/src/extra",
+					"$(OF_PATH)/addons/ofxOpenCv/libs",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/core",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/flann",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ml",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ts",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/video",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/src",
 					src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -1063,8 +1155,8 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(OF_CORE_LIBS)",
-					"../../../openFrameworks/addons/ofxKinect/libs/libusb-1.0/lib/osx/usb-1.0.a",
-					../../../openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a,
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx/usb-1.0.a",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a",
 				);
 				SDKROOT = macosx;
 			};
@@ -1080,11 +1172,54 @@
 					"$(inherited)",
 					"$(OF_PATH)/addons/ofxSyphon/libs/Syphon/lib/osx",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(OF_PATH)/addons/ofxEdsdk/lib/EDSDK/Framework",
+					"$(OF_PATH)/export/osx/Frameworks",
+					"$(OF_PATH)/libs/glut/lib/osx",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)../../../openFrameworks/libs/glut/lib/osx\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					"$(OF_PATH)/addons/ofxKinect/libs",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/platform",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/src",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-win32",
+					"$(OF_PATH)/addons/ofxKinect/src",
+					"$(OF_PATH)/addons/ofxKinect/src/extra",
+					"$(OF_PATH)/addons/ofxOpenCv/libs",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/core",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/flann",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ml",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ts",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/video",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/src",
+					src,
+				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -1152,6 +1287,21 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
+					"$(OF_PATH)/addons/ofxAssimpModelLoader/libs/assimp/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/export/osx/libs",
+					"$(OF_PATH)/libs/cairo/lib/osx",
+					"$(OF_PATH)/libs/fmodex/lib/osx",
+					"$(OF_PATH)/libs/FreeImage/lib/osx",
+					"$(OF_PATH)/libs/freetype/lib/osx",
+					"$(OF_PATH)/libs/glew/lib/osx",
+					"$(OF_PATH)/libs/glfw/lib/osx",
+					"$(OF_PATH)/libs/openFrameworksCompiled/lib/osx",
+					"$(OF_PATH)/libs/openssl/lib/osx",
+					"$(OF_PATH)/libs/poco/lib/osx",
+					"$(OF_PATH)/libs/rtAudio/lib/osx",
+					"$(OF_PATH)/libs/tess2/lib/osx",
 				);
 				PRODUCT_NAME = kinectTrackingDebug;
 				WRAPPER_EXTENSION = app;
@@ -1168,10 +1318,54 @@
 					"$(inherited)",
 					"$(OF_PATH)/addons/ofxSyphon/libs/Syphon/lib/osx",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(OF_PATH)/addons/ofxEdsdk/lib/EDSDK/Framework",
+					"$(OF_PATH)/addons/ofxSyphon/libs/Syphon/lib/osx",
+					"$(OF_PATH)/export/osx/Frameworks",
+					"$(OF_PATH)/libs/glut/lib/osx",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)../../../openFrameworks/libs/glut/lib/osx\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = NONE;
+				HEADER_SEARCH_PATHS = (
+					"$(OF_CORE_HEADERS)",
+					"$(OF_PATH)/addons/ofxKinect/libs",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/platform",
+					"$(OF_PATH)/addons/ofxKinect/libs/libfreenect/src",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/include/libusb-1.0",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-win32",
+					"$(OF_PATH)/addons/ofxKinect/src",
+					"$(OF_PATH)/addons/ofxKinect/src/extra",
+					"$(OF_PATH)/addons/ofxOpenCv/libs",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/calib3d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/core",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/features2d",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/flann",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/gpu",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/highgui",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/imgproc",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/legacy",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ml",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/objdetect",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/ts",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/include/opencv2/video",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv6l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/linuxarmv7l",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/src",
+					src,
+				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
 				INFOPLIST_FILE = "openFrameworks-Info.plist";
@@ -1239,6 +1433,21 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_49)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
+					"$(OF_PATH)/addons/ofxAssimpModelLoader/libs/assimp/lib/osx",
+					"$(OF_PATH)/addons/ofxKinect/libs/libusb-1.0/lib/osx",
+					"$(OF_PATH)/addons/ofxOpenCv/libs/opencv/lib/osx",
+					"$(OF_PATH)/export/osx/libs",
+					"$(OF_PATH)/libs/cairo/lib/osx",
+					"$(OF_PATH)/libs/fmodex/lib/osx",
+					"$(OF_PATH)/libs/FreeImage/lib/osx",
+					"$(OF_PATH)/libs/freetype/lib/osx",
+					"$(OF_PATH)/libs/glew/lib/osx",
+					"$(OF_PATH)/libs/glfw/lib/osx",
+					"$(OF_PATH)/libs/openFrameworksCompiled/lib/osx",
+					"$(OF_PATH)/libs/openssl/lib/osx",
+					"$(OF_PATH)/libs/poco/lib/osx",
+					"$(OF_PATH)/libs/rtAudio/lib/osx",
+					"$(OF_PATH)/libs/tess2/lib/osx",
 				);
 				PRODUCT_NAME = kinectTracking;
 				WRAPPER_EXTENSION = app;
