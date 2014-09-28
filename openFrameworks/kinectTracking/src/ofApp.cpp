@@ -5,7 +5,8 @@
 void ofApp::setup() {
     syphonServer.setName("kinectTracking");
 
-    
+    ofSetWindowShape(CWIDTH1*2 + CWIDTH2,CHEIGHT); //set windowSize the same as the
+
     ofEnableSmoothing();
     ofSetFrameRate(60);
 	ofSetLogLevel(OF_LOG_VERBOSE);
@@ -28,8 +29,7 @@ void ofApp::setup() {
 		ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
 		ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
 	}
-	
-	
+
 	colorImg.allocate(kinect.width, kinect.height);
 	grayImage.allocate(kinect.width, kinect.height);
 	grayThreshNear.allocate(kinect.width, kinect.height);
@@ -45,16 +45,15 @@ void ofApp::setup() {
 	angle = 0;
 	kinect.setCameraTiltAngle(angle);
 	
-	// start from the front
-	bDrawPointCloud = false;
-    
+    bDebugMode = true;
+        
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
 	
-	ofBackground(100, 100, 100);
+	ofBackground(255, 255, 255);
 	
 	kinect.update();
 	
@@ -100,77 +99,65 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-	
-	ofSetColor(255, 255, 255);
-	
-	if(bDrawPointCloud) {
-		easyCam.begin();
-		drawPointCloud();
-		easyCam.end();
-	} else {
-		// draw from the live kinect
-		kinect.drawDepth(10, 10, 400, 300);
-		kinect.draw(420, 10, 400, 300);
-		
-		grayImage.draw(10, 320, 400, 300);
-		contourFinder.draw(10, 320, 400, 300);
+    
+    if(bDebugMode) debugMode(); //draw debug mode
+    
+    syphonServer.publishScreen();
 
-	}
-	
-	// draw instructions
-	ofSetColor(255, 255, 255);
-	stringstream reportStream;
-        
+}
+
+void ofApp::debugMode(){
+    
+    //showing kinect stuffs
+    
+    ofSetColor(255, 130, 0);
+    ofFill();		// draw "filled shapes"
+    ofRect(0, 0, CHEIGHT, CHEIGHT);
+    ofRect(CWIDTH1 + CWIDTH2, 0, 768, CHEIGHT);
+    ofSetColor(255,0,0);
+    ofFill();
+    
+    ofRect(CWIDTH3, 0, 960, CHEIGHT);
+    ofSetColor(255, 255, 255);
+    
+    
+    // draw from the live kinect
+    kinect.drawDepth(0, 0, 300, 200);
+    kinect.draw(0, 200, 300, 200);
+    grayImage.draw(0, 400, 300, 200);
+    contourFinder.draw(0, 400, 300, 200);
+    
+    
+    
+    // draw instructions
+    ofSetColor(255, 255, 255);
+    stringstream reportStream;
+    
     if(kinect.hasAccelControl()) {
         reportStream << "accel is: " << ofToString(kinect.getMksAccel().x, 2) << " / "
         << ofToString(kinect.getMksAccel().y, 2) << " / "
         << ofToString(kinect.getMksAccel().z, 2) << endl;
     } else {
         reportStream << "Note: this is a newer Xbox Kinect or Kinect For Windows device," << endl
-		<< "motor / led / accel controls are not currently supported" << endl << endl;
+        << "motor / led / accel controls are not currently supported" << endl << endl;
     }
     
-	reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
-	<< "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
-	<< "set near threshold " << nearThreshold << " (press: + -)" << endl
-	<< "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.nBlobs
-	<< ", fps: " << ofGetFrameRate() << endl
-	<< "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
-
+    reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
+    << "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
+    << "set near threshold " << nearThreshold << " (press: + -)" << endl
+    << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.nBlobs
+    << ", fps: " << ofGetFrameRate() << endl
+    << "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
+    
     if(kinect.hasCamTiltControl()) {
-    	reportStream << "press UP and DOWN to change the tilt angle: " << angle << " degrees" << endl
+        reportStream << "press UP and DOWN to change the tilt angle: " << angle << " degrees" << endl
         << "press 1-5 & 0 to change the led mode" << endl;
     }
     
-	ofDrawBitmapString(reportStream.str(), 20, 652);
-    syphonServer.publishScreen();
+    ofDrawBitmapString(reportStream.str(), 20, 652);
 
 }
 
-void ofApp::drawPointCloud() {
-	int w = 640;
-	int h = 480;
-	ofMesh mesh;
-	mesh.setMode(OF_PRIMITIVE_POINTS);
-	int step = 2;
-	for(int y = 0; y < h; y += step) {
-		for(int x = 0; x < w; x += step) {
-			if(kinect.getDistanceAt(x, y) > 0) {
-				mesh.addColor(kinect.getColorAt(x,y));
-				mesh.addVertex(kinect.getWorldCoordinateAt(x, y));
-			}
-		}
-	}
-	glPointSize(3);
-	ofPushMatrix();
-	// the projected points are 'upside down' and 'backwards' 
-	ofScale(1, -1, -1);
-	ofTranslate(0, 0, -1000); // center the points a bit
-	ofEnableDepthTest();
-	mesh.drawVertices();
-	ofDisableDepthTest();
-	ofPopMatrix();
-}
 
 //--------------------------------------------------------------
 void ofApp::exit() {
@@ -183,14 +170,23 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
+            
+        case 'f':
+            ofToggleFullscreen();
+            ofSetWindowShape(CWIDTH1*2 + CWIDTH2,CHEIGHT); //set windowSize the same as the
+
+            break;
+    
+        case 'd':
+            bDebugMode = !bDebugMode;
+
+            break;
 		case ' ':
 			bThreshWithOpenCV = !bThreshWithOpenCV;
 			break;
 			
 		case'p':
-			bDrawPointCloud = !bDrawPointCloud;
 			break;
-			
 		case '>':
 		case '.':
 			farThreshold ++;

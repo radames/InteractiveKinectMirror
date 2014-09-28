@@ -39,6 +39,8 @@ public:
 	void mouseReleased(int x, int y, int button);
 	void windowResized(int w, int h);
 	
+    void debugMode();
+    
 	ofxKinect kinect;
     ofxSyphonServer syphonServer;
 
@@ -49,15 +51,18 @@ public:
 	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
 	
 	ofxCvContourFinder contourFinder;
-	
+
+    bool bDebugMode;
 	bool bThreshWithOpenCV;
-	bool bDrawPointCloud;
 	
 	int nearThreshold;
 	int farThreshold;
 	
 	int angle;
-	
-	// used for viewing the point cloud
-	ofEasyCam easyCam;
+    
+    static const int CHEIGHT = 960; //canvas height
+    static const int CWIDTH1 = 768; //canvas width 1
+    static const int CWIDTH2 = 960; //canvas width 2
+    static const int CWIDTH3 = 768; //canvas width 3
+
 };
