@@ -11,14 +11,11 @@ public: // place public functions or variables declarations here
     // methods, equivalent to specific functions of your class objects
     void update();  // update method, used to refresh your objects properties
     void draw();    // draw method, this where you'll do the object's drawing
-
-    bool screens[3];
-
-    ofMorph(float _x, float _y, float _w, float _h, ofColor _c, int _type);
-    
-private: // place private functions or variables declarations here
+    ofMorph(float _x, float _y, float _w, float _h, ofColor _c);
     float x, y, h, w;
+    bool screens[3];
     ofColor c;
-    int type;};
+
+};
 
 #endif

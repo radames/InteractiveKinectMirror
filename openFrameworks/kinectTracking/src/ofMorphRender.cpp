@@ -11,8 +11,7 @@
 
 
 ofMorphRender::ofMorphRender(){
-    
-    
+    screen_type = RenderType(random() % 3);
 
 }
 
@@ -28,3 +27,47 @@ void ofMorphRender::setup(){
     
 
 }
+
+void ofMorphRender::draw() {
+    for(vector<ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it){
+        switch (screen_type) {
+            case BARS:
+                for (int i; i < 3; ++i) {
+                    if ((*it).screens[i])
+                        draw_bar((*it), i);
+                }
+                break;
+            case GRADIENT:
+                for (int i; i < 3; ++i) {
+                    if ((*it).screens[i])
+                        draw_gradient((*it), i);
+                }
+                break;
+            case SPIKES:
+                for (int i; i < 3; ++i) {
+                    if ((*it).screens[i])
+                        draw_spikes((*it), i);
+                }
+                break;
+
+        }
+    }
+}
+
+void ofMorphRender::draw_morph(ofMorph m, int screen_i) {
+    
+}
+
+void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
+    
+}
+
+void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
+    
+}
+
+void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
+    
+}
+
+
