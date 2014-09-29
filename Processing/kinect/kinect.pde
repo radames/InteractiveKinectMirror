@@ -13,23 +13,21 @@ int LINE = 1;
 int TUNNEL = 2;
 int []screen_type = new int[3];
 PGraphics screen1, screen2, screen3;
-
+float w_max = 150, w_min = 60;
 void setup () {
-  size(screen_width, screen_height, P3D);
+  size(screen_width, screen_height);
   frameRate(60);
-  noCursor();
 
-  morphs.add(new Morph(341, 384, 50, 80, color(0,0,0), TUNNEL));
-  morphs.add(new Morph(541, 484, 50, 80, color(255,0,0), TUNNEL));
+  morphs.add(new Morph(100, 200, 50, 80, color(0,0,0), LINE));
+  morphs.add(new Morph(300, 300, 50, 80, color(255,0,0), LINE));
 
-  screen_type[0] = TUNNEL;
-  screen_type[1] = TUNNEL;
-  screen_type[2] = TUNNEL;
+  screen_type[0] = LINE;
+  screen_type[1] = LINE;
+  screen_type[2] = LINE;
 
-  screen1 = createGraphics(floor(screen1_w), floor(screen1_h), P3D);
+  screen1 = createGraphics(floor(screen1_w), floor(screen1_h));
   screen2 = createGraphics(floor(screen2_w), floor(screen2_h));
   screen3 = createGraphics(floor(screen3_w), floor(screen3_h));
-
 }
 
 void draw_screens() {
