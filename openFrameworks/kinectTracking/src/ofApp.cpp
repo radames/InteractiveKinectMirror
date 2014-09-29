@@ -77,6 +77,9 @@ void ofApp::setup() {
 
     gui.loadFromFile("settings.xml");
     
+    
+    contourFinder.getTracker().setPersistence(15);
+    contourFinder.getTracker().setMaximumDistance(32);    
 
 }
 
@@ -171,22 +174,33 @@ void ofApp::debugMode(){
         contourFinder.draw();
 
     ofPopMatrix();
-    
-    //loop through all blobs detected and draw the centroid
-    for(int i=0; i < contourFinder.size(); i++){
-        Point2f pos = contourFinder.getCentroid(i);
-        
-        ofSetColor(255,0,0);
-        ofFill();
-        ofPushMatrix();
-        
-            ofTranslate(0,400);
-            ofScale(300.0/kinect.width,200.0/kinect.height);
-            ofEllipse(pos.x,pos.y,10,10);
-            ofDrawBitmapString(ofToString(i), pos.x,pos.y);
 
-        ofPopMatrix();
-        
+    //loop through all blobs detected and draw the centroid and lables
+    
+    RectTracker& tracker = contourFinder.getTracker();
+
+    for(int i=0; i < contourFinder.size(); i++){
+        unsigned int label = contourFinder.getLabel(i);
+
+        if(tracker.existsPrevious(label)) {
+            ofPoint center = toOf(contourFinder.getCenter(i));
+            ofSetColor(255,0,0);
+            ofFill();
+            ofPushMatrix();
+                ofTranslate(0,400);
+                ofScale(300.0/kinect.width,200.0/kinect.height);
+                ofEllipse(center.x,center.y,10,10);
+                string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
+                ofDrawBitmapString(msg,center.x,center.y);
+                ofVec2f velocity = toOf(contourFinder.getVelocity(i));
+                ofPushMatrix();
+                    ofTranslate(center.x, center.y);
+                    ofScale(10, 10);
+                    ofLine(0, 0, velocity.x, velocity.y);
+                    ofPopMatrix();
+                ofPopMatrix();
+            ofPopMatrix();
+        }
         
     }
     
