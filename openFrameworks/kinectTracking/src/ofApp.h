@@ -7,6 +7,7 @@
 #include "ofxSyphon.h"
 #include "ofxGui.h"
 #include "ofMorph.h"
+#include "ofMorphRender.h"
 
 // Windows users:
 // You MUST install the libfreenect kinect drivers in order to be able to use
@@ -58,7 +59,6 @@ public:
     ofxPanel gui; //
 
     ofParameterGroup parametersKinect;
-    ofParameterGroup parametersShapes;
 
     ofParameter<int> farThreshold;
     ofParameter<float> offsetX;
@@ -86,6 +86,8 @@ public:
     ofFbo screen1;
     ofFbo screen2;
     ofFbo screen3;
+    
+    ofMorphRender morphRender;
     
     vector<ofMorph> morphs;
 

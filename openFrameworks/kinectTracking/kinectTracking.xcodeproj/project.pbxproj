@@ -43,6 +43,7 @@
 		5104D4B519D8D349002EB372 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44719D8D349002EB372 /* Wrappers.cpp */; };
 		5104D4B719D8D349002EB372 /* readme.md in Sources */ = {isa = PBXBuildFile; fileRef = 5104D44A19D8D349002EB372 /* readme.md */; };
 		5111C50C19D924A0002E02EC /* ofMorph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5111C50A19D924A0002E02EC /* ofMorph.cpp */; };
+		5185F35719D9C52C00AA76D3 /* ofMorphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5185F35519D9C52C00AA76D3 /* ofMorphRender.cpp */; };
 		63020F16C7E8DED980111241 /* ofxCvImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6151136D101F857DAE12722 /* ofxCvImage.cpp */; };
 		686B0DF6249B52E1A85B39EC /* ofxKinect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED9FFC7D08DA194C2CE7D09 /* ofxKinect.cpp */; };
 		7ADB04AF67C568EAFAEBA546 /* ofxKinectExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 01438542609FC64F1EC60EEB /* ofxKinectExtras.cpp */; };
@@ -190,6 +191,8 @@
 		5111C50A19D924A0002E02EC /* ofMorph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofMorph.cpp; sourceTree = "<group>"; };
 		5111C50B19D924A0002E02EC /* ofMorph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofMorph.h; sourceTree = "<group>"; };
 		516717F84C0146512C47A3EC /* ofxCvHaarFinder.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxCvHaarFinder.h; path = ../../../openFrameworks/addons/ofxOpenCv/src/ofxCvHaarFinder.h; sourceTree = SOURCE_ROOT; };
+		5185F35519D9C52C00AA76D3 /* ofMorphRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofMorphRender.cpp; sourceTree = "<group>"; };
+		5185F35619D9C52C00AA76D3 /* ofMorphRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofMorphRender.h; sourceTree = "<group>"; };
 		586A8EC141BDFA82B3B0518C /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = config.h; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/flann/config.h; sourceTree = SOURCE_ROOT; };
 		59626D03C690200AD4E8B3A6 /* ml.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ml.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/ml/ml.hpp; sourceTree = SOURCE_ROOT; };
 		5A59183C98FC5E69FC90F138 /* contrib.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = contrib.hpp; path = ../../../openFrameworks/addons/ofxOpenCv/libs/opencv/include/opencv2/contrib/contrib.hpp; sourceTree = SOURCE_ROOT; };
@@ -945,6 +948,8 @@
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				5111C50A19D924A0002E02EC /* ofMorph.cpp */,
 				5111C50B19D924A0002E02EC /* ofMorph.h */,
+				5185F35519D9C52C00AA76D3 /* ofMorphRender.cpp */,
+				5185F35619D9C52C00AA76D3 /* ofMorphRender.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -1125,6 +1130,7 @@
 				5104D18119D8675A002EB372 /* ofxToggle.cpp in Sources */,
 				5104D17A19D8675A002EB372 /* ofxBaseGui.cpp in Sources */,
 				5104D4B219D8D349002EB372 /* RunningBackground.cpp in Sources */,
+				5185F35719D9C52C00AA76D3 /* ofMorphRender.cpp in Sources */,
 				5111C50C19D924A0002E02EC /* ofMorph.cpp in Sources */,
 				250A95BA26587BE85DB0A353 /* ofxCvColorImage.cpp in Sources */,
 				5104D4B519D8D349002EB372 /* Wrappers.cpp in Sources */,

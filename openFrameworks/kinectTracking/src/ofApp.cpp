@@ -67,6 +67,9 @@ void ofApp::setup() {
 
     nearThreshold = 255;
     
+    morphRender.setup(); //inicializo os parametros
+    
+    
     // GUI ------
     
     
@@ -83,12 +86,10 @@ void ofApp::setup() {
     parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
     parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
     
-    parametersShapes.setName("Shapes");
     
-
     
     gui.add(parametersKinect);
-    gui.add(parametersShapes);
+    gui.add(morphRender.parameters);
 
     gui.loadFromFile("settings.xml");
     
