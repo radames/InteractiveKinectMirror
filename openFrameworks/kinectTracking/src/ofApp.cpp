@@ -16,9 +16,6 @@ void ofApp::setup() {
     blobx = kinect.width/2;
     bloby = kinect.height/2;
     
-    //cleaning map
-    morphsHash.clear();
-    
 }
 
 //--------------------------------------------------------------
@@ -42,8 +39,7 @@ void ofApp::update() {
                //atualiza o hash com a posicao dos morphs
                
                
-               blobx = current.x;
-               bloby = current.y;
+               morphRender.morphs[i].updatePosition(current.x, current.y);
            }
         
     }

@@ -8,7 +8,6 @@
 #include "ofxGui.h"
 #include "ofMorph.h"
 #include "ofMorphRender.h"
-#include <tr1/unordered_map>
 
 class ofApp : public ofBaseApp {
 public:
@@ -75,7 +74,5 @@ public:
     
     vector<ofMorph> morphs;
     
-    tr1::unordered_map <unsigned int,ofMorph> morphsHash;
-
 
 };

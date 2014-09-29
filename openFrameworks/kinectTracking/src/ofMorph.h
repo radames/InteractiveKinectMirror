@@ -7,12 +7,12 @@
 class ofMorph {
     
 public: // place public functions or variables declarations here
-    
     // methods, equivalent to specific functions of your class objects
     void update();  // update method, used to refresh your objects properties
+    void updatePosition(float _x, float _y);
     void draw();    // draw method, this where you'll do the object's drawing
-    ofMorph(float _x, float _y, float _w, float _h, ofColor _c);
-    float x, y, h, w;
+    void setup(float _x, float _y);
+    float x, y;
     bool screens[3];
     ofColor c;
 

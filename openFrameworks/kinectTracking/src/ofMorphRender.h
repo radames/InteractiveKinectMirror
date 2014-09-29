@@ -12,6 +12,7 @@
 #include "ofParameter.h"
 #include "ofMain.h"
 #include "ofMorph.h"
+#include <tr1/unordered_map>
 
 class ofMorphRender {
     
@@ -30,9 +31,12 @@ public:
     void draw_bar(ofMorph m, int screen_i);
     void draw_spikes(ofMorph m, int screen_i);
     void draw_gradient(ofMorph m, int screen_i);
+    void addMorph(float x, float y, int id);
+    void deleteMorph(int id);
+    
+    tr1::unordered_map <unsigned int, ofMorph> morphs;
 
-    vector<ofMorph> morphs;
-    int screen_type;
+    int render_type;
     ofFbo *screen1, *screen2, *screen3;
     
     ofParameterGroup parameters;

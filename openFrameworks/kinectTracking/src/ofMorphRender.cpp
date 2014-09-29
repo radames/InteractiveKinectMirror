@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
     
-    screen_type = RenderType(random() % 3);
+    render_type = RenderType(random() % 3);
     
     screen1 = _screen1;
     screen2 = _screen1;
@@ -32,18 +32,18 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
 }
 
 void ofMorphRender::draw() {
-    for(vector<ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it)
+    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it)
         for (int i = 0; i < 3; ++i)
-            if ((*it).screens[i])
-                switch (screen_type) {
+            if (it->second.screens[i])
+                switch (render_type) {
                     case BARS:
-                        draw_bar((*it), i);
+                        draw_bar(it->second, i);
                         break;
                     case GRADIENT:
-                        draw_gradient((*it), i);
+                        draw_gradient(it->second, i);
                         break;
                     case SPIKES:
-                        draw_spikes((*it), i);
+                        draw_spikes(it->second, i);
                         break;
                 }
 }
@@ -82,4 +82,13 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     
 }
 
+void ofMorphRender::addMorph(float x, float y, int id){
+    ofMorph *m = new ofMorph();
+    m->setup(x, y);
+    morphs[id] = *m;
+}
 
+
+void deleteMorph(int id){
+    
+}
