@@ -6,158 +6,61 @@ using namespace ofxCv;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    syphonServer.setName("kinectTracking");
-
-    ofSetWindowShape(CWIDTH1*2 + CWIDTH2,CHEIGHT); //set windowSize the same as the
-    
-    
-    //starting FBO buffers for each screen
-    screen1.allocate(CWIDTH1, CHEIGHT,  GL_RGBA32F_ARB);
-    screen2.allocate(CWIDTH2, CHEIGHT,  GL_RGBA32F_ARB);
-    screen3.allocate(CWIDTH3, CHEIGHT,  GL_RGBA32F_ARB);
-    
-    screen1.begin();
-        ofClear(255,255,255, 0);
-    screen1.end();
-        screen2.begin();
-        ofClear(255,255,255, 0);
-    screen2.end();
-    screen3.begin();
-        ofClear(255,255,255, 0);
-    screen3.end();
-
-
-    ofEnableSmoothing();
-    ofSetFrameRate(60);
-	ofSetLogLevel(OF_LOG_VERBOSE);
-	
-	// enable depth->video image calibration
-	kinect.setRegistration(true);
-    
-	kinect.init();
-	//kinect.init(true); // shows infrared instead of RGB video image
-	//kinect.init(false, false); // disable video image (faster fps)
-	
-	kinect.open();		// opens first available kinect
-	//kinect.open(1);	// open a kinect by id, starting with 0 (sorted by serial # lexicographically))
-	//kinect.open("A00362A08602047A");	// open a kinect using it's unique serial #
-	
-	// print the intrinsic IR sensor values
-	if(kinect.isConnected()) {
-		ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
-		ofLogNotice() << "sensor-camera dist:  " << kinect.getSensorCameraDistance() << "cm";
-		ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
-		ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
-	}
-
-	colorImg.allocate(kinect.width, kinect.height);
-	grayImage.allocate(kinect.width, kinect.height);
-	grayThreshNear.allocate(kinect.width, kinect.height);
-	grayThreshFar.allocate(kinect.width, kinect.height);
-    
-
-    
-	bThreshWithOpenCV = true;
-	ofSetFrameRate(60);
-	
-	// zero the tilt on startup
-	kinect.setCameraTiltAngle(0);
-	
-    bDebugMode = true;
-
-    nearThreshold = 255;
-    
+   
+    screenSetup(); //screen and some OF setups
+    guiSetup(); //GUI Setup
+    kinectSetup(); //kinetic setup
     morphRender.setup(); //inicializo os parametros
-    
-    
-    // GUI ------
-    
-    
-    gui.setup("Settings", "settings.xml", 310,100);
-    
 
-    parametersKinect.setName("Kinect");
-    
-    parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
-    parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
-    parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
-    parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
-
-    parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
-    parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
-    
-    
-    
-    gui.add(parametersKinect);
-    gui.add(morphRender.parameters);
-
-    gui.loadFromFile("settings.xml");
-    
-    
-    contourFinder.getTracker().setPersistence(15);
-    contourFinder.getTracker().setMaximumDistance(32);
    
     blobx = kinect.width/2;
     bloby = kinect.height/2;
+    
+    //cleaning map
+    morphsHash.clear();
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    
     ofEnableAlphaBlending();
-
 	ofBackground(255, 255, 255);
-	
-	kinect.update();
-	
-	// there is a new frame and we are connected
-	if(kinect.isFrameNew()) {
-		
-		// load grayscale depth image from the kinect source
-		grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
-		
-		// we do two thresholds - one for the far plane and one for the near plane
-		// we then do a cvAnd to get the pixels which are a union of the two thresholds
-		if(bThreshWithOpenCV) {
-			grayThreshNear = grayImage;
-			grayThreshFar = grayImage;
-			grayThreshNear.threshold(nearThreshold, true);
-			grayThreshFar.threshold(farThreshold);
-			cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
-		} else {
-			
-			// or we do it ourselves - show people how they can work with the pixels
-			unsigned char * pix = grayImage.getPixels();
-			
-			int numPixels = grayImage.getWidth() * grayImage.getHeight();
-			for(int i = 0; i < numPixels; i++) {
-				if(pix[i] < nearThreshold && pix[i] > farThreshold) {
-					pix[i] = 255;
-				} else {
-					pix[i] = 0;
-				}
-			}
-		}
-		
-		// update the cv images
-		grayImage.flagImageChanged();
-        
-        contourFinder.setMinAreaRadius(minBlobSize);
-        contourFinder.setMaxAreaRadius(maxBlobSize);
-        contourFinder.findContours(grayImage);
-
-    }
+    kinectUpdate();
+    
+    //varre os blobs, checa
     RectTracker& tracker = contourFinder.getTracker();
     for(int i = 0; i < contourFinder.size(); i++) {
            unsigned int label = contourFinder.getLabel(i);
            
            if(tracker.existsPrevious(label)) {
+               //caso o tracker j‡ existe checa qual o novo ID
+               
+               const cv::Rect& previous = tracker.getPrevious(label);
                const cv::Rect& current = tracker.getCurrent(label);
+               //tracker.getPre
+               //atualiza o hash com a posicao dos morphs
+               
+               
                blobx = current.x;
                bloby = current.y;
            }
         
     }
+    
+    const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
+    const vector<unsigned int>& previousLabels = tracker.getPreviousLabels();
+    const vector<unsigned int>& newLabels = tracker.getNewLabels();
+    const vector<unsigned int>& deadLabels = tracker.getDeadLabels();
+    
+
+    //varrer deadLabels e procurar morphs e KILL them
+    for(int i = 0; i < deadLabels.size(); i++) {
+        
+        
+    }
+
+
     
     float scaleH1 = ofMap(blobx,kinect.width,0,0,1);
     float posx1 = ofMap(bloby,kinect.height,0,0,CWIDTH1);
@@ -315,6 +218,146 @@ void ofApp::exit() {
 	kinect.close();
 	
 
+}
+
+void ofApp::screenSetup(){
+    
+    syphonServer.setName("kinectTracking");
+    
+    ofSetWindowShape(CWIDTH1*2 + CWIDTH2,CHEIGHT); //set windowSize the same as the
+    
+    
+    //starting FBO buffers for each screen
+    screen1.allocate(CWIDTH1, CHEIGHT,  GL_RGBA32F_ARB);
+    screen2.allocate(CWIDTH2, CHEIGHT,  GL_RGBA32F_ARB);
+    screen3.allocate(CWIDTH3, CHEIGHT,  GL_RGBA32F_ARB);
+    
+    screen1.begin();
+    ofClear(255,255,255, 0);
+    screen1.end();
+    screen2.begin();
+    ofClear(255,255,255, 0);
+    screen2.end();
+    screen3.begin();
+    ofClear(255,255,255, 0);
+    screen3.end();
+    
+    
+    ofEnableSmoothing();
+    ofSetFrameRate(60);
+    ofSetLogLevel(OF_LOG_VERBOSE);
+    
+}
+
+void ofApp::kinectUpdate(){
+    
+    kinect.update();
+    
+    // there is a new frame and we are connected
+    if(kinect.isFrameNew()) {
+        
+        // load grayscale depth image from the kinect source
+        grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
+        
+        // we do two thresholds - one for the far plane and one for the near plane
+        // we then do a cvAnd to get the pixels which are a union of the two thresholds
+        if(bThreshWithOpenCV) {
+            grayThreshNear = grayImage;
+            grayThreshFar = grayImage;
+            grayThreshNear.threshold(nearThreshold, true);
+            grayThreshFar.threshold(farThreshold);
+            cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+        } else {
+            
+            // or we do it ourselves - show people how they can work with the pixels
+            unsigned char * pix = grayImage.getPixels();
+            
+            int numPixels = grayImage.getWidth() * grayImage.getHeight();
+            for(int i = 0; i < numPixels; i++) {
+                if(pix[i] < nearThreshold && pix[i] > farThreshold) {
+                    pix[i] = 255;
+                } else {
+                    pix[i] = 0;
+                }
+            }
+        }
+        
+        // update the cv images
+        grayImage.flagImageChanged();
+        
+        contourFinder.setMinAreaRadius(minBlobSize);
+        contourFinder.setMaxAreaRadius(maxBlobSize);
+        contourFinder.findContours(grayImage);
+        
+    }
+
+}
+void ofApp::kinectSetup(){
+    
+    // enable depth->video image calibration
+    kinect.setRegistration(true);
+    
+    kinect.init();
+    //kinect.init(true); // shows infrared instead of RGB video image
+    //kinect.init(false, false); // disable video image (faster fps)
+    
+    kinect.open();		// opens first available kinect
+    //kinect.open(1);	// open a kinect by id, starting with 0 (sorted by serial # lexicographically))
+    //kinect.open("A00362A08602047A");	// open a kinect using it's unique serial #
+    
+    // print the intrinsic IR sensor values
+    if(kinect.isConnected()) {
+        ofLogNotice() << "sensor-emitter dist: " << kinect.getSensorEmitterDistance() << "cm";
+        ofLogNotice() << "sensor-camera dist:  " << kinect.getSensorCameraDistance() << "cm";
+        ofLogNotice() << "zero plane pixel size: " << kinect.getZeroPlanePixelSize() << "mm";
+        ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
+    }
+    
+    colorImg.allocate(kinect.width, kinect.height);
+    grayImage.allocate(kinect.width, kinect.height);
+    grayThreshNear.allocate(kinect.width, kinect.height);
+    grayThreshFar.allocate(kinect.width, kinect.height);
+    
+    
+    
+    bThreshWithOpenCV = true;
+    ofSetFrameRate(60);
+    // zero the tilt on startup
+    kinect.setCameraTiltAngle(0);
+    bDebugMode = true;
+    nearThreshold = 255;
+    
+    
+    //blob tracking system parameter
+    contourFinder.getTracker().setPersistence(15);
+    contourFinder.getTracker().setMaximumDistance(32);
+    
+    
+}
+void ofApp::guiSetup(){
+    
+    
+    gui.setup("Settings", "settings.xml", 310,100);
+    
+    
+    parametersKinect.setName("Kinect");
+    
+    parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
+    parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
+    parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
+    parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
+    
+    parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
+    parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
+    
+    
+    
+    gui.add(parametersKinect);
+    gui.add(morphRender.parameters);
+    
+    gui.loadFromFile("settings.xml");
+    
+    
 }
 
 //--------------------------------------------------------------
