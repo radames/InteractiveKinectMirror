@@ -73,10 +73,7 @@ public:
 	int nearThreshold;
 	
     float blobx,bloby;
-    
-    
-    
-    
+        
     static const int CHEIGHT = 960; //canvas height
     static const int CWIDTH1 = 768; //canvas width 1
     static const int CWIDTH2 = 960; //canvas width 2
@@ -89,6 +86,5 @@ public:
     
     ofMorphRender morphRender;
     
-    vector<ofMorph> morphs;
 
 };
