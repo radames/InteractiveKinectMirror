@@ -1,6 +1,9 @@
 #include "ofApp.h"
 #include "ofxSyphon.h"
 
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
     syphonServer.setName("kinectTracking");
@@ -34,11 +37,9 @@ void ofApp::setup() {
 	grayImage.allocate(kinect.width, kinect.height);
 	grayThreshNear.allocate(kinect.width, kinect.height);
 	grayThreshFar.allocate(kinect.width, kinect.height);
-	
     
-    settings.loadFile("settings.xml");
-	nearThreshold = 255;
-    farThreshold = settings.getValue("tracking:farThreshold", 0);
+
+    
 	bThreshWithOpenCV = true;
 	
 	ofSetFrameRate(60);
@@ -48,7 +49,37 @@ void ofApp::setup() {
 	kinect.setCameraTiltAngle(angle);
 	
     bDebugMode = true;
-        
+
+    nearThreshold = 255;
+    
+    // GUI ------
+    
+    
+    gui.setup("Settings", "settings.xml", 310,100);
+    
+
+    parametersKinect.setName("Kinect");
+    
+    parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
+    parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
+    parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
+    parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
+
+    parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
+    parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
+    
+    parametersShapes.setName("Shapes");
+    
+
+    
+    gui.add(parametersKinect);
+    gui.add(parametersShapes);
+
+    gui.loadFromFile("settings.xml");
+    
+    
+    contourFinder.getTracker().setPersistence(15);
+    contourFinder.getTracker().setMaximumDistance(32);    
 
 }
 
@@ -90,11 +121,17 @@ void ofApp::update() {
 		
 		// update the cv images
 		grayImage.flagImageChanged();
-		
-		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
-		// also, find holes is set to true so we will get interior contours as well....
-		contourFinder.findContours(grayImage, 10, (kinect.width*kinect.height)/2, 20, false);
-	}
+        
+        contourFinder.setMinAreaRadius(minBlobSize);
+        contourFinder.setMaxAreaRadius(maxBlobSize);
+        contourFinder.findContours(grayImage);
+
+//
+//		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
+//		// also, find holes is set to true so we will get interior contours as well....
+//		contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, numMaxBlobs, false);
+//
+    }
 
     
 }
@@ -104,9 +141,12 @@ void ofApp::draw() {
     
     if(bDebugMode) debugMode(); //draw debug mode
     
-    syphonServer.publishScreen();
+    syphonServer.publishScreen(); //syphon screen
 
 }
+
+
+///DEBUG-MODE
 
 void ofApp::debugMode(){
     
@@ -126,10 +166,43 @@ void ofApp::debugMode(){
     // draw from the live kinect
     kinect.drawDepth(0, 0, 300, 200);
     kinect.draw(0, 200, 300, 200);
-    grayImage.draw(0, 400, 300, 200);
-    contourFinder.draw(0, 400, 300, 200);
+    ofPushMatrix();
+
+        ofTranslate(0,400);
+        ofScale(300.0/kinect.width,200.0/kinect.height);
+        grayImage.draw(0,0);
+        contourFinder.draw();
+
+    ofPopMatrix();
+
+    //loop through all blobs detected and draw the centroid and lables
     
-    
+    RectTracker& tracker = contourFinder.getTracker();
+
+    for(int i=0; i < contourFinder.size(); i++){
+        unsigned int label = contourFinder.getLabel(i);
+
+        if(tracker.existsPrevious(label)) {
+            ofPoint center = toOf(contourFinder.getCenter(i));
+            ofSetColor(255,0,0);
+            ofFill();
+            ofPushMatrix();
+                ofTranslate(0,400);
+                ofScale(300.0/kinect.width,200.0/kinect.height);
+                ofEllipse(center.x,center.y,10,10);
+                string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
+                ofDrawBitmapString(msg,center.x,center.y);
+                ofVec2f velocity = toOf(contourFinder.getVelocity(i));
+                ofPushMatrix();
+                    ofTranslate(center.x, center.y);
+                    ofScale(10, 10);
+                    ofLine(0, 0, velocity.x, velocity.y);
+                    ofPopMatrix();
+                ofPopMatrix();
+            ofPopMatrix();
+        }
+        
+    }
     
     // draw instructions
     ofSetColor(255, 255, 255);
@@ -144,10 +217,10 @@ void ofApp::debugMode(){
         << "motor / led / accel controls are not currently supported" << endl << endl;
     }
     
-    reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
+   reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
     << "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
     << "set near threshold " << nearThreshold << " (press: + -)" << endl
-    << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.nBlobs
+    << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.getContours().size()
     << ", fps: " << ofGetFrameRate() << endl
     << "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
     
@@ -157,6 +230,10 @@ void ofApp::debugMode(){
     }
     
     ofDrawBitmapString(reportStream.str(), 20, 652);
+    
+    gui.draw();
+    
+
 
 }
 
@@ -172,6 +249,14 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
 	switch (key) {
+    
+        case 's':
+            gui.saveToFile("settings.xml");
+
+            break;
+        case 'l':
+            gui.loadFromFile("settings.xml");
+            break;
             
         case 'f':
             ofToggleFullscreen();

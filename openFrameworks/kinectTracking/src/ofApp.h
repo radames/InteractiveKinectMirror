@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxCv.h"
 #include "ofxOpenCv.h"
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
-#include "ofxXmlSettings.h"
 #include "ofxGui.h"
 
 // Windows users:
@@ -45,22 +45,37 @@ public:
     
 	ofxKinect kinect;
     ofxSyphonServer syphonServer;
+    ofxCv::ContourFinder contourFinder;
 
 	ofxCvColorImage colorImg;
-	
+//	
 	ofxCvGrayscaleImage grayImage; // grayscale depth image
 	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
 	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
-	
-	ofxCvContourFinder contourFinder;
+//	
+//	ofxCvContourFinder contourFinder;
 
+    
+    //GUI
     ofxPanel gui; //
 
+    ofParameterGroup parametersKinect;
+    ofParameterGroup parametersShapes;
+
+    ofParameter<int> farThreshold;
+    ofParameter<float> offsetX;
+    ofParameter<float> offsetY;
+    ofParameter<int> numMaxBlobs;
+    ofParameter<int> minBlobSize;
+    ofParameter<int> maxBlobSize;
+
+    
+
+    
     bool bDebugMode;
 	bool bThreshWithOpenCV;
 	
 	int nearThreshold;
-	int farThreshold;
 	
 	int angle;
     
@@ -69,7 +84,6 @@ public:
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
     
-    ofxXmlSettings settings;
 
 
 };
