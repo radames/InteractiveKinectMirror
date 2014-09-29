@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxOpenCv.h"
+#include "ofxCv.h"
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxGui.h"
@@ -45,13 +45,13 @@ public:
 	ofxKinect kinect;
     ofxSyphonServer syphonServer;
 
-	ofxCvColorImage colorImg;
-	
-	ofxCvGrayscaleImage grayImage; // grayscale depth image
-	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
-	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
-	
-	ofxCvContourFinder contourFinder;
+//	ofxCvColorImage colorImg;
+//	
+//	ofxCvGrayscaleImage grayImage; // grayscale depth image
+//	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
+//	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
+//	
+//	ofxCvContourFinder contourFinder;
 
 
     //GUI
