@@ -12,7 +12,9 @@ void ofApp::setup() {
     kinectSetup(); //kinetic setup
     //morphRender = new ofMorphRender(&screen1, &screen2, &screen3);
     morphRender.setup(&screen1, &screen2, &screen3); //inicializo os parametros
-
+    
+    morphRender.addMorph(100, 100, 1);
+    
     blobx = kinect.width/2;
     bloby = kinect.height/2;
     
@@ -97,7 +99,7 @@ void ofApp::draw() {
     screen3.draw(CWIDTH1+CWIDTH2,0);
     
     syphonServer.publishScreen(); //syphon screen
-
+    morphRender.draw();
 
 }
 

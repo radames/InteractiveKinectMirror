@@ -15,12 +15,10 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
     
-    render_type = RenderType(random() % 3);
-    
+    render_type = RenderType(random() % 3);    
     screen1 = _screen1;
     screen2 = _screen1;
     screen3 = _screen1;
-    
     parameters.setName("Morphs");
     parameters.add(size.set("size",10,0,100));
     parameters.add(number.set("number",2,1,20));
@@ -33,7 +31,7 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
 
 void ofMorphRender::draw() {
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it)
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 3; ++i) {
             if (it->second.screens[i])
                 switch (render_type) {
                     case BARS:
@@ -46,9 +44,10 @@ void ofMorphRender::draw() {
                         draw_spikes(it->second, i);
                         break;
                 }
+        }
 }
 
-void ofMorphRender::draw_morph(ofMorph m, int screen_i) {
+void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     float scaleH1 = ofMap(m.x, kinect_width,0, 0, 1);
     float posx1 = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
     float posy1 = CHEIGHT/2;
@@ -68,10 +67,6 @@ void ofMorphRender::draw_morph(ofMorph m, int screen_i) {
     ofRect(posx1, posy1, 30*scaleH1*10, 60*scaleH1*10);
     ofPopStyle();
     screen1->end();
-}
-
-void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
-    
 }
 
 void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
