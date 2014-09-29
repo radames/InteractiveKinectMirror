@@ -8,15 +8,18 @@
 
 #include "ofMorphRender.h"
 
-
-
-ofMorphRender::ofMorphRender(){
-    screen_type = RenderType(random() % 3);
-
+ofMorphRender::ofMorphRender() {
+    
 }
 
 
-void ofMorphRender::setup(){
+void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
+    
+    screen_type = RenderType(random() % 3);
+    
+    screen1 = _screen1;
+    screen2 = _screen1;
+    screen3 = _screen1;
     
     parameters.setName("Morphs");
     parameters.add(size.set("size",10,0,100));
@@ -29,33 +32,42 @@ void ofMorphRender::setup(){
 }
 
 void ofMorphRender::draw() {
-    for(vector<ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it){
-        switch (screen_type) {
-            case BARS:
-                for (int i; i < 3; ++i) {
-                    if ((*it).screens[i])
+    for(vector<ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it)
+        for (int i = 0; i < 3; ++i)
+            if ((*it).screens[i])
+                switch (screen_type) {
+                    case BARS:
                         draw_bar((*it), i);
-                }
-                break;
-            case GRADIENT:
-                for (int i; i < 3; ++i) {
-                    if ((*it).screens[i])
+                        break;
+                    case GRADIENT:
                         draw_gradient((*it), i);
-                }
-                break;
-            case SPIKES:
-                for (int i; i < 3; ++i) {
-                    if ((*it).screens[i])
+                        break;
+                    case SPIKES:
                         draw_spikes((*it), i);
+                        break;
                 }
-                break;
-
-        }
-    }
 }
 
 void ofMorphRender::draw_morph(ofMorph m, int screen_i) {
+    float scaleH1 = ofMap(m.x, kinect_width,0, 0, 1);
+    float posx1 = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
+    float posy1 = CHEIGHT/2;
     
+    float scaleH2 = ofMap(m.y, kinect_height, 0, 0, 1);
+    float posx2 = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
+    float posy2 = CHEIGHT/2;
+    
+    float scaleH3 = ofMap(m.x, 0, kinect_width, 0, 1);
+    float posx3 = ofMap(m.y, 0, kinect_width, 0, CWIDTH3);
+    float posy3 = CHEIGHT/2;
+    
+    screen1->begin();
+    ofClear(255,255,255);
+    ofPushStyle();
+    ofSetRectMode(OF_RECTMODE_CENTER);
+    ofRect(posx1, posy1, 30*scaleH1*10, 60*scaleH1*10);
+    ofPopStyle();
+    screen1->end();
 }
 
 void ofMorphRender::draw_bar(ofMorph m, int screen_i) {

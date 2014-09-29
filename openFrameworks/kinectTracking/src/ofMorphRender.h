@@ -24,7 +24,7 @@ class ofMorphRender {
 public:
     ofMorphRender();
     
-    void setup();
+    void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3);
     void draw();
     void draw_morph(ofMorph m, int screen_i);
     void draw_bar(ofMorph m, int screen_i);
@@ -33,6 +33,7 @@ public:
 
     vector<ofMorph> morphs;
     int screen_type;
+    ofFbo *screen1, *screen2, *screen3;
     
     ofParameterGroup parameters;
     ofParameter<float> size;
@@ -59,6 +60,10 @@ public:
     ofParameter<int> spikes_min_num;
     ofParameter<int> spikes_max_num;
     
+    static const int CHEIGHT = 960; //canvas height
+    static const int CWIDTH1 = 768; //canvas width 1
+    static const int CWIDTH2 = 960; //canvas width 2
+    static const int CWIDTH3 = 768; //canvas width 3
 };
 
 #endif /* OFMORPHRENDER_H_*/

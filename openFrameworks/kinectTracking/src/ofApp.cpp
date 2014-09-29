@@ -10,15 +10,15 @@ void ofApp::setup() {
     screenSetup(); //screen and some OF setups
     guiSetup(); //GUI Setup
     kinectSetup(); //kinetic setup
-    morphRender.setup(); //inicializo os parametros
+    //morphRender = new ofMorphRender(&screen1, &screen2, &screen3);
+    morphRender.setup(&screen1, &screen2, &screen3); //inicializo os parametros
 
-   
     blobx = kinect.width/2;
     bloby = kinect.height/2;
     
     //cleaning map
     morphsHash.clear();
-
+    
 }
 
 //--------------------------------------------------------------
@@ -74,15 +74,6 @@ void ofApp::update() {
     float posx3 = ofMap(bloby,0,kinect.width,0,CWIDTH3);
     float posy3 = CHEIGHT/2;
     
-    
-    screen1.begin();
-    ofClear(255,255,255);
-        ofPushStyle();
-            ofSetRectMode(OF_RECTMODE_CENTER);
-            ofRect(posx1,posy1, 30*scaleH1*10, 60*scaleH1*10);
-        ofPopStyle();
-    screen1.end();
-
     screen2.begin();
     ofClear(255,255,255);
         ofPushStyle();
@@ -294,7 +285,7 @@ void ofApp::kinectUpdate(){
 }
 void ofApp::kinectSetup(){
     
-    // enable depth->video image calibration
+    // enable depth.video image calibration
     kinect.setRegistration(true);
     
     kinect.init();
