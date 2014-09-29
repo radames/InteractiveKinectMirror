@@ -8,21 +8,27 @@ float screen1_x = 0, screen1_y = 0, screen1_w = 341, screen1_h = 384;
 float screen2_x = screen1_x + screen1_w, screen2_y = 0, screen2_w = 341, screen2_h = 384;
 float screen3_x = screen2_x + screen2_w, screen3_y = 0, screen3_w = 341, screen3_h = 384;
 ArrayList<Morph> morphs = new ArrayList<Morph>();
-int LINE = 1;
 int SQ = 0;
+int LINE = 1;
+int TUNNEL = 2;
 int []screen_type = new int[3];
+PGraphics screen1, screen2, screen3;
 
 void setup () {
-  size(screen_width, screen_height);
+  size(screen_width, screen_height, P3D);
   frameRate(60);
   noCursor();
 
-  morphs.add(new Morph(341, 384, 50, 80, color(0,0,0)));
-  morphs.add(new Morph(541, 484, 50, 80, color(255,0,0)));
+  morphs.add(new Morph(341, 384, 50, 80, color(0,0,0), TUNNEL));
+  morphs.add(new Morph(541, 484, 50, 80, color(255,0,0), TUNNEL));
 
-  screen_type[0] = SQ;
-  screen_type[1] = SQ;
-  screen_type[2] = SQ;
+  screen_type[0] = TUNNEL;
+  screen_type[1] = TUNNEL;
+  screen_type[2] = TUNNEL;
+
+  screen1 = createGraphics(floor(screen1_w), floor(screen1_h), P3D);
+  screen2 = createGraphics(floor(screen2_w), floor(screen2_h));
+  screen3 = createGraphics(floor(screen3_w), floor(screen3_h));
 
 }
 
@@ -65,13 +71,29 @@ void draw() {
 
   draw_screens();
 
+  screen1.beginDraw();
+  screen1.background(255,255,255);
+
+  screen2.beginDraw();
+  screen2.background(255,255,255);
+
+  screen3.beginDraw();
+  screen3.background(255,255,255);
+
   for (Morph m : morphs) {
     m.update();
     m.draw();
     m.draw_screen(0);
     m.draw_screen(1);
-     m.draw_screen(2);
+    m.draw_screen(2);
   }
+
+  screen1.endDraw();
+  image(screen1, screen1_x, screen1_y);
+  screen2.endDraw();
+  image(screen2, screen2_x, screen2_y);
+  screen3.endDraw();
+  image(screen3, screen3_x, screen3_y);
 }
 
 void keyPressed() {
