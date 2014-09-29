@@ -33,14 +33,11 @@ void ofApp::setup() {
 		ofLogNotice() << "zero plane dist: " << kinect.getZeroPlaneDistance() << "mm";
 	}
 
-//	colorImg.allocate(kinect.width, kinect.height);
-//	grayImage.allocate(kinect.width, kinect.height);
-//	grayThreshNear.allocate(kinect.width, kinect.height);
-//	grayThreshFar.allocate(kinect.width, kinect.height);
-//	
-//    
+	colorImg.allocate(kinect.width, kinect.height);
+	grayImage.allocate(kinect.width, kinect.height);
+	grayThreshNear.allocate(kinect.width, kinect.height);
+	grayThreshFar.allocate(kinect.width, kinect.height);
     
-
 
     
 	bThreshWithOpenCV = true;
@@ -65,8 +62,8 @@ void ofApp::setup() {
     
     parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
     parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
-    parametersKinect.add(maxBlobSize.set("max Blob Size",10,30,(kinect.width*kinect.height)/10));
-    parametersKinect.add(minBlobSize.set("min Blob Size",10,30,(kinect.width*kinect.height)/10));
+    parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
+    parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
 
     parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
     parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
@@ -90,43 +87,48 @@ void ofApp::update() {
 	
 	kinect.update();
 	
-//	// there is a new frame and we are connected
-//	if(kinect.isFrameNew()) {
-//		
-//		// load grayscale depth image from the kinect source
-//		grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
-//		
-//		// we do two thresholds - one for the far plane and one for the near plane
-//		// we then do a cvAnd to get the pixels which are a union of the two thresholds
-//		if(bThreshWithOpenCV) {
-//			grayThreshNear = grayImage;
-//			grayThreshFar = grayImage;
-//			grayThreshNear.threshold(nearThreshold, true);
-//			grayThreshFar.threshold(farThreshold);
-//			cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
-//		} else {
-//			
-//			// or we do it ourselves - show people how they can work with the pixels
-//			unsigned char * pix = grayImage.getPixels();
-//			
-//			int numPixels = grayImage.getWidth() * grayImage.getHeight();
-//			for(int i = 0; i < numPixels; i++) {
-//				if(pix[i] < nearThreshold && pix[i] > farThreshold) {
-//					pix[i] = 255;
-//				} else {
-//					pix[i] = 0;
-//				}
-//			}
-//		}
-//		
-//		// update the cv images
-//		grayImage.flagImageChanged();
-//		
+	// there is a new frame and we are connected
+	if(kinect.isFrameNew()) {
+		
+		// load grayscale depth image from the kinect source
+		grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
+		
+		// we do two thresholds - one for the far plane and one for the near plane
+		// we then do a cvAnd to get the pixels which are a union of the two thresholds
+		if(bThreshWithOpenCV) {
+			grayThreshNear = grayImage;
+			grayThreshFar = grayImage;
+			grayThreshNear.threshold(nearThreshold, true);
+			grayThreshFar.threshold(farThreshold);
+			cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+		} else {
+			
+			// or we do it ourselves - show people how they can work with the pixels
+			unsigned char * pix = grayImage.getPixels();
+			
+			int numPixels = grayImage.getWidth() * grayImage.getHeight();
+			for(int i = 0; i < numPixels; i++) {
+				if(pix[i] < nearThreshold && pix[i] > farThreshold) {
+					pix[i] = 255;
+				} else {
+					pix[i] = 0;
+				}
+			}
+		}
+		
+		// update the cv images
+		grayImage.flagImageChanged();
+        
+        contourFinder.setMinAreaRadius(minBlobSize);
+        contourFinder.setMaxAreaRadius(maxBlobSize);
+        contourFinder.findContours(grayImage);
+
+//
 //		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
 //		// also, find holes is set to true so we will get interior contours as well....
 //		contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, numMaxBlobs, false);
 //
-//	}
+    }
 
     
 }
@@ -161,26 +163,32 @@ void ofApp::debugMode(){
     // draw from the live kinect
     kinect.drawDepth(0, 0, 300, 200);
     kinect.draw(0, 200, 300, 200);
- //   grayImage.draw(0, 400, 300, 200);
+    ofPushMatrix();
 
-//  contourFinder.draw(0, 400, 300, 200);
-    
+        ofTranslate(0,400);
+        ofScale(300.0/kinect.width,200.0/kinect.height);
+        grayImage.draw(0,0);
+        contourFinder.draw();
+
+    ofPopMatrix();
     
     //loop through all blobs detected and draw the centroid
-//    for(int i=0; i < contourFinder.blobs.size(); i++){
-//        ofxCvBlob b = contourFinder.blobs[i];
-//        ofSetColor(255,0,0);
-//        ofFill();
-//        ofPushMatrix();
-//        
-//            ofTranslate(0,400);
-//            ofEllipse(b.centroid.x * 300/kinect.width,b.centroid.y * 200/kinect.height,10,10);
-//            ofDrawBitmapString(ofToString(i), b.boundingRect.x*300/kinect.width, b.boundingRect.y*200/kinect.height);
-//
-//        ofPopMatrix();
-//        
-//        
-//    }
+    for(int i=0; i < contourFinder.size(); i++){
+        Point2f pos = contourFinder.getCentroid(i);
+        
+        ofSetColor(255,0,0);
+        ofFill();
+        ofPushMatrix();
+        
+            ofTranslate(0,400);
+            ofScale(300.0/kinect.width,200.0/kinect.height);
+            ofEllipse(pos.x,pos.y,10,10);
+            ofDrawBitmapString(ofToString(i), pos.x,pos.y);
+
+        ofPopMatrix();
+        
+        
+    }
     
     // draw instructions
     ofSetColor(255, 255, 255);
@@ -195,13 +203,13 @@ void ofApp::debugMode(){
         << "motor / led / accel controls are not currently supported" << endl << endl;
     }
     
-//    reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
-//    << "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
-//    << "set near threshold " << nearThreshold << " (press: + -)" << endl
-//    << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.nBlobs
-//    << ", fps: " << ofGetFrameRate() << endl
-//    << "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
-//    
+   reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
+    << "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
+    << "set near threshold " << nearThreshold << " (press: + -)" << endl
+    << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.getContours().size()
+    << ", fps: " << ofGetFrameRate() << endl
+    << "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
+    
     if(kinect.hasCamTiltControl()) {
         reportStream << "press UP and DOWN to change the tilt angle: " << angle << " degrees" << endl
         << "press 1-5 & 0 to change the led mode" << endl;

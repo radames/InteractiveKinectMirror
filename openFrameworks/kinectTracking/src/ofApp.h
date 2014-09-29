@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxCv.h"
+#include "ofxOpenCv.h"
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxGui.h"
@@ -44,16 +45,17 @@ public:
     
 	ofxKinect kinect;
     ofxSyphonServer syphonServer;
+    ofxCv::ContourFinder contourFinder;
 
-//	ofxCvColorImage colorImg;
+	ofxCvColorImage colorImg;
 //	
-//	ofxCvGrayscaleImage grayImage; // grayscale depth image
-//	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
-//	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
+	ofxCvGrayscaleImage grayImage; // grayscale depth image
+	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
+	ofxCvGrayscaleImage grayThreshFar; // the far thresholded image
 //	
 //	ofxCvContourFinder contourFinder;
 
-
+    
     //GUI
     ofxPanel gui; //
 
