@@ -9,6 +9,23 @@ void ofApp::setup() {
     syphonServer.setName("kinectTracking");
 
     ofSetWindowShape(CWIDTH1*2 + CWIDTH2,CHEIGHT); //set windowSize the same as the
+    
+    
+    //starting FBO buffers for each screen
+    screen1.allocate(CWIDTH1, CHEIGHT,  GL_RGBA32F_ARB);
+    screen2.allocate(CWIDTH2, CHEIGHT,  GL_RGBA32F_ARB);
+    screen3.allocate(CWIDTH3, CHEIGHT,  GL_RGBA32F_ARB);
+    
+    screen1.begin();
+        ofClear(255,255,255, 0);
+    screen1.end();
+        screen2.begin();
+        ofClear(255,255,255, 0);
+    screen2.end();
+    screen3.begin();
+        ofClear(255,255,255, 0);
+    screen3.end();
+
 
     ofEnableSmoothing();
     ofSetFrameRate(60);
@@ -41,12 +58,10 @@ void ofApp::setup() {
 
     
 	bThreshWithOpenCV = true;
-	
 	ofSetFrameRate(60);
 	
 	// zero the tilt on startup
-	angle = 0;
-	kinect.setCameraTiltAngle(angle);
+	kinect.setCameraTiltAngle(0);
 	
     bDebugMode = true;
 
@@ -79,13 +94,17 @@ void ofApp::setup() {
     
     
     contourFinder.getTracker().setPersistence(15);
-    contourFinder.getTracker().setMaximumDistance(32);    
+    contourFinder.getTracker().setMaximumDistance(32);
+   
+    blobx = kinect.width/2;
+    bloby = kinect.height/2;
 
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	
+    ofEnableAlphaBlending();
+
 	ofBackground(255, 255, 255);
 	
 	kinect.update();
@@ -126,22 +145,57 @@ void ofApp::update() {
         contourFinder.setMaxAreaRadius(maxBlobSize);
         contourFinder.findContours(grayImage);
 
-//
-//		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
-//		// also, find holes is set to true so we will get interior contours as well....
-//		contourFinder.findContours(grayImage, minBlobSize, maxBlobSize, numMaxBlobs, false);
-//
     }
+    
+    float scaleH1 = ofMap(blobx,kinect.width,0,0,1);
+    float posx1 = ofMap(bloby,kinect.height,0,0,CWIDTH1);
+    float posy1 = CHEIGHT/2;
+   
+    float scaleH2 = ofMap(bloby,kinect.height,0,0,1);
+    float posx2 = ofMap(blobx,0,kinect.width,0,CWIDTH2);
+    float posy2 = CHEIGHT/2;
+    
+    float scaleH3 = ofMap(blobx,0,kinect.width,0,1);
+    float posx3 = ofMap(bloby,0,kinect.width,0,CWIDTH3);
+    float posy3 = CHEIGHT/2;
+    
+    
+    screen1.begin();
+    ofClear(255,255,255);
+        ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofRect(posx1,posy1, 30*scaleH1*10, 60*scaleH1*10);
+        ofPopStyle();
+    screen1.end();
 
+    screen2.begin();
+    ofClear(255,255,255);
+        ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofRect(posx2,posy2, 30*scaleH2*10, 60*scaleH2*10);
+        ofPopStyle();
+    screen2.end();
+    screen3.begin();
+    ofClear(255,255,255);
+        ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofRect(posx3,posy3, 30*scaleH3*10, 60*scaleH3*10);
+        ofPopStyle();
+    screen3.end();
     
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
     
-    if(bDebugMode) debugMode(); //draw debug mode
+    if(bDebugMode){ debugMode(); }//draw debug mode
+    
+    screen1.draw(0,0);
+    screen2.draw(CWIDTH1,0);
+    screen3.draw(CWIDTH1+CWIDTH2,0);
     
     syphonServer.publishScreen(); //syphon screen
+
 
 }
 
@@ -164,8 +218,10 @@ void ofApp::debugMode(){
     
     
     // draw from the live kinect
-    kinect.drawDepth(0, 0, 300, 200);
     kinect.draw(0, 200, 300, 200);
+    ofCircle(blobx* 300.0/kinect.width ,200+bloby * 200.0/kinect.height, 2);
+    kinect.drawDepth(0, 0, 300, 200);
+
     ofPushMatrix();
 
         ofTranslate(0,400);
@@ -183,6 +239,7 @@ void ofApp::debugMode(){
         unsigned int label = contourFinder.getLabel(i);
 
         if(tracker.existsPrevious(label)) {
+            
             ofPoint center = toOf(contourFinder.getCenter(i));
             ofSetColor(255,0,0);
             ofFill();
@@ -224,10 +281,6 @@ void ofApp::debugMode(){
     << ", fps: " << ofGetFrameRate() << endl
     << "press c to close the connection and o to open it again, connection is: " << kinect.isConnected() << endl;
     
-    if(kinect.hasCamTiltControl()) {
-        reportStream << "press UP and DOWN to change the tilt angle: " << angle << " degrees" << endl
-        << "press 1-5 & 0 to change the led mode" << endl;
-    }
     
     ofDrawBitmapString(reportStream.str(), 20, 652);
     
@@ -266,7 +319,6 @@ void ofApp::keyPressed (int key) {
     
         case 'd':
             bDebugMode = !bDebugMode;
-
             break;
 		case ' ':
 			bThreshWithOpenCV = !bThreshWithOpenCV;
@@ -302,13 +354,10 @@ void ofApp::keyPressed (int key) {
 			break;
 			
 		case 'o':
-			kinect.setCameraTiltAngle(angle); // go back to prev tilt
-			kinect.open();
 			break;
 			
 		case 'c':
-			kinect.setCameraTiltAngle(0); // zero the tilt
-			kinect.close();
+
 			break;
 			
 		case '1':
@@ -336,16 +385,21 @@ void ofApp::keyPressed (int key) {
 			break;
 			
 		case OF_KEY_UP:
-			angle++;
-			if(angle>30) angle=30;
-			kinect.setCameraTiltAngle(angle);
+            bloby-=10;
 			break;
-			
+
 		case OF_KEY_DOWN:
-			angle--;
-			if(angle<-30) angle=-30;
-			kinect.setCameraTiltAngle(angle);
+            bloby+=10;
 			break;
+            
+        case OF_KEY_LEFT:
+            blobx-=10;
+            break;
+            
+        case OF_KEY_RIGHT:
+            blobx+=10;
+            break;
+            
 	}
 }
 
