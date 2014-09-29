@@ -402,6 +402,11 @@ void ofApp::keyPressed (int key) {
             
 	}
 }
+void ofApp::mouseMoved(int x, int y){
+    blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
+    bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
+
+}
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)

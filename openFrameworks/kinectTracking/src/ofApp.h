@@ -6,6 +6,7 @@
 #include "ofxKinect.h"
 #include "ofxSyphon.h"
 #include "ofxGui.h"
+#include "ofMorph.h"
 
 // Windows users:
 // You MUST install the libfreenect kinect drivers in order to be able to use
@@ -40,7 +41,8 @@ public:
 	void mousePressed(int x, int y, int button);
 	void mouseReleased(int x, int y, int button);
 	void windowResized(int w, int h);
-	
+	void mouseMoved(int x, int y);
+    
     void debugMode();
     
 	ofxKinect kinect;
@@ -84,6 +86,7 @@ public:
     ofFbo screen1;
     ofFbo screen2;
     ofFbo screen3;
-
+    
+    vector<ofMorph> morphs;
 
 };
