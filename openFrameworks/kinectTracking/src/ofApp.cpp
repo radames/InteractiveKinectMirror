@@ -147,6 +147,17 @@ void ofApp::update() {
         contourFinder.findContours(grayImage);
 
     }
+    RectTracker& tracker = contourFinder.getTracker();
+    for(int i = 0; i < contourFinder.size(); i++) {
+           unsigned int label = contourFinder.getLabel(i);
+           
+           if(tracker.existsPrevious(label)) {
+               const cv::Rect& current = tracker.getCurrent(label);
+               blobx = current.x;
+               bloby = current.y;
+           }
+        
+    }
     
     float scaleH1 = ofMap(blobx,kinect.width,0,0,1);
     float posx1 = ofMap(bloby,kinect.height,0,0,CWIDTH1);
@@ -206,23 +217,25 @@ void ofApp::draw() {
 void ofApp::debugMode(){
     
     //showing kinect stuffs
+    ofPushStyle();
     
-    ofSetColor(255, 130, 0);
-    ofFill();		// draw "filled shapes"
-    ofRect(0, 0, CHEIGHT, CHEIGHT);
-    ofRect(CWIDTH1 + CWIDTH2, 0, 768, CHEIGHT);
-    ofSetColor(255,0,0);
-    ofFill();
-    
-    ofRect(CWIDTH3, 0, 960, CHEIGHT);
-    ofSetColor(255, 255, 255);
-    
-    
-    // draw from the live kinect
-    kinect.draw(0, 200, 300, 200);
-    ofCircle(blobx* 300.0/kinect.width ,200+bloby * 200.0/kinect.height, 2);
-    kinect.drawDepth(0, 0, 300, 200);
+        ofSetColor(255, 130, 0);
+        ofFill();		// draw "filled shapes"
+        ofRect(0, 0, CHEIGHT, CHEIGHT);
+        ofRect(CWIDTH1 + CWIDTH2, 0, 768, CHEIGHT);
+        ofSetColor(255,0,0);
+        ofFill();
+        ofRect(CWIDTH3, 0, 960, CHEIGHT);
+        ofSetColor(255, 255, 255);
+        
+        
+        // draw from the live kinect
+        kinect.draw(0, 200, 300, 200);
+        ofCircle(blobx* 300.0/kinect.width ,200+bloby * 200.0/kinect.height, 2);
+        kinect.drawDepth(0, 0, 300, 200);
 
+    ofPopStyle();
+    
     ofPushMatrix();
 
         ofTranslate(0,400);
@@ -242,6 +255,7 @@ void ofApp::debugMode(){
         if(tracker.existsPrevious(label)) {
             
             ofPoint center = toOf(contourFinder.getCenter(i));
+            ofPushStyle();
             ofSetColor(255,0,0);
             ofFill();
             ofPushMatrix();
@@ -258,11 +272,14 @@ void ofApp::debugMode(){
                     ofPopMatrix();
                 ofPopMatrix();
             ofPopMatrix();
+            ofPopStyle();
         }
         
     }
     
     // draw instructions
+    ofPushStyle();
+
     ofSetColor(255, 255, 255);
     stringstream reportStream;
     
@@ -284,7 +301,7 @@ void ofApp::debugMode(){
     
     
     ofDrawBitmapString(reportStream.str(), 20, 652);
-    
+    ofPopStyle();
     gui.draw();
     
 
