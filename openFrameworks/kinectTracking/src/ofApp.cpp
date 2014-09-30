@@ -11,13 +11,13 @@ void ofApp::setup() {
     kinectSetup(); //kinetic setup
     cout << "end 1 = " << &screen1  << "end 2 = " << &screen2  << "end 3 = " << &screen3;
     morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
-   // morphRender.addMorph(0, 0, 1);
    
     guiSetup(); //GUI Setup
 
     
     //if enableMouse true, so mouse is available during DEBUG mode
     if(enableMouse){
+        morphRender.addMorph(0, 0, 1);
         blobx = kinect.width/2;
         bloby = kinect.height/2;
     }
