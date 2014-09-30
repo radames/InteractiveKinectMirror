@@ -13,12 +13,14 @@ ofMorphRender::ofMorphRender() {
 }
 
 
-void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
+void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
     
-    render_type = RenderType(random() % 3);
+    render_type = BARS;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen1;
     screen3 = _screen1;
+    kinect_width = _kinect_width;
+    kinect_height = _kinect_height;
     parameters.setName("Morphs");
     parameters.add(size.set("size",10,0,100));
     parameters.add(number.set("number",2,1,20));

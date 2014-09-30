@@ -25,7 +25,7 @@ class ofMorphRender {
 public:
     ofMorphRender();
     
-    void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3);
+    void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3, float kinect_width, float kinect_height);
     void draw();
     void draw_morph(ofMorph m, int screen_i);
     void draw_bar(ofMorph m, int screen_i);

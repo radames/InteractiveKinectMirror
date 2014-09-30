@@ -10,9 +10,8 @@ void ofApp::setup() {
     screenSetup(); //screen and some OF setups
     guiSetup(); //GUI Setup
     kinectSetup(); //kinetic setup
-    morphRender.setup(&screen1, &screen2, &screen3); //inicializo os parametros
-    
-    morphRender.addMorph(100, 100, 1);
+    morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
+    morphRender.addMorph(0, 0, 1);
     
     blobx = kinect.width/2;
     bloby = kinect.height/2;
@@ -40,7 +39,7 @@ void ofApp::update() {
                //atualiza o hash com a posicao dos morphs
                
                
-               morphRender.morphs[i].updatePosition(current.x, current.y);
+               //morphRender.morphs[i].updatePosition(current.x, current.y);
            }
         
     }
@@ -69,7 +68,7 @@ void ofApp::update() {
     float scaleH3 = ofMap(blobx,0,kinect.width,0,1);
     float posx3 = ofMap(bloby,0,kinect.width,0,CWIDTH3);
     float posy3 = CHEIGHT/2;
-    
+        
     screen2.begin();
     ofClear(255,255,255);
         ofPushStyle();
@@ -232,7 +231,7 @@ void ofApp::screenSetup(){
     
     ofEnableSmoothing();
     ofSetFrameRate(60);
-    ofSetLogLevel(OF_LOG_VERBOSE);
+    ofSetLogLevel(OF_LOG_NOTICE);
     
 }
 
@@ -431,20 +430,25 @@ void ofApp::keyPressed (int key) {
 		case '0':
 			kinect.setLed(ofxKinect::LED_OFF);
 			break;
-			
+            
 		case OF_KEY_UP:
+            morphRender.morphs[1].y -= 10;
             bloby-=10;
 			break;
 
 		case OF_KEY_DOWN:
+            morphRender.morphs[1].y += 10;
             bloby+=10;
 			break;
             
         case OF_KEY_LEFT:
+            cout << morphRender.morphs[1].x << "\n\n I\n";
+            morphRender.morphs[1].x -= 10;
             blobx-=10;
             break;
             
         case OF_KEY_RIGHT:
+            morphRender.morphs[1].x += 10;
             blobx+=10;
             break;
             
