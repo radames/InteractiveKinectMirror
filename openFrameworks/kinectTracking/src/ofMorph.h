@@ -13,6 +13,8 @@ public: // place public functions or variables declarations here
     void draw();    // draw method, this where you'll do the object's drawing
     void setup(float _x, float _y);
     float x, y;
+    float w, h;
+    float random_delta[8];
     bool screens[3];
     ofColor c;
 
