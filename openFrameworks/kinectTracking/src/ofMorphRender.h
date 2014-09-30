@@ -37,7 +37,6 @@ public:
     tr1::unordered_map <unsigned int, ofMorph> morphs;
 
     int render_type;
-    ofFbo *screen1, *screen2, *screen3;
     
     ofParameterGroup parameters;
     ofParameter<float> size;
@@ -68,6 +67,10 @@ public:
     static const int CWIDTH1 = 768; //canvas width 1
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
+
+protected:
+    ofFbo *screen1, *screen2, *screen3;
+
 };
 
 #endif /* OFMORPHRENDER_H_*/

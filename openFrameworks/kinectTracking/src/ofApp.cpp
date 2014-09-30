@@ -10,7 +10,6 @@ void ofApp::setup() {
     screenSetup(); //screen and some OF setups
     guiSetup(); //GUI Setup
     kinectSetup(); //kinetic setup
-    //morphRender = new ofMorphRender(&screen1, &screen2, &screen3);
     morphRender.setup(&screen1, &screen2, &screen3); //inicializo os parametros
     
     morphRender.addMorph(100, 100, 1);
@@ -59,7 +58,6 @@ void ofApp::update() {
     }
 
 
-    
     float scaleH1 = ofMap(blobx,kinect.width,0,0,1);
     float posx1 = ofMap(bloby,kinect.height,0,0,CWIDTH1);
     float posy1 = CHEIGHT/2;
@@ -93,13 +91,13 @@ void ofApp::update() {
 void ofApp::draw() {
     
     if(bDebugMode){ debugMode(); }//draw debug mode
-    
+
+    morphRender.draw();
     screen1.draw(0,0);
     screen2.draw(CWIDTH1,0);
     screen3.draw(CWIDTH1+CWIDTH2,0);
     
     syphonServer.publishScreen(); //syphon screen
-    morphRender.draw();
 
 }
 

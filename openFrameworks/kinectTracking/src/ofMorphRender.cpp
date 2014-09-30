@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
     
-    render_type = RenderType(random() % 3);    
+    render_type = RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen1;
     screen3 = _screen1;
@@ -30,9 +30,9 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3){
 }
 
 void ofMorphRender::draw() {
-    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); ++it)
+    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++)
         for (int i = 0; i < 3; ++i) {
-            if (it->second.screens[i])
+            if (it->second.screens[i]) {
                 switch (render_type) {
                     case BARS:
                         draw_bar(it->second, i);
@@ -44,6 +44,7 @@ void ofMorphRender::draw() {
                         draw_spikes(it->second, i);
                         break;
                 }
+            }
         }
 }
 
@@ -61,12 +62,13 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     float posy3 = CHEIGHT/2;
     
     screen1->begin();
-    ofClear(255,255,255);
+    ofClear(255,255,255,0);
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
     ofRect(posx1, posy1, 30*scaleH1*10, 60*scaleH1*10);
     ofPopStyle();
     screen1->end();
+    
 }
 
 void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
