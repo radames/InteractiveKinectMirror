@@ -11,13 +11,16 @@ void ofApp::setup() {
     kinectSetup(); //kinetic setup
     cout << "end 1 = " << &screen1  << "end 2 = " << &screen2  << "end 3 = " << &screen3;
     morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
-    morphRender.addMorph(0, 0, 1);
+   // morphRender.addMorph(0, 0, 1);
    
     guiSetup(); //GUI Setup
 
-    blobx = kinect.width/2;
-    bloby = kinect.height/2;
     
+    //if enableMouse true, so mouse is available during DEBUG mode
+    if(enableMouse){
+        blobx = kinect.width/2;
+        bloby = kinect.height/2;
+    }
 }
 
 //--------------------------------------------------------------
@@ -41,7 +44,7 @@ void ofApp::update() {
                //atualiza o hash com a posicao dos morphs
                
                
-               //morphRender.morphs[i].updatePosition(current.x, current.y);
+               morphRender.morphs[label].updatePosition(current.x, current.y);
            }
         
     }
@@ -53,13 +56,18 @@ void ofApp::update() {
     
 
     //varrer deadLabels e procurar morphs e KILL them
-    for(int i = 0; i < deadLabels.size(); i++) {
-        
-        
+    for(int i = 0; i < newLabels.size(); i++) {
+        unsigned int label = contourFinder.getLabel(i);
+
+        const cv::Rect& current = tracker.getCurrent(label);
+        if(!tracker.existsPrevious(label)) {
+
+            morphRender.addMorph(current.x, current.y, label);;
+        }
     }
     
-    morphRender.morphs[1].x = blobx;
-    morphRender.morphs[1].y = bloby;
+    //morphRender.morphs[1].x = blobx;
+  //  morphRender.morphs[1].y = bloby;
 
 }
 
@@ -159,7 +167,6 @@ void ofApp::debugMode(){
     }
     
    reportStream << "press p to switch between images and point cloud, rotate the point cloud with the mouse" << endl
-    << "using opencv threshold = " << bThreshWithOpenCV <<" (press spacebar)" << endl
     << "set near threshold " << nearThreshold << " (press: + -)" << endl
     << "set far threshold " << farThreshold << " (press: < >) num blobs found " << contourFinder.getContours().size()
     << ", fps: " << ofGetFrameRate() << endl
@@ -224,26 +231,12 @@ void ofApp::kinectUpdate(){
         
         // we do two thresholds - one for the far plane and one for the near plane
         // we then do a cvAnd to get the pixels which are a union of the two thresholds
-        if(bThreshWithOpenCV) {
-            grayThreshNear = grayImage;
-            grayThreshFar = grayImage;
-            grayThreshNear.threshold(nearThreshold, true);
-            grayThreshFar.threshold(farThreshold);
-            cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
-        } else {
-            
-            // or we do it ourselves - show people how they can work with the pixels
-            unsigned char * pix = grayImage.getPixels();
-            
-            int numPixels = grayImage.getWidth() * grayImage.getHeight();
-            for(int i = 0; i < numPixels; i++) {
-                if(pix[i] < nearThreshold && pix[i] > farThreshold) {
-                    pix[i] = 255;
-                } else {
-                    pix[i] = 0;
-                }
-            }
-        }
+        grayThreshNear = grayImage;
+        grayThreshFar = grayImage;
+        grayThreshNear.threshold(nearThreshold, true);
+        grayThreshFar.threshold(farThreshold);
+        cvAnd(grayThreshNear.getCvImage(), grayThreshFar.getCvImage(), grayImage.getCvImage(), NULL);
+
         
         // update the cv images
         grayImage.flagImageChanged();
@@ -282,8 +275,6 @@ void ofApp::kinectSetup(){
     grayThreshFar.allocate(kinect.width, kinect.height);
     
     
-    
-    bThreshWithOpenCV = true;
     ofSetFrameRate(60);
     // zero the tilt on startup
     kinect.setCameraTiltAngle(0);
@@ -304,6 +295,7 @@ void ofApp::guiSetup(){
     
     
     parametersKinect.setName("Kinect");
+    parametersKinect.add(enableMouse.set("Mouse DEBUG",true));
     
     parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
     parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
@@ -345,7 +337,6 @@ void ofApp::keyPressed (int key) {
             bDebugMode = !bDebugMode;
             break;
 		case ' ':
-			bThreshWithOpenCV = !bThreshWithOpenCV;
 			break;
 			
 		case'p':
@@ -427,11 +418,13 @@ void ofApp::keyPressed (int key) {
 	}
 }
 void ofApp::mouseMoved(int x, int y){
-    blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
-    bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
-    morphRender.morphs[1].x = blobx;
-    morphRender.morphs[1].y = bloby;
-
+    
+    if(enableMouse){
+        blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
+        bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
+        morphRender.morphs[1].x = blobx;
+        morphRender.morphs[1].y = bloby;
+    }
 }
 
 //--------------------------------------------------------------

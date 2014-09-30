@@ -45,7 +45,8 @@ public:
     ofxPanel gui; //
 
     ofParameterGroup parametersKinect;
-
+    
+    ofParameter<bool> enableMouse;
     ofParameter<int> farThreshold;
     ofParameter<float> offsetX;
     ofParameter<float> offsetY;
@@ -55,7 +56,6 @@ public:
     
     //options variables
     bool bDebugMode;
-	bool bThreshWithOpenCV;
 	int nearThreshold;
 	
     float blobx,bloby;
