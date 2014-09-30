@@ -17,8 +17,8 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
     
     render_type = BARS;//RenderType(random() % 3);
     screen1 = _screen1;
-    screen2 = _screen1;
-    screen3 = _screen1;
+    screen2 = _screen2;
+    screen3 = _screen3;
     kinect_width = _kinect_width;
     kinect_height = _kinect_height;
     parameters.setName("Morphs");
@@ -27,7 +27,10 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
     parameters.add(position.set("position",ofVec2f(ofGetWidth()*.5,ofGetHeight()*.5),ofVec2f(0,0),ofVec2f(ofGetWidth(),ofGetHeight())));
     color.set("color",ofColor(127),ofColor(0,0),ofColor(255));
     parameters.add(color);
-    
+
+    parameters.add(bars_min_width.set("bar width min",0,100,500));
+    parameters.add(bars_max_width.set("bar width max",0,100,500));
+
 
 }
 
@@ -51,25 +54,54 @@ void ofMorphRender::draw() {
 }
 
 void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
-    float scaleH1 = ofMap(m.x, kinect_width,0, 0, 1);
+    float scaleH1 = ofMap(m.x, kinect_width, 0, bars_min_width, bars_max_width);
     float posx1 = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
     float posy1 = CHEIGHT/2;
     
-    float scaleH2 = ofMap(m.y, kinect_height, 0, 0, 1);
+    float scaleH2 = ofMap(m.y, kinect_height, 0, bars_min_width, bars_max_width);
     float posx2 = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
     float posy2 = CHEIGHT/2;
     
-    float scaleH3 = ofMap(m.x, 0, kinect_width, 0, 1);
+    float scaleH3 = ofMap(m.x, 0, kinect_width, 0, bars_min_width, bars_max_width);
     float posx3 = ofMap(m.y, 0, kinect_width, 0, CWIDTH3);
     float posy3 = CHEIGHT/2;
     
-    screen1->begin();
-    ofClear(255,255,255,0);
-    ofPushStyle();
-    ofSetRectMode(OF_RECTMODE_CENTER);
-    ofRect(posx1, posy1, 30*scaleH1*10, 60*scaleH1*10);
-    ofPopStyle();
-    screen1->end();
+    switch (screen_i) {
+        case 0:
+            screen1->begin();
+            ofClear(255,255,255);
+            ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofSetColor(0, 0, 0);
+            ofFill();
+            ofRect(posx1, posy1, scaleH1, CHEIGHT);
+            ofPopStyle();
+            screen1->end();
+            break;
+        case 1:
+            screen2->begin();
+            ofClear(255,255,255);
+            ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofSetColor(0, 0, 0);
+            ofFill();
+            ofRect(posx2,posy2, scaleH2, CHEIGHT);
+            ofPopStyle();
+            screen2->end();
+            break;            
+        case 2:
+            screen3->begin();
+            ofClear(255,255,255);
+            ofPushStyle();
+            ofSetRectMode(OF_RECTMODE_CENTER);
+            ofSetColor(0, 0, 0);
+            ofFill();
+            ofRect(posx3,posy3, scaleH3, CHEIGHT);
+            ofPopStyle();
+            screen3->end();
+            break;
+    }
+
     
 }
 

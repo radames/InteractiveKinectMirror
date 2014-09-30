@@ -56,8 +56,8 @@ public:
     ofParameter<ofColor> tunnel_higher_color;
 
     // Bars Renderer Parameters
-    ofParameter<float> bars_min_width;
-    ofParameter<float> bars_max_width;
+    ofParameter<float> bars_min_width = 200;
+    ofParameter<float> bars_max_width = 400;
     
     // Spikes Parameters
     ofParameter<int> spikes_min_num;

@@ -8,11 +8,13 @@ using namespace ofxCv;
 void ofApp::setup() {
    
     screenSetup(); //screen and some OF setups
-    guiSetup(); //GUI Setup
     kinectSetup(); //kinetic setup
+    cout << "end 1 = " << &screen1  << "end 2 = " << &screen2  << "end 3 = " << &screen3;
     morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
     morphRender.addMorph(0, 0, 1);
-    
+   
+    guiSetup(); //GUI Setup
+
     blobx = kinect.width/2;
     bloby = kinect.height/2;
     
@@ -55,35 +57,10 @@ void ofApp::update() {
         
         
     }
-
-
-    float scaleH1 = ofMap(blobx,kinect.width,0,0,1);
-    float posx1 = ofMap(bloby,kinect.height,0,0,CWIDTH1);
-    float posy1 = CHEIGHT/2;
-   
-    float scaleH2 = ofMap(bloby,kinect.height,0,0,1);
-    float posx2 = ofMap(blobx,0,kinect.width,0,CWIDTH2);
-    float posy2 = CHEIGHT/2;
     
-    float scaleH3 = ofMap(blobx,0,kinect.width,0,1);
-    float posx3 = ofMap(bloby,0,kinect.width,0,CWIDTH3);
-    float posy3 = CHEIGHT/2;
-        
-    screen2.begin();
-    ofClear(255,255,255);
-        ofPushStyle();
-            ofSetRectMode(OF_RECTMODE_CENTER);
-            ofRect(posx2,posy2, 30*scaleH2*10, 60*scaleH2*10);
-        ofPopStyle();
-    screen2.end();
-    screen3.begin();
-    ofClear(255,255,255);
-        ofPushStyle();
-            ofSetRectMode(OF_RECTMODE_CENTER);
-            ofRect(posx3,posy3, 30*scaleH3*10, 60*scaleH3*10);
-        ofPopStyle();
-    screen3.end();
-    
+    morphRender.morphs[1].x = blobx;
+    morphRender.morphs[1].y = bloby;
+
 }
 
 //--------------------------------------------------------------
@@ -343,7 +320,7 @@ void ofApp::guiSetup(){
     
     gui.loadFromFile("settings.xml");
     
-    
+    gui.minimizeAll();
 }
 
 //--------------------------------------------------------------
@@ -432,23 +409,18 @@ void ofApp::keyPressed (int key) {
 			break;
             
 		case OF_KEY_UP:
-            morphRender.morphs[1].y -= 10;
             bloby-=10;
 			break;
 
 		case OF_KEY_DOWN:
-            morphRender.morphs[1].y += 10;
             bloby+=10;
 			break;
             
         case OF_KEY_LEFT:
-            cout << morphRender.morphs[1].x << "\n\n I\n";
-            morphRender.morphs[1].x -= 10;
             blobx-=10;
             break;
             
         case OF_KEY_RIGHT:
-            morphRender.morphs[1].x += 10;
             blobx+=10;
             break;
             
@@ -457,6 +429,8 @@ void ofApp::keyPressed (int key) {
 void ofApp::mouseMoved(int x, int y){
     blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
     bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
+    morphRender.morphs[1].x = blobx;
+    morphRender.morphs[1].y = bloby;
 
 }
 
