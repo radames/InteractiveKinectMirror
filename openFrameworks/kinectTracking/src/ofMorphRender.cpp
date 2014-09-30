@@ -124,7 +124,7 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     ofScale(scaleH, scaleH);
     for (int j = 0; j < 10; ++j) {
         ofScale(0.9, 0.9);
-        ofSetColor((10 - j)*10, (10 - j)*10, (10 - j)*10);
+        ofSetColor(255*(10 - j)/10, 255*(10 - j)/10, 255*(10 - j)/10);
         ofFill();
         ofPushMatrix();
             ofTranslate(dir*j, 0);
