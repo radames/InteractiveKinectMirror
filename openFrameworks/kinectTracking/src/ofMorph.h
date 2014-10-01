@@ -17,6 +17,7 @@ public: // place public functions or variables declarations here
     void draw();    // draw method, this where you'll do the object's drawing
     void setup(float _x, float _y, int minSpikesRandPoints, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner);
     float x, y;
+    float center_x, center_y;
     float w, h;
     float random_delta[8];
     vector<ofPoint> random_points;

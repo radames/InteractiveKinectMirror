@@ -19,7 +19,8 @@ class ofMorphRender {
     enum RenderType {
         BARS,
         SPIKES,
-        GRADIENT
+        GRADIENT,
+        ALL_GRADIENT
     };
     
 public:
@@ -31,6 +32,7 @@ public:
     void draw_bar(ofMorph m, int screen_i);
     void draw_spikes(ofMorph m, int screen_i);
     void draw_gradient(ofMorph *m, int screen_i);
+    void draw_all_gradient();
     void addMorph(float x, float y, int id);
     void deleteMorph(int id);
     

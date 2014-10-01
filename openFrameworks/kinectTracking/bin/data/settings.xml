@@ -1,11 +1,11 @@
 <Settings>
 	<Kinect>
-		<Far_Threshold>170</Far_Threshold>
-		<Offset_X>143.878</Offset_X>
-		<Offset_Y>84.6939</Offset_Y>
-	<Num_Max_Blos>6</Num_Max_Blos>
+		<Far_Threshold>179</Far_Threshold>
+		<Offset_X>0</Offset_X>
+		<Offset_Y>0</Offset_Y>
+	<Num_Max_Blos>15</Num_Max_Blos>
 		<min_Blob_Size>22</min_Blob_Size>
-		<max_Blob_Size>385</max_Blob_Size>
+		<max_Blob_Size>354</max_Blob_Size>
 	<Mouse_DEBUG>0</Mouse_DEBUG>
 	<Width>640</Width>
 		<Height>480</Height>
@@ -27,12 +27,12 @@
 		<max_Noise_Corne>34</max_Noise_Corne>
 	</Morphs>
 <Gradient>
-		<min_Width>0</min_Width>
-		<max_Width>0</max_Width>
+		<min_Width>0.255102</min_Width>
+		<max_Width>2.01531</max_Width>
 		<lower_Color>255, 255, 255, 255</lower_Color>
 		<higher_Color>0, 0, 0, 255</higher_Color>
 	<time_per_frame>10</time_per_frame>
-		<size_change_per_level>0.05</size_change_per_level>
+		<size_change_per_level>0.0306122</size_change_per_level>
 		<animation_speed>5</animation_speed>
 		<animation_max_time>3</animation_max_time>
 	</Gradient>
@@ -46,7 +46,7 @@
 		<min_num>5</min_num>
 		<max_num>13</max_num>
 	</Spikes>
-<Mouse_DEBUG>0</Mouse_DEBUG>
+<Mouse_DEBUG>1</Mouse_DEBUG>
 	<general>
 		<min_Noise_Corner>18</min_Noise_Corner>
 		<max_Noise_Corne>48</max_Noise_Corne>

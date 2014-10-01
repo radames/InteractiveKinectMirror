@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
     
-    render_type = GRADIENT;//RenderType(random() % 3);
+    render_type = SPIKES;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
@@ -50,9 +50,12 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
 }
 
 void ofMorphRender::draw() {
+    if (render_type == ALL_GRADIENT) {
+        draw_all_gradient();
+        return;
+    }
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
         for (int i = 0; i < 3; ++i) {
-            cout << it->second.x << endl;
             if (it->second.screens[i]) {
                 switch (render_type) {
                     case BARS:
@@ -66,6 +69,113 @@ void ofMorphRender::draw() {
                         break;
                 }
             }
+        }
+    }
+}
+
+void ofMorphRender::draw_all_gradient() {
+    ofFbo *screen;
+    ofPath poly;
+    
+    float scaleH, dir, posx, posy = CHEIGHT/2;
+    long long now = ofGetElapsedTimeMillis();
+    
+    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
+        ofMorph *m = &it->second;
+        
+        for (int screen_i = 0; screen_i < 3; ++screen_i) {
+            
+            if (now - m->last_time > gradient_time_frames) {
+                cout << m->last_time << endl;
+                m->dt += gradient_animation_speed/1000;
+                if (m->dt > gradient_animation_max_time)
+                    m->dt = 0;
+                gradient_data g;
+                g.posx = m->x;
+                g.posy = m->y;
+                m->gradient_slices[m->grad_i] = g;
+                m->grad_i = (m->grad_i + 1) % m->grad_max;
+                m->last_time = now;
+                if (m->grad_added < m->grad_max) {
+                    ++m->grad_added;
+                }
+            }
+            
+            if (screen_i == 0) {
+                screen = screen1;
+            } else if (screen_i ==1) {
+                screen = screen2;
+            } else {
+                screen = screen3;
+            }
+            
+            screen->begin();
+            
+            for (int j = 0; j < m->grad_added; ++j) {
+                gradient_data g = m->gradient_slices[(m->grad_i + j) % m->grad_max];
+                
+                switch (screen_i) {
+                    case 0:
+                        scaleH = ofMap(g.posx, kinect_width, 0, gradient_min_width, gradient_max_width);
+                        posx = ofMap(g.posy, kinect_height, 0, 0, CWIDTH1);
+                        break;
+                    case 1:
+                        scaleH = ofMap(g.posy, kinect_height, 0, gradient_min_width, gradient_max_width);
+                        posx = ofMap(g.posx, 0, kinect_width, 0, CWIDTH2);
+                        break;
+                    case 2:
+                        scaleH = ofMap(g.posx, 0, kinect_width, gradient_min_width, gradient_max_width);
+                        posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
+                        break;
+                }
+                
+                ofPushStyle();
+                ofPushMatrix();
+                ofTranslate(posx, posy);
+                // float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
+                float s = scaleH - j*(0.06);
+                s = (s < 0)?0.5:s;
+                ofScale(s, s);
+                ofPushMatrix();
+                
+                /*
+                 
+                 ofSetLineWidth(4);
+                 ofSetColor(0,0,0);
+                 ofLine(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1], m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
+                 ofLine(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3], m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
+                 ofLine(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5], -m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                 ofLine(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7], -m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
+                 ofFill();
+                 
+                 */
+                
+                // ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
+                // poly.setStrokeWidth(4);
+                
+                poly.setStrokeColor(ofColor(0,0,0));
+                poly.setFillColor(ofColor(255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added));
+                poly.lineTo(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
+                poly.lineTo(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
+                poly.lineTo(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
+                poly.lineTo(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                poly.draw();
+                
+                /*
+                 ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
+                 ofBeginShape();
+                 ofVertex(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
+                 ofVertex(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
+                 ofVertex(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
+                 ofVertex(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                 ofEndShape();
+                 */
+                ofPopMatrix();
+                ofPopMatrix();
+                ofPopStyle();
+                
+            }
+            screen->end();
         }
     }
 }
@@ -161,7 +271,6 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
     float scaleH, dir, posx, posy = CHEIGHT/2;
     long long now = ofGetElapsedTimeMillis();
 
-    cout << "FORA "<< m->last_time << endl;
     if (now - m->last_time > gradient_time_frames) {
         cout << m->last_time << endl;
         m->dt += gradient_animation_speed/1000;
@@ -173,8 +282,6 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
         m->gradient_slices[m->grad_i] = g;
         m->grad_i = (m->grad_i + 1) % m->grad_max;
         m->last_time = now;
-        cout << now << endl;
-        cout << m->last_time;
         if (m->grad_added < m->grad_max) {
             ++m->grad_added;
         }
@@ -212,7 +319,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
             ofPushMatrix();        
                 ofTranslate(posx, posy);
                 float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
-                // float s = scaleH - j*(0.06);
+                //float s = scaleH - j*(0.06);
                 s = (s < 0)?0.5:s;
                 ofScale(s, s);
                 ofPushMatrix();
