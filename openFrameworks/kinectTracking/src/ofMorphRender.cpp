@@ -30,10 +30,10 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
     
     gradientGUI.add(gradient_min_width.set("min Width",0, 10,200));
     gradientGUI.add(gradient_max_width.set("max Width",0, 10,200));
-    gradientGUI.add(gradient_lower_color.set("lower Color",ofColor(127),ofColor(0,0),ofColor(255)));
-    gradientGUI.add(gradient_higher_color.set("higher Color", ofColor(127),ofColor(0,0),ofColor(255)));
-
-
+    gradientGUI.add(gradient_time_frames.set("time per frame", 10, 0, 1000));
+    gradientGUI.add(gradient_change_per_level.set("size change per level", 0.05, 0, 2));
+    gradientGUI.add(gradient_animation_speed.set("animation speed", 5, 0, 100));
+    gradientGUI.add(gradient_animation_max_time.set("animation max time", 3, 0, 100));
     
     barsGUI.setName("Bars");
     barsGUI.add(bars_min_width.set("bar width min",0,10,300));
@@ -81,7 +81,7 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
             break;
         case 1:
             scaleH = ofMap(m.y, kinect_height, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
+            posx = ofMap(m.x, 0, kinect_width, 0, CHEIGHT);
             screen = screen2;
             break;
         case 2:
@@ -157,17 +157,18 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 
 void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     ofFbo *screen;
+    ofPath poly;
+    
     float scaleH, dir, posx, posy = CHEIGHT/2;
     long long now = ofGetElapsedTimeMillis();
 
-    if (now - last_time > 50) {
-        dt += 0.03;
-        if (dt > 3)
+    if (now - last_time > gradient_time_frames) {
+        dt += gradient_animation_speed/1000;
+        if (dt > gradient_animation_max_time)
             dt = 0;
         gradient_data g;
         g.posx = m.x;
         g.posy = m.y;
-        g.scaleH = scaleH;
         gradient_slices[grad_i] = g;
         grad_i = (grad_i + 1) % grad_max;
         last_time = now;
@@ -208,19 +209,44 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
         ofPushStyle();
             ofPushMatrix();        
                 ofTranslate(posx, posy);
-                float s = scaleH - j*(0.06) + dt*(grad_added - j - 1)/grad_added;
-                //float s = scaleH - j*(0.06);
+                float s = scaleH - j*(gradient_change_per_level) + dt*(grad_added - j - 1)/grad_added;
+                // float s = scaleH - j*(0.06);
                 s = (s < 0)?0.5:s;
                 ofScale(s, s);
-                ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
-                ofFill();
                 ofPushMatrix();
+        
+                /*
+                
+                ofSetLineWidth(4);
+                ofSetColor(0,0,0);
+                ofLine(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1], m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
+                ofLine(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3], m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
+                ofLine(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5], -m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
+                ofLine(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7], -m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
+                ofFill();
+                 
+                */
+        
+                // ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
+                // poly.setStrokeWidth(4);
+        
+                poly.setStrokeColor(ofColor(0,0,0));
+                poly.setFillColor(ofColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added));
+                poly.lineTo(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
+                poly.lineTo(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
+                poly.lineTo(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
+                poly.lineTo(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
+                poly.draw();
+        
+                /*
+                    ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
                     ofBeginShape();
                         ofVertex(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
                         ofVertex(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
                         ofVertex(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
                         ofVertex(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
                     ofEndShape();
+                */
                 ofPopMatrix();
             ofPopMatrix();
         ofPopStyle();

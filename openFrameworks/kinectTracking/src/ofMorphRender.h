@@ -15,7 +15,7 @@
 #include <tr1/unordered_map>
 
 struct gradient_data {
-    float posx, posy, scaleH;
+    float posx, posy;
 };
 
 class ofMorphRender {
@@ -56,9 +56,11 @@ public:
     ofParameter<float> gradient_max_width;
     ofParameter<float> gradient_min_width;
     ofParameter<int> gradient_num_layers;
-    ofParameter<ofColor> gradient_lower_color;
-    ofParameter<ofColor> gradient_higher_color;
-
+    ofParameter<float> gradient_time_frames;
+    ofParameter<float> gradient_change_per_level;
+    ofParameter<float> gradient_animation_speed;
+    ofParameter<float> gradient_animation_max_time;
+    
     // Bars Renderer Parameters
     ofParameter<float> bars_min_width = 10;
     ofParameter<float> bars_max_width = 150;
