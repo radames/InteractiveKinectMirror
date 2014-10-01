@@ -161,18 +161,18 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     float scaleH, dir, posx, posy = CHEIGHT/2;
     long long now = ofGetElapsedTimeMillis();
 
-    if (now - last_time > gradient_time_frames) {
-        dt += gradient_animation_speed/1000;
-        if (dt > gradient_animation_max_time)
-            dt = 0;
+    if (now - m.last_time > gradient_time_frames) {
+        m.dt += gradient_animation_speed/1000;
+        if (m.dt > gradient_animation_max_time)
+            m.dt = 0;
         gradient_data g;
         g.posx = m.x;
         g.posy = m.y;
-        gradient_slices[grad_i] = g;
-        grad_i = (grad_i + 1) % grad_max;
-        last_time = now;
-        if (grad_added < grad_max) {
-            ++grad_added;
+        m.gradient_slices[m.grad_i] = g;
+        m.grad_i = (m.grad_i + 1) % m.grad_max;
+        m.last_time = now;
+        if (m.grad_added < m.grad_max) {
+            ++m.grad_added;
         }
     }
 
@@ -186,8 +186,8 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     
     screen->begin();
 
-    for (int j = 0; j < grad_added; ++j) {
-        gradient_data g = gradient_slices[(grad_i + j) % grad_max];
+    for (int j = 0; j < m.grad_added; ++j) {
+        gradient_data g = m.gradient_slices[(m.grad_i + j) % m.grad_max];
 
         switch (screen_i) {
             case 0:
@@ -207,7 +207,7 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
         ofPushStyle();
             ofPushMatrix();        
                 ofTranslate(posx, posy);
-                float s = scaleH - j*(gradient_change_per_level) + dt*(grad_added - j - 1)/grad_added;
+                float s = scaleH - j*(gradient_change_per_level) + m.dt*(m.grad_added - j - 1)/m.grad_added;
                 // float s = scaleH - j*(0.06);
                 s = (s < 0)?0.5:s;
                 ofScale(s, s);
@@ -229,7 +229,7 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
                 // poly.setStrokeWidth(4);
         
                 poly.setStrokeColor(ofColor(0,0,0));
-                poly.setFillColor(ofColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added));
+                poly.setFillColor(ofColor(255*(m.grad_added - j)/m.grad_added, 255*(m.grad_added - j)/m.grad_added, 255*(m.grad_added - j)/m.grad_added));
                 poly.lineTo(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
                 poly.lineTo(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
                 poly.lineTo(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
