@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
     
-    render_type = SPIKES;//RenderType(random() % 3);
+    render_type = BARS;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
@@ -45,12 +45,12 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
     spikesGUI.add(spikes_min_num.set("min num",0,0,20));
     spikesGUI.add(spikes_max_num.set("max num",0,0,20));
 
-
+    morphs.clear();
 
 }
 
 void ofMorphRender::draw() {
-    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++)
+    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
         for (int i = 0; i < 3; ++i) {
             if (it->second.screens[i]) {
                 switch (render_type) {
@@ -66,6 +66,7 @@ void ofMorphRender::draw() {
                 }
             }
         }
+    }
 }
 
 void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
@@ -75,7 +76,7 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     switch (screen_i) {
         case 0:
             scaleH = ofMap(m.x, kinect_width, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
+            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
             screen = screen1;
             break;
         case 1:
@@ -84,8 +85,8 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
             screen = screen2;
             break;
         case 2:
-            scaleH = ofMap(m.x, 0, kinect_width, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.x, 0, kinect_width, 0, bars_min_width, bars_max_width);
+            scaleH = ofMap(m.x, 0, kinect_width, bars_min_width, bars_max_width);
+            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
             screen = screen3;
             break;
     }
@@ -235,6 +236,7 @@ void ofMorphRender::addMorph(float x, float y, int id){
 }
 
 
-void deleteMorph(int id){
+void ofMorphRender::deleteMorph(int id){
     
+        morphs.erase(id);
 }

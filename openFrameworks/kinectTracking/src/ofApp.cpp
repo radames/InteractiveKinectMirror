@@ -9,18 +9,11 @@ void ofApp::setup() {
    
     screenSetup(); //screen and some OF setups
     kinectSetup(); //kinetic setup
-    cout << "end 1 = " << &screen1  << "end 2 = " << &screen2  << "end 3 = " << &screen3;
     morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
    
     guiSetup(); //GUI Setup
 
 
-    //if enableMouse true, so mouse is available during DEBUG mode
-    if(enableMouse){
-        morphRender.addMorph(0, 0, 1);
-        blobx = kinect.width/2;
-        bloby = kinect.height/2;
-    }
 }
 
 //--------------------------------------------------------------
@@ -32,22 +25,22 @@ void ofApp::update() {
     
     //varre os blobs, checa
     RectTracker& tracker = contourFinder.getTracker();
-    for(int i = 0; i < contourFinder.size(); i++) {
-           unsigned int label = contourFinder.getLabel(i);
-           
-           if(tracker.existsPrevious(label)) {
-               //caso o tracker j‡ existe checa qual o novo ID
-               
-               const cv::Rect& previous = tracker.getPrevious(label);
-               const cv::Rect& current = tracker.getCurrent(label);
-               //tracker.getPre
-               //atualiza o hash com a posicao dos morphs
-               
-               
-               morphRender.morphs[label].updatePosition(current.x, current.y);
-           }
-        
-    }
+//    for(int i = 0; i < contourFinder.size(); i++) {
+//        unsigned int label = contourFinder.getLabel(i);
+//
+//           if(tracker.existsPrevious(label)) {
+//               //caso o tracker j‡ existe checa qual o novo ID
+//               
+//               const cv::Rect& previous = tracker.getPrevious(label);
+//               const cv::Rect& current = tracker.getCurrent(label);
+//               //tracker.getPre
+//               //atualiza o hash com a posicao dos morphs
+//               
+//               morphRender.morphs[label].updatePosition(current.x, current.y);
+//  
+//           }
+//        
+//    }
     
     const vector<unsigned int>& currentLabels = tracker.getCurrentLabels();
     const vector<unsigned int>& previousLabels = tracker.getPreviousLabels();
@@ -56,18 +49,27 @@ void ofApp::update() {
     
 
     //varrer deadLabels e procurar morphs e KILL them
-    for(int i = 0; i < newLabels.size(); i++) {
+    
+    for(int i = 0; i < contourFinder.size(); i++) {
         unsigned int label = contourFinder.getLabel(i);
-
+        
+       // int label = currentLabels[i];
         const cv::Rect& current = tracker.getCurrent(label);
-        if(!tracker.existsPrevious(label)) {
 
-            morphRender.addMorph(current.x, current.y, label);;
+        if(tracker.existsPrevious(label)) {
+            cout << "atualiza " << label << "\n";
+            morphRender.morphs[label].updatePosition(current.x, current.y);
+        } else {
+            cout << "adiciona " << label << "\n";
+            morphRender.addMorph(current.x, current.y, label);
         }
     }
     
-    //morphRender.morphs[1].x = blobx;
-  //  morphRender.morphs[1].y = bloby;
+    for(int i = 0; i < deadLabels.size(); i++) {
+        morphRender.deleteMorph(deadLabels[i]);
+        cout << "deleta " << deadLabels[i] << "\n";
+    }
+    
 
 }
 
@@ -75,7 +77,19 @@ void ofApp::update() {
 void ofApp::draw() {
     
     if(bDebugMode){ debugMode(); }//draw debug mode
-
+    
+    // cleaning alls screens
+    screen1.begin();
+    ofClear(255,255,255, 0);
+    screen1.end();
+    screen2.begin();
+    ofClear(255,255,255, 0);
+    screen2.end();
+    screen3.begin();
+    ofClear(255,255,255, 0);
+    screen3.end();
+    
+    
     morphRender.draw();
     screen1.draw(0,0);
     screen2.draw(CWIDTH1,0);
@@ -360,15 +374,30 @@ void ofApp::keyPressed (int key) {
             blobx+=10;
             break;
             
+        case 'z':
+            //if not exist Add
+            if(!morphRender.morphs.count(0)){
+                morphRender.addMorph(kinectWidth/2,kinectHeight/2,0);
+            }
+            break;
+        case 'x':
+            //if exists delete
+            if(morphRender.morphs.count(0)){
+                morphRender.deleteMorph(0);
+            }
+            break;
+            
 	}
 }
 void ofApp::mouseMoved(int x, int y){
     
     if(enableMouse){
+        if(morphRender.morphs.size() > 0){
         blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
         bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
-        morphRender.morphs[1].x = blobx;
-        morphRender.morphs[1].y = bloby;
+        morphRender.morphs[0].x = blobx;
+        morphRender.morphs[0].y = bloby;
+        }
     }
 }
 
