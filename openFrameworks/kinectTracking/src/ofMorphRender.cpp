@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
     
-    render_type = BARS;//RenderType(random() % 3);
+    render_type = GRADIENT;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
@@ -52,6 +52,7 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
 void ofMorphRender::draw() {
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
         for (int i = 0; i < 3; ++i) {
+            cout << it->second.x << endl;
             if (it->second.screens[i]) {
                 switch (render_type) {
                     case BARS:
@@ -92,7 +93,6 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     }
     
     screen->begin();
-    ofClear(255,255,255);
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
     ofSetColor(0, 0, 0);
@@ -130,7 +130,6 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 
     screen->begin();
     
-    ofClear(255,255,255);
     
     ofPushStyle();
     ofPushMatrix();
@@ -186,22 +185,21 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     }
     
     screen->begin();
-    ofClear(255,255,255);
 
     for (int j = 0; j < grad_added; ++j) {
         gradient_data g = gradient_slices[(grad_i + j) % grad_max];
 
         switch (screen_i) {
             case 0:
-                scaleH = ofMap(g.posx, kinect_width, 0, 0.5, 5);
+                scaleH = ofMap(g.posx, kinect_width, 0, 0.2, 2);
                 posx = ofMap(g.posy, kinect_height, 0, 0, CWIDTH1);
                 break;
             case 1:
-                scaleH = ofMap(g.posy, kinect_height, 0, 0.5, 5);
+                scaleH = ofMap(g.posy, kinect_height, 0, 0.2, 2);
                 posx = ofMap(g.posx, 0, kinect_width, 0, CWIDTH2);
                 break;
             case 2:
-                scaleH = ofMap(g.posx, 0, kinect_width, 0.5, 5);
+                scaleH = ofMap(g.posx, 0, kinect_width, 0.2, 2);
                 posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
                 break;
         }
