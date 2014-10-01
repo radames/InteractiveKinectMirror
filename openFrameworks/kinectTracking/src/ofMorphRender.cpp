@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
     
-    render_type = SPIKES;//RenderType(random() % 3);
+    render_type = BARS;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
@@ -30,10 +30,10 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
     
     gradientGUI.add(gradient_min_width.set("min Width",0, 10,200));
     gradientGUI.add(gradient_max_width.set("max Width",0, 10,200));
-    gradientGUI.add(gradient_lower_color.set("lower Color",ofColor(127),ofColor(0,0),ofColor(255)));
-    gradientGUI.add(gradient_higher_color.set("higher Color", ofColor(127),ofColor(0,0),ofColor(255)));
-
-
+    gradientGUI.add(gradient_time_frames.set("time per frame", 10, 0, 1000));
+    gradientGUI.add(gradient_change_per_level.set("size change per level", 0.05, 0, 2));
+    gradientGUI.add(gradient_animation_speed.set("animation speed", 5, 0, 100));
+    gradientGUI.add(gradient_animation_max_time.set("animation max time", 3, 0, 100));
     
     barsGUI.setName("Bars");
     barsGUI.add(bars_min_width.set("bar width min",0,10,300));
@@ -75,17 +75,17 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     switch (screen_i) {
         case 0:
             scaleH = ofMap(m.x, kinect_width, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
+            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
             screen = screen1;
             break;
         case 1:
             scaleH = ofMap(m.y, kinect_height, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
+            posx = ofMap(m.x, 0, kinect_width, 0, CHEIGHT);
             screen = screen2;
             break;
         case 2:
-            scaleH = ofMap(m.x, 0, kinect_width, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.x, 0, kinect_width, 0, bars_min_width, bars_max_width);
+            scaleH = ofMap(m.x, 0, kinect_width, bars_min_width, bars_max_width);
+            posx = ofMap(m.y, 0, kinect_width, 0, CHEIGHT);
             screen = screen3;
             break;
     }
@@ -161,14 +161,13 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     float scaleH, dir, posx, posy = CHEIGHT/2;
     long long now = ofGetElapsedTimeMillis();
 
-    if (now - last_time > 10) {
-        dt += 0.005;
-        if (dt > 3)
+    if (now - last_time > gradient_time_frames) {
+        dt += gradient_animation_speed/1000;
+        if (dt > gradient_animation_max_time)
             dt = 0;
         gradient_data g;
         g.posx = m.x;
         g.posy = m.y;
-        g.scaleH = scaleH;
         gradient_slices[grad_i] = g;
         grad_i = (grad_i + 1) % grad_max;
         last_time = now;
@@ -209,7 +208,7 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
         ofPushStyle();
             ofPushMatrix();        
                 ofTranslate(posx, posy);
-                float s = scaleH - j*(0.06) + dt*(grad_added - j - 1)/grad_added;
+                float s = scaleH - j*(gradient_change_per_level) + dt*(grad_added - j - 1)/grad_added;
                 // float s = scaleH - j*(0.06);
                 s = (s < 0)?0.5:s;
                 ofScale(s, s);
