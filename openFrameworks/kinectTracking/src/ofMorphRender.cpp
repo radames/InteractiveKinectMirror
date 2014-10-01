@@ -52,6 +52,7 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, flo
 void ofMorphRender::draw() {
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
         for (int i = 0; i < 3; ++i) {
+            cout << it->second.x << endl;
             if (it->second.screens[i]) {
                 switch (render_type) {
                     case BARS:
@@ -86,13 +87,12 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
             break;
         case 2:
             scaleH = ofMap(m.x, 0, kinect_width, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
+            posx = ofMap(m.y, 0, kinect_width, 0, CHEIGHT);
             screen = screen3;
             break;
     }
     
     screen->begin();
-    ofClear(255,255,255);
     ofPushStyle();
     ofSetRectMode(OF_RECTMODE_CENTER);
     ofSetColor(0, 0, 0);
@@ -130,7 +130,6 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 
     screen->begin();
     
-    ofClear(255,255,255);
     
     ofPushStyle();
     ofPushMatrix();

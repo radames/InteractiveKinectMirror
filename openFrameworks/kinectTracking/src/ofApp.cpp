@@ -57,17 +57,20 @@ void ofApp::update() {
         const cv::Rect& current = tracker.getCurrent(label);
 
         if(tracker.existsPrevious(label)) {
-            cout << "atualiza " << label << "\n";
+            // update position Morph 
             morphRender.morphs[label].updatePosition(current.x, current.y);
         } else {
-            cout << "adiciona " << label << "\n";
-            morphRender.addMorph(current.x, current.y, label);
+            //add new Morph if it doens't exist
+            if(!morphRender.morphs.count(label)){
+                morphRender.addMorph(current.x, current.y, label);
+            }
         }
     }
     
     for(int i = 0; i < deadLabels.size(); i++) {
-        morphRender.deleteMorph(deadLabels[i]);
-        cout << "deleta " << deadLabels[i] << "\n";
+        if (morphRender.morphs.count(deadLabels[i]) > 0) {
+            morphRender.deleteMorph(deadLabels[i]);
+        }
     }
     
 
@@ -297,7 +300,7 @@ void ofApp::kinectSetup(){
     
     
     //blob tracking system parameter
-    contourFinder.getTracker().setPersistence(15);
+    contourFinder.getTracker().setPersistence(100);
     contourFinder.getTracker().setMaximumDistance(32);
     
     
@@ -377,7 +380,7 @@ void ofApp::keyPressed (int key) {
         case 'z':
             //if not exist Add
             if(!morphRender.morphs.count(0)){
-                morphRender.addMorph(kinectWidth/2,kinectHeight/2,0);
+                morphRender.addMorph(kinectWidth/2,ofRandom(kinectHeight),0);
             }
             break;
         case 'x':
@@ -386,6 +389,7 @@ void ofApp::keyPressed (int key) {
                 morphRender.deleteMorph(0);
             }
             break;
+ 
             
 	}
 }
