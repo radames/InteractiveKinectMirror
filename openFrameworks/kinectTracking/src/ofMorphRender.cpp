@@ -86,7 +86,7 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
             break;
         case 2:
             scaleH = ofMap(m.x, 0, kinect_width, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
+            posx = ofMap(m.y, 0, kinect_width, 0, CHEIGHT);
             screen = screen3;
             break;
     }
