@@ -119,23 +119,21 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     
     screen->begin();
     ofClear(255,255,255);
-    ofPushMatrix();
-    ofPopMatrix();
 
     for (int j = 0; j < grad_added; ++j) {
         gradient_data g = gradient_slices[(grad_i + j) % grad_max];
 
         switch (screen_i) {
             case 0:
-                scaleH = ofMap(g.posx, kinect_width, 0, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                scaleH = ofMap(g.posx, kinect_width, 0, 0.5, 3);
                 posx = ofMap(g.posy, kinect_height, 0, 0, CWIDTH1);
                 break;
             case 1:
-                scaleH = ofMap(g.posy, kinect_height, 0, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                scaleH = ofMap(g.posy, kinect_height, 0, 0.5, 3);
                 posx = ofMap(g.posx, 0, kinect_width, 0, CWIDTH2);
                 break;
             case 2:
-                scaleH = ofMap(g.posx, 0, kinect_width, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                scaleH = ofMap(g.posx, 0, kinect_width, 0.5, 3);
                 posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
                 break;
         }
@@ -143,7 +141,7 @@ void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
         ofPushStyle();
             ofPushMatrix();        
                 ofTranslate(posx, posy);
-                ofScale(scaleH, scaleH);
+                ofScale(scaleH - j*0.06, scaleH - j*0.06);
                 ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
                 ofFill();
                 ofPushMatrix();
