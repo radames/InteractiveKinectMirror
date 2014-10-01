@@ -30,7 +30,7 @@ public:
     void draw_morph(ofMorph m, int screen_i);
     void draw_bar(ofMorph m, int screen_i);
     void draw_spikes(ofMorph m, int screen_i);
-    void draw_gradient(ofMorph m, int screen_i);
+    void draw_gradient(ofMorph *m, int screen_i);
     void addMorph(float x, float y, int id);
     void deleteMorph(int id);
     
