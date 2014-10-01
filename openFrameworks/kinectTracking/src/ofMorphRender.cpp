@@ -94,51 +94,70 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 void ofMorphRender::draw_gradient(ofMorph m, int screen_i) {
     ofFbo *screen;
     float scaleH, dir, posx, posy = CHEIGHT/2;
-        
-    switch (screen_i) {
-        case 0:
-            scaleH = ofMap(m.x, kinect_width, 0, 0.5, 3);
-            posx = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
-            dir = ofMap(m.y, kinect_height, 0, -1, 1);
-            screen = screen1;
-            break;
-        case 1:
-            scaleH = ofMap(m.y, kinect_height, 0, 0.5, 3);
-            dir = ofMap(m.x, 0, kinect_width, -1, 1);
-            posx = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
-            screen = screen2;
-            break;
-        case 2:
-            scaleH = ofMap(m.x, 0, kinect_width, 0.5, 3);
-            dir = ofMap(m.y, kinect_height, 0, 1, -1);
-            posx = ofMap(m.y, 0, kinect_width, 0, CWIDTH3);
-            screen = screen3;
-            break;
+    long long now = ofGetElapsedTimeMillis();
+
+    if (now - last_time > 10) {
+        gradient_data g;
+        g.posx = m.x;
+        g.posy = m.y;
+        g.scaleH = scaleH;
+        gradient_slices[grad_i] = g;
+        grad_i = (grad_i + 1) % grad_max;
+        last_time = now;
+        if (grad_added < grad_max) {
+            ++grad_added;
+        }
     }
 
-    screen->begin();
-    ofClear(255,255,255);
-    ofPushStyle();
-    ofPushMatrix();
-    ofTranslate(posx, posy);
-    ofScale(scaleH, scaleH);
-    for (int j = 0; j < 10; ++j) {
-        ofScale(0.9, 0.9);
-        ofSetColor(255*(10 - j)/10, 255*(10 - j)/10, 255*(10 - j)/10);
-        ofFill();
-        ofPushMatrix();
-            ofTranslate(dir*j, 0);
-            ofBeginShape();
-            ofVertex(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
-            ofVertex(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
-            ofVertex(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
-            ofVertex(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
-            ofEndShape();
-        ofPopMatrix();
+    if (screen_i == 0) {
+        screen = screen1;
+    } else if (screen_i ==1) {
+        screen = screen2;
+    } else {
+        screen = screen3;
     }
     
+    screen->begin();
+    ofClear(255,255,255);
+    ofPushMatrix();
     ofPopMatrix();
-    ofPopStyle();
+
+    for (int j = 0; j < grad_added; ++j) {
+        gradient_data g = gradient_slices[(grad_i + j) % grad_max];
+
+        switch (screen_i) {
+            case 0:
+                scaleH = ofMap(g.posx, kinect_width, 0, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                posx = ofMap(g.posy, kinect_height, 0, 0, CWIDTH1);
+                break;
+            case 1:
+                scaleH = ofMap(g.posy, kinect_height, 0, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                posx = ofMap(g.posx, 0, kinect_width, 0, CWIDTH2);
+                break;
+            case 2:
+                scaleH = ofMap(g.posx, 0, kinect_width, 0.5*(1 - j/grad_added), 3*(1 - j/grad_added));
+                posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
+                break;
+        }
+        
+        ofPushStyle();
+            ofPushMatrix();        
+                ofTranslate(posx, posy);
+                ofScale(scaleH, scaleH);
+                ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
+                ofFill();
+                ofPushMatrix();
+                    ofBeginShape();
+                        ofVertex(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
+                        ofVertex(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
+                        ofVertex(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
+                        ofVertex(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
+                    ofEndShape();
+                ofPopMatrix();
+            ofPopMatrix();
+        ofPopStyle();
+
+    }
     screen->end();
 }
 
