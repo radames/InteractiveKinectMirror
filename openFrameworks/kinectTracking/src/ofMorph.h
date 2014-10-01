@@ -11,10 +11,11 @@ public: // place public functions or variables declarations here
     void update();  // update method, used to refresh your objects properties
     void updatePosition(float _x, float _y);
     void draw();    // draw method, this where you'll do the object's drawing
-    void setup(float _x, float _y);
+    void setup(float _x, float _y, int minSpikesRandPoints, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner);
     float x, y;
     float w, h;
     float random_delta[8];
+    vector<ofPoint> random_points;
     bool screens[3];
     ofColor c;
 

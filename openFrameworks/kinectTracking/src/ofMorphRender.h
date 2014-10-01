@@ -42,31 +42,37 @@ public:
 
     int render_type;
     
-    ofParameterGroup parameters;
-    ofParameter<float> size;
-    ofParameter<int> number;
-    ofParameter<ofVec2f> position;
-    ofParameter<ofColor> color;
+    ofParameterGroup generalGUI;
+    ofParameterGroup spikesGUI;
+    ofParameterGroup barsGUI;
+    ofParameterGroup gradientGUI;
+
     
     // Kinect Parameters
-    ofParameter<float> kinect_width;
-    ofParameter<float> kinect_height;
+    float kinect_width;
+    float kinect_height;
     
-    // Tunnel Renderer Parameters
-    ofParameter<float> tunnel_max_width;
-    ofParameter<float> tunnel_min_width;
-    ofParameter<int> tunnel_num_layers;
-    ofParameter<ofColor> tunnel_lower_color;
-    ofParameter<ofColor> tunnel_higher_color;
+    // Gradient Renderer Parameters
+    ofParameter<float> gradient_max_width;
+    ofParameter<float> gradient_min_width;
+    ofParameter<int> gradient_num_layers;
+    ofParameter<ofColor> gradient_lower_color;
+    ofParameter<ofColor> gradient_higher_color;
 
     // Bars Renderer Parameters
-    ofParameter<float> bars_min_width = 200;
-    ofParameter<float> bars_max_width = 400;
+    ofParameter<float> bars_min_width = 10;
+    ofParameter<float> bars_max_width = 150;
     
     // Spikes Parameters
     ofParameter<int> spikes_min_num;
     ofParameter<int> spikes_max_num;
+    ofParameter<int> minSpikesRandPoints;
+    ofParameter<int> maxSpikesRandPoints;
     
+    //General Parameters
+    ofParameter<int> minNoiseCorner;
+    ofParameter<int> maxNoiseCorner;
+
     static const int CHEIGHT = 960; //canvas height
     static const int CWIDTH1 = 768; //canvas width 1
     static const int CWIDTH2 = 960; //canvas width 2

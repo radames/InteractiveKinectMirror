@@ -14,7 +14,7 @@ void ofApp::setup() {
    
     guiSetup(); //GUI Setup
 
-    
+
     //if enableMouse true, so mouse is available during DEBUG mode
     if(enableMouse){
         morphRender.addMorph(0, 0, 1);
@@ -293,10 +293,11 @@ void ofApp::guiSetup(){
     
     gui.setup("Settings", "settings.xml", 310,100);
     
-    
+    gui.add(enableMouse.set("Mouse DEBUG",true));
     parametersKinect.setName("Kinect");
-    parametersKinect.add(enableMouse.set("Mouse DEBUG",true));
-    
+    parametersKinect.add(kinectWidth.set("Width",640, 540,740));
+    parametersKinect.add(kinectHeight.set("Height",480, 380,580));
+
     parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
     parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
     parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
@@ -308,7 +309,10 @@ void ofApp::guiSetup(){
     
     
     gui.add(parametersKinect);
-    gui.add(morphRender.parameters);
+    gui.add(morphRender.generalGUI);
+    gui.add(morphRender.gradientGUI);
+    gui.add(morphRender.barsGUI);
+    gui.add(morphRender.spikesGUI);
     
     gui.loadFromFile("settings.xml");
     
@@ -336,67 +340,8 @@ void ofApp::keyPressed (int key) {
         case 'd':
             bDebugMode = !bDebugMode;
             break;
-		case ' ':
-			break;
-			
-		case'p':
-			break;
-		case '>':
-		case '.':
-			farThreshold ++;
-			if (farThreshold > 255) farThreshold = 255;
-			break;
-			
-		case '<':
-		case ',':
-			farThreshold --;
-			if (farThreshold < 0) farThreshold = 0;
-			break;
-			
-		case '+':
-		case '=':
-			nearThreshold ++;
-			if (nearThreshold > 255) nearThreshold = 255;
-			break;
-			
-		case '-':
-			nearThreshold --;
-			if (nearThreshold < 0) nearThreshold = 0;
-			break;
-			
-		case 'w':
-			kinect.enableDepthNearValueWhite(!kinect.isDepthNearValueWhite());
-			break;
-			
-		case 'o':
-			break;
-			
-		case 'c':
-
-			break;
-			
-		case '1':
-			kinect.setLed(ofxKinect::LED_GREEN);
-			break;
-			
-		case '2':
-			kinect.setLed(ofxKinect::LED_YELLOW);
-			break;
-			
-		case '3':
-			kinect.setLed(ofxKinect::LED_RED);
-			break;
-			
-		case '4':
-			kinect.setLed(ofxKinect::LED_BLINK_GREEN);
-			break;
-			
-		case '5':
-			kinect.setLed(ofxKinect::LED_BLINK_YELLOW_RED);
-			break;
-			
-		case '0':
-			kinect.setLed(ofxKinect::LED_OFF);
+		case 'm':
+            enableMouse = !enableMouse;
 			break;
             
 		case OF_KEY_UP:

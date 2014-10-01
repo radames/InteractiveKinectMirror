@@ -53,6 +53,9 @@ public:
     ofParameter<int> numMaxBlobs;
     ofParameter<int> minBlobSize;
     ofParameter<int> maxBlobSize;
+    ofParameter<int> kinectWidth;
+    ofParameter<int> kinectHeight;
+
     
     //options variables
     bool bDebugMode;
