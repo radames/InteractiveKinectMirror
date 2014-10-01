@@ -22,10 +22,9 @@ void ofMorph::setup(float _x, float _y, int minSpikesRandPoints, int maxSpikesRa
         // must be outside the shape
     //    Ofpoint p;
         float rx,ry;
-        while( (rx < x-w/2 || rx > x+w/2) && (ry < y-h/2 || ry > y + h/2){
+        while( (rx < x-w/2 || rx > x+w/2) && (ry < y-h/2 || ry > y + h/2)){
      ///       rx = ofRandom(0,)
         }
-        
     }
     
     
