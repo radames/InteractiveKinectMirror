@@ -4,6 +4,10 @@
 
 #include "ofMain.h"
 
+struct gradient_data {
+    float posx, posy;
+};
+
 class ofMorph {
     
 public: // place public functions or variables declarations here
@@ -18,6 +22,13 @@ public: // place public functions or variables declarations here
     vector<ofPoint> random_points;
     bool screens[3];
     ofColor c;
+    
+    long long last_time = 0;
+    gradient_data gradient_slices[15];
+    int grad_i = 0;
+    int grad_added = 0;
+    int grad_max = 15;
+    float dt = 0;
 
 };
 

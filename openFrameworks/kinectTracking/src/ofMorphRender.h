@@ -14,10 +14,6 @@
 #include "ofMorph.h"
 #include <tr1/unordered_map>
 
-struct gradient_data {
-    float posx, posy;
-};
-
 class ofMorphRender {
     
     enum RenderType {
@@ -80,13 +76,6 @@ public:
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
 
-    long long last_time = 0;
-    gradient_data gradient_slices[15];
-    int grad_i = 0;
-    int grad_added = 0;
-    int grad_max = 15;
-    float dt = 0;
-    
 protected:
     ofFbo *screen1, *screen2, *screen3;
 
