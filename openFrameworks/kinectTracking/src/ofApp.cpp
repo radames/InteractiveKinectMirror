@@ -49,7 +49,7 @@ void ofApp::update() {
     
 
     //varrer deadLabels e procurar morphs e KILL them
-    
+    /*
     for(int i = 0; i < contourFinder.size(); i++) {
         unsigned int label = contourFinder.getLabel(i);
         
@@ -61,20 +61,31 @@ void ofApp::update() {
             if (morphRender.morphs.count(label) > 0) {
                 morphRender.morphs[label].updatePosition(current.x, current.y);
             }
-        } else {
-            //add new Morph if it doens't exist
-            if(!morphRender.morphs.count(label)){
-                morphRender.addMorph(current.x, current.y, label);
-            }
-        }
-    }
+        } 
+    }*/
     
     for(int i = 0; i < deadLabels.size(); i++) {
         if (morphRender.morphs.count(deadLabels[i]) > 0) {
             morphRender.deleteMorph(deadLabels[i]);
         }
     }
+
+    for(int i = 0; i < currentLabels.size(); i++) {
+        int label = newLabels[i];
+        const cv::Rect& current = tracker.getCurrent(label);
+
+        if(tracker.existsPrevious(label)) {
+            if (morphRender.morphs.count(label) > 0) {
+                morphRender.morphs[label].updatePosition(current.x, current.y);
+            }
+        }
+    }
     
+    for(int i = 0; i < newLabels.size(); i++) {
+        int label = newLabels[i];
+        const cv::Rect& current = tracker.getCurrent(label);
+        morphRender.addMorph(current.x, current.y, label);
+    }
 
 }
 
