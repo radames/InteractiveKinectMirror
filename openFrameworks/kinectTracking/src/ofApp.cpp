@@ -9,10 +9,9 @@ void ofApp::setup() {
    
     screenSetup(); //screen and some OF setups
     kinectSetup(); //kinetic setup
-    morphRender.setup(&screen1, &screen2, &screen3, kinect.width, kinect.height); //inicializo os parametros
+    morphRender.setup(&screen1, &screen2, &screen3, kinectWidth, kinectHeight); //inicializo os parametros
    
     guiSetup(); //GUI Setup
-
 
 }
 
@@ -55,14 +54,15 @@ void ofApp::update() {
         
        // int label = currentLabels[i];
         const cv::Rect& current = tracker.getCurrent(label);
+        
 
         if(tracker.existsPrevious(label)) {
             // update position Morph 
-            morphRender.morphs[label].updatePosition(current.x, current.y);
+            morphRender.morphs[label].updatePosition(applyOffsetX(current.x), applyOffsetY(current.y));
         } else {
             //add new Morph if it doens't exist
             if(!morphRender.morphs.count(label)){
-                morphRender.addMorph(current.x, current.y, label);
+                morphRender.addMorph(applyOffsetX(current.x), applyOffsetY(current.y), label);
             }
         }
     }
@@ -122,7 +122,6 @@ void ofApp::debugMode(){
         
         // draw from the live kinect
         kinect.draw(0, 200, 300, 200);
-        ofCircle(blobx* 300.0/kinect.width ,200+bloby * 200.0/kinect.height, 2);
         kinect.drawDepth(0, 0, 300, 200);
 
     ofPopStyle();
@@ -131,9 +130,30 @@ void ofApp::debugMode(){
 
         ofTranslate(0,400);
         ofScale(300.0/kinect.width,200.0/kinect.height);
+
         grayImage.draw(0,0);
+    
+            ofPushMatrix();
+                ofTranslate(kinect.width/2,kinect.height/2);
+                ofPushStyle();
+                //drawing the actual kinect area, used to the positions calculation inside de morphrender funciton
+                ofSetRectMode(OF_RECTMODE_CENTER);
+                ofSetColor(255,0,0,100);
+                ofFill();
+                ofRect(0,0, kinectWidth, kinectHeight);
+
+                ofPopStyle();
+            ofPopMatrix();
         contourFinder.draw();
 
+    ofPushStyle();
+    //draw simuled blob
+    ofSetColor(0,255,0);
+    ofFill();
+    ofCircle(blobx ,bloby, 5);
+    
+    ofPopStyle();
+    
     ofPopMatrix();
 
     //loop through all blobs detected and draw the centroid and lables
@@ -194,7 +214,8 @@ void ofApp::debugMode(){
     ofPopStyle();
     gui.draw();
     
-
+    
+    
 
 }
 
@@ -305,8 +326,14 @@ void ofApp::kinectSetup(){
     
     
 }
+
+
+
 void ofApp::guiSetup(){
     
+    
+
+
     
     gui.setup("Settings", "settings.xml", 310,100);
     
@@ -314,14 +341,16 @@ void ofApp::guiSetup(){
     parametersKinect.setName("Kinect");
     parametersKinect.add(kinectWidth.set("Width",640, 540,740));
     parametersKinect.add(kinectHeight.set("Height",480, 380,580));
+    
+
 
     parametersKinect.add(farThreshold.set("Far Threshold", 0,0, 255 ));
     parametersKinect.add(numMaxBlobs.set("Num Max Blos",10,0,15));
     parametersKinect.add(maxBlobSize.set("max Blob Size",0,0,500));
     parametersKinect.add(minBlobSize.set("min Blob Size",0,0,500));
     
-    parametersKinect.add(offsetX.set("Offset X", 0,0, 200 ));
-    parametersKinect.add(offsetY.set("Offset Y", 0,0, 200 ));
+    parametersKinect.add(offsetX.set("Offset X", 0,-200, 200 ));
+    parametersKinect.add(offsetY.set("Offset Y", 0,-200, 200 ));
     
     
     
@@ -331,10 +360,38 @@ void ofApp::guiSetup(){
     gui.add(morphRender.barsGUI);
     gui.add(morphRender.spikesGUI);
     
-    gui.loadFromFile("settings.xml");
     
     gui.minimizeAll();
+    // events for change in paramenters on ofpp application
+    kinectWidth.addListener(this,&ofApp::kinectUpdateAreaW);
+    kinectHeight.addListener(this,&ofApp::kinectUpdateAreaH);
+
+    gui.loadFromFile("settings.xml");
+
 }
+//Gui events for kinect Area
+void ofApp::kinectUpdateAreaW(int& kinectWidth){
+    morphRender.setKinectArea(kinectWidth, kinectHeight);
+
+}
+
+void ofApp::kinectUpdateAreaH(int& kinectHeight){
+    morphRender.setKinectArea(kinectWidth, kinectHeight);
+
+}
+
+
+
+
+float ofApp::applyOffsetX(float _x){
+    return _x + offsetX;
+
+}
+float ofApp::applyOffsetY(float _y){
+    return _y + offsetY;
+}
+
+
 
 //--------------------------------------------------------------
 void ofApp::keyPressed (int key) {
@@ -363,6 +420,7 @@ void ofApp::keyPressed (int key) {
             
 		case OF_KEY_UP:
             bloby-=10;
+
 			break;
 
 		case OF_KEY_DOWN:
@@ -380,7 +438,7 @@ void ofApp::keyPressed (int key) {
         case 'z':
             //if not exist Add
             if(!morphRender.morphs.count(0)){
-                morphRender.addMorph(kinectWidth/2,ofRandom(kinectHeight),0);
+                morphRender.addMorph(kinect.width/2,kinect.height/2,0);
             }
             break;
         case 'x':
@@ -392,17 +450,34 @@ void ofApp::keyPressed (int key) {
  
             
 	}
+    
+    
+    //if debugMode and not mouse move the blob with the keyboard
+    if(!enableMouse){
+        if(morphRender.morphs.size() > 0){
+            
+            morphRender.morphs[0].x = applyOffsetX(blobx);
+            morphRender.morphs[0].y = applyOffsetY(bloby);
+            
+        }
+    }
+
+    
+    
 }
 void ofApp::mouseMoved(int x, int y){
     
+    
     if(enableMouse){
         if(morphRender.morphs.size() > 0){
-        blobx = ofMap(x, 0, ofGetScreenWidth(),  0, kinect.width);
-        bloby = ofMap(y, 0, ofGetScreenHeight(), 0, kinect.height);
-        morphRender.morphs[0].x = blobx;
-        morphRender.morphs[0].y = bloby;
+            blobx = ofMap(ofGetMouseX(), 0, ofGetScreenWidth(),  0, kinectWidth);
+            bloby = ofMap(ofGetMouseY(), 0, ofGetScreenHeight(), 0, kinectHeight);
+            
+            morphRender.morphs[0].x = applyOffsetX(blobx);
+            morphRender.morphs[0].y = applyOffsetX(bloby);
         }
     }
+
 }
 
 //--------------------------------------------------------------
