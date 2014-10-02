@@ -57,8 +57,10 @@ void ofApp::update() {
         const cv::Rect& current = tracker.getCurrent(label);
 
         if(tracker.existsPrevious(label)) {
-            // update position Morph 
-            morphRender.morphs[label].updatePosition(current.x, current.y);
+            // update position Morph
+            if (morphRender.morphs.count(label) > 0) {
+                morphRender.morphs[label].updatePosition(current.x, current.y);
+            }
         } else {
             //add new Morph if it doens't exist
             if(!morphRender.morphs.count(label)){
@@ -381,12 +383,14 @@ void ofApp::keyPressed (int key) {
             //if not exist Add
             if(!morphRender.morphs.count(0)){
                 morphRender.addMorph(kinectWidth/2,ofRandom(kinectHeight),0);
+                morphRender.addMorph(kinectWidth/2 + 10,ofRandom(kinectHeight),1);
             }
             break;
         case 'x':
             //if exists delete
             if(morphRender.morphs.count(0)){
                 morphRender.deleteMorph(0);
+                morphRender.deleteMorph(1);
             }
             break;
  

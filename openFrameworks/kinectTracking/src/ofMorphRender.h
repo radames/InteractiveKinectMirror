@@ -32,7 +32,7 @@ public:
     void draw_bar(ofMorph m, int screen_i);
     void draw_spikes(ofMorph m, int screen_i);
     void draw_gradient(ofMorph *m, int screen_i);
-    void draw_all_gradient();
+    void draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i);
     void addMorph(float x, float y, int id);
     void deleteMorph(int id);
     
