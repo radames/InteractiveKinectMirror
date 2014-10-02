@@ -13,7 +13,7 @@ ofMorphRender::ofMorphRender() {
 }
 
 
-void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, float _kinect_width, float _kinect_height){
+void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int _kinect_width, int _kinect_height){
     
     render_type = ALL_GRADIENT;//RenderType(random() % 3);
     screen1 = _screen1;
@@ -471,14 +471,22 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
     screen->end();
 }
 
+
+// morph add function, needs an unique ID and star X and Y position
 void ofMorphRender::addMorph(float x, float y, int id){
     ofMorph *m = new ofMorph();
     m->setup(x, y, minSpikesRandPoints, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner);
     morphs[id] = *m;
 }
 
-
+// morph delete function
 void ofMorphRender::deleteMorph(int id){
-    
         morphs.erase(id);
+}
+
+//update kinect Area
+void ofMorphRender::setKinectArea(int _kinectWidth,int _kinectHeight){
+    kinect_height = _kinectHeight;
+    kinect_width = _kinectWidth;
+    
 }

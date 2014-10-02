@@ -1,6 +1,6 @@
 <Settings>
 	<Kinect>
-		<Far_Threshold>179</Far_Threshold>
+		<Far_Threshold>143</Far_Threshold>
 		<Offset_X>0</Offset_X>
 		<Offset_Y>0</Offset_Y>
 	<Num_Max_Blos>15</Num_Max_Blos>
@@ -46,7 +46,7 @@
 		<min_num>5</min_num>
 		<max_num>13</max_num>
 	</Spikes>
-<Mouse_DEBUG>1</Mouse_DEBUG>
+<Mouse_DEBUG>0</Mouse_DEBUG>
 	<general>
 		<min_Noise_Corner>18</min_Noise_Corner>
 		<max_Noise_Corne>48</max_Noise_Corne>

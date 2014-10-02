@@ -26,7 +26,7 @@ class ofMorphRender {
 public:
     ofMorphRender();
     
-    void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3, float kinect_width, float kinect_height);
+    void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3, int kinect_width, int kinect_height);
     void draw();
     void draw_morph(ofMorph m, int screen_i);
     void draw_bar(ofMorph m, int screen_i);
@@ -35,6 +35,8 @@ public:
     void draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i);
     void addMorph(float x, float y, int id);
     void deleteMorph(int id);
+    
+    void setKinectArea(int _kinectWidth,int _kinectHeight);
     
     tr1::unordered_map <unsigned int, ofMorph> morphs;
 
@@ -47,8 +49,8 @@ public:
 
     
     // Kinect Parameters
-    float kinect_width;
-    float kinect_height;
+    int kinect_width;
+    int kinect_height;
     
     // Gradient Renderer Parameters
     ofParameter<float> gradient_max_width;

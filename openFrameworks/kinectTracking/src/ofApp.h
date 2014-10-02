@@ -30,7 +30,20 @@ public:
     void kinectSetup();
     void kinectUpdate();
     void debugMode();
+    
+
     void guiSetup();
+    
+    //gui Change events
+    void kinectUpdateAreaW(int& kinectWidth);
+    void kinectUpdateAreaH(int& kinectHeight);
+    
+    
+    // blob Offset detais
+    float applyOffsetX(float _x);
+    float applyOffsetY(float _y);
+
+
     
 	ofxKinect kinect;
     ofxSyphonServer syphonServer;
@@ -46,6 +59,7 @@ public:
 
     ofParameterGroup parametersKinect;
     
+
     ofParameter<bool> enableMouse;
     ofParameter<int> farThreshold;
     ofParameter<float> offsetX;
@@ -55,7 +69,7 @@ public:
     ofParameter<int> maxBlobSize;
     ofParameter<int> kinectWidth;
     ofParameter<int> kinectHeight;
-
+    
     
     //options variables
     bool bDebugMode;
