@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int _kinect_width, int _kinect_height){
     
-    render_type = SPIKES;//RenderType(random() % 3);
+    render_type = ALL_GRADIENT;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
@@ -51,7 +51,10 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int
 
 void ofMorphRender::draw() {
     if (render_type == ALL_GRADIENT) {
-        draw_all_gradient();
+        for (int i = 0; i < 3; ++i) {
+            draw_all_gradient(&morphs, i);
+            cout << "SAIU" << endl;
+        }
         return;
     }
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
@@ -73,45 +76,57 @@ void ofMorphRender::draw() {
     }
 }
 
-void ofMorphRender::draw_all_gradient() {
+void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i) {
     ofFbo *screen;
-    ofPath poly;
-    
+        
     float scaleH, dir, posx, posy = CHEIGHT/2;
     long long now = ofGetElapsedTimeMillis();
-    
-    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
+
+    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
         ofMorph *m = &it->second;
+
+        if (now - m->last_time > gradient_time_frames) {
+            m->dt += gradient_animation_speed/1000;
+            if (m->dt > gradient_animation_max_time)
+                m->dt = 0;
         
-        for (int screen_i = 0; screen_i < 3; ++screen_i) {
-            
-            if (now - m->last_time > gradient_time_frames) {
-                cout << m->last_time << endl;
-                m->dt += gradient_animation_speed/1000;
-                if (m->dt > gradient_animation_max_time)
-                    m->dt = 0;
+            if (m->grad_added < m->grad_max) {
+                while (m->grad_added < m->grad_max) {
+                    gradient_data g;
+                    g.posx = m->x;
+                    g.posy = m->y;
+                    m->gradient_slices[m->grad_added] = g;
+                    m->last_time = now;
+                    ++m->grad_added;
+                }
+                m->grad_i = 1;
+            } else {
                 gradient_data g;
                 g.posx = m->x;
                 g.posy = m->y;
                 m->gradient_slices[m->grad_i] = g;
                 m->grad_i = (m->grad_i + 1) % m->grad_max;
                 m->last_time = now;
-                if (m->grad_added < m->grad_max) {
-                    ++m->grad_added;
+            }
+        
+        }
+    }
+    
+    for (int j = 0; j < 15; ++j) {
+        cout << j;
+        for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
+            ofPath poly;
+            ofMorph *m = &it->second;
+        
+                if (screen_i == 0) {
+                    screen = screen1;
+                } else if (screen_i == 1) {
+                    screen = screen2;
+                } else {
+                    screen = screen3;
                 }
-            }
-            
-            if (screen_i == 0) {
-                screen = screen1;
-            } else if (screen_i ==1) {
-                screen = screen2;
-            } else {
-                screen = screen3;
-            }
-            
-            screen->begin();
-            
-            for (int j = 0; j < m->grad_added; ++j) {
+                
+                screen->begin();
                 gradient_data g = m->gradient_slices[(m->grad_i + j) % m->grad_max];
                 
                 switch (screen_i) {
@@ -131,13 +146,58 @@ void ofMorphRender::draw_all_gradient() {
                 
                 ofPushStyle();
                 ofPushMatrix();
-                ofTranslate(posx, posy);
-                // float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
-                float s = scaleH - j*(0.06);
-                s = (s < 0)?0.5:s;
-                ofScale(s, s);
-                ofPushMatrix();
-                
+            ofTranslate(posx, posy);
+            // float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
+            float s = scaleH - j*(0.06);
+            s = (s < 0)?0.5:s;
+            ofScale(s, s);
+         
+            
+            /*
+            ofPolyline pl;
+            pl.addVertex(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
+            pl.addVertex(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
+            pl.addVertex(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
+            pl.addVertex(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+            
+            ofPoint pt = pl.getCentroid2D(); */
+            
+            float x[4], y[4];
+            float a, cx, cy, t;
+            int i, i1;
+            
+            x[0] = -m->w/2 + m->random_delta[0];
+            y[0] = -m->h/2 + m->random_delta[1];
+            x[1] = m->w/2 + m->random_delta[2];
+            y[1] = -m->h/2 + m->random_delta[3];
+            x[2] = m->w/2 + m->random_delta[4];
+            y[2] = m->h/2 + m->random_delta[5];
+            x[3] = -m->w/2 + m->random_delta[6];
+            y[3] = m->h/2 + m->random_delta[7];
+            
+            /* First calculate the polygon's signed area A */
+            
+            a = 0.0;
+            i1 = 1;
+            for (i=0; i<4; i++) {
+                a += x[i] * y[i1] - x[i1] * y[i];
+                i1 = (i1 + 1) % 4;
+            }
+            a *= 0.5;
+            
+            /* Now calculate the centroid coordinates Cx and Cy */
+            
+            cx = cy = 0.0;
+            i1 = 1;
+            for (i=0; i<4; i++) {
+                t = x[i]*y[i1] - x[i1]*y[i];
+                cx += (x[i]+x[i1]) * t;
+                cy += (y[i]+y[i1]) * t;
+                i1 = (i1 + 1) % 4;
+            }
+            cx = cx / (6.0 * a);
+            cy = cy / (6.0 * a);
+            
                 /*
                  
                  ofSetLineWidth(4);
@@ -155,12 +215,15 @@ void ofMorphRender::draw_all_gradient() {
                 
                 poly.setStrokeColor(ofColor(0,0,0));
                 poly.setFillColor(ofColor(255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added));
-                poly.lineTo(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
-                poly.lineTo(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
-                poly.lineTo(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
-                poly.lineTo(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                poly.lineTo(-m->w/2 + m->random_delta[0] - cx, -m->h/2 + m->random_delta[1] - cy);
+                poly.lineTo(m->w/2 + m->random_delta[2] - cx, -m->h/2 + m->random_delta[3] - cy);
+                poly.lineTo(m->w/2 + m->random_delta[4] - cx, m->h/2 + m->random_delta[5] - cy);
+                poly.lineTo(-m->w/2 + m->random_delta[6] - cx, m->h/2 + m->random_delta[7] - cy);
+                poly.close();
                 poly.draw();
-                
+
+              //  ofPushMatrix();
+            
                 /*
                  ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
                  ofBeginShape();
@@ -170,11 +233,11 @@ void ofMorphRender::draw_all_gradient() {
                  ofVertex(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
                  ofEndShape();
                  */
-                ofPopMatrix();
+              //  ofPopMatrix();
                 ofPopMatrix();
                 ofPopStyle();
                 
-            }
+            
             screen->end();
         }
     }
@@ -338,13 +401,57 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
         
                 // ofSetColor(255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added, 255*(grad_added - j)/grad_added);
                 // poly.setStrokeWidth(4);
+        /*
+                ofPolyline pl;
+                pl.addVertex(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
+                pl.addVertex(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
+                pl.addVertex(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
+                pl.addVertex(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                ofPoint pt = pl.getCentroid2D();*/
+        
+        float x[4], y[4];
+        float a, cx, cy, t;
+        int i, i1;
+
+        x[0] = -m->w/2 + m->random_delta[0];
+        y[0] = -m->h/2 + m->random_delta[1];
+        x[1] = m->w/2 + m->random_delta[2];
+        y[1] = -m->h/2 + m->random_delta[3];
+        x[2] = m->w/2 + m->random_delta[4];
+        y[2] = m->h/2 + m->random_delta[5];
+        x[3] = -m->w/2 + m->random_delta[6];
+        y[3] = m->h/2 + m->random_delta[7];
+        
+        /* First calculate the polygon's signed area A */
+        
+        a = 0.0;
+        i1 = 1;
+        for (i=0; i<4; i++) {
+            a += x[i] * y[i1] - x[i1] * y[i];
+            i1 = (i1 + 1) % 4;
+        }
+        a *= 0.5;
+        
+        /* Now calculate the centroid coordinates Cx and Cy */
+        
+        cx = cy = 0.0;
+        i1 = 1;
+        for (i=0; i<4; i++) {
+            t = x[i]*y[i1] - x[i1]*y[i];
+            cx += (x[i]+x[i1]) * t;
+            cy += (y[i]+y[i1]) * t;
+            i1 = (i1 + 1) % 4;
+        }
+        cx = cx / (6.0 * a);
+        cy = cy / (6.0 * a);
         
                 poly.setStrokeColor(ofColor(0,0,0));
                 poly.setFillColor(ofColor(255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added, 255*(m->grad_added - j)/m->grad_added));
-                poly.lineTo(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
-                poly.lineTo(m->w/2 + m->random_delta[2], -m->h/2 + m->random_delta[3]);
-                poly.lineTo(m->w/2 + m->random_delta[4], m->h/2 + m->random_delta[5]);
-                poly.lineTo(-m->w/2 + m->random_delta[6], m->h/2 + m->random_delta[7]);
+                poly.lineTo(-m->w/2 + m->random_delta[0] - cx, -m->h/2 + m->random_delta[1] - cy);
+                poly.lineTo(m->w/2 + m->random_delta[2] - cx, -m->h/2 + m->random_delta[3] - cy);
+                poly.lineTo(m->w/2 + m->random_delta[4] - cx, m->h/2 + m->random_delta[5] - cy);
+                poly.lineTo(-m->w/2 + m->random_delta[6] - cx, m->h/2 + m->random_delta[7] - cy);
+        poly.close();
                 poly.draw();
         
                 /*
