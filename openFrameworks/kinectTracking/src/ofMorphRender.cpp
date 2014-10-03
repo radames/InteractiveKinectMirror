@@ -53,7 +53,6 @@ void ofMorphRender::draw() {
     if (render_type == ALL_GRADIENT) {
         for (int i = 0; i < 3; ++i) {
             draw_all_gradient(&morphs, i);
-            cout << "SAIU" << endl;
         }
         return;
     }
@@ -151,7 +150,6 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
             s = (s < 0)?0.5:s;
             ofScale(s, s);
          
-            
             /*
             ofPolyline pl;
             pl.addVertex(-m->w/2 + m->random_delta[0], -m->h/2 + m->random_delta[1]);
@@ -504,7 +502,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
 void ofMorphRender::addMorph(float x, float y, int id){
     ofMorph *m = new ofMorph();
     m->setup(x, y, minSpikesRandPoints, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner);
-    morphs[id] = *m;
+    morphs.insert(std::make_pair<int, ofMorph>(id, *m));
 }
 
 // morph delete function

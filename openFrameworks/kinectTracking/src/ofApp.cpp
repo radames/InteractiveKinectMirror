@@ -72,12 +72,14 @@ void ofApp::update() {
     }
 
     for(int i = 0; i < currentLabels.size(); i++) {
-        int label = newLabels[i];
+        int label = currentLabels[i];
         const cv::Rect& current = tracker.getCurrent(label);
 
         if(tracker.existsPrevious(label)) {
             if (morphRender.morphs.count(label) > 0) {
                 morphRender.morphs[label].updatePosition(applyOffsetX(current.x), applyOffsetY(current.y));
+            } else {
+                morphRender.addMorph(applyOffsetX(current.x), applyOffsetY(current.y), label);
             }
         }
     }
