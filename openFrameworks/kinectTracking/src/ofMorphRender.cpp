@@ -276,24 +276,29 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
 }
 
 void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
-    
+    float rx;
     ofFbo *screen;
     float scaleH, posx, posy = CHEIGHT/2;
     
     switch (screen_i) {
         case 0:
-            scaleH = ofMap(m.x, kinect_width, 0, 0.5, 3);
+            scaleH = ofMap(m.x, kinect_width, 0, 0.5, 1);
             posx = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
+            rx = CWIDTH1;
             screen = screen1;
             break;
         case 1:
-            scaleH = ofMap(m.y, kinect_height, 0, 0.5, 3);
+            scaleH = ofMap(m.y, kinect_height, 0, 0.5, 1);
             posx = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
+            rx = CWIDTH2;
+
             screen = screen2;
             break;
         case 2:
-            scaleH = ofMap(m.x, 0, kinect_width, 0, 3, 0.5);
-            posx = ofMap(m.x, 0, kinect_width, 0, 0.5, 3);
+            scaleH = ofMap(m.x, 0, kinect_width, 0, 1, 0.5);
+            posx = ofMap(m.x, 0, kinect_width, 0, 0.5, 1);
+            rx = CWIDTH3;
+
             screen = screen3;
             break;
     }
@@ -305,9 +310,11 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
     
     ofPushStyle();
     ofPushMatrix();
+    //ofTranslate(posx, posy);
     ofTranslate(posx, posy);
     ofScale(scaleH, scaleH);
     ofSetColor(0,0,0);
+    
     ofFill();
         ofPushMatrix();
             ofBeginShape();
@@ -316,7 +323,29 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
             ofVertex(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
             ofVertex(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
             ofEndShape();
-        ofPopMatrix();
+    
+    float ry = CHEIGHT/(2*scaleH);
+    float base_tri = 15;
+    
+    
+    ofTriangle(-m.w/2 + m.random_delta[0] + base_tri, -m.h/2 + m.random_delta[1],
+               (-m.w/2 + m.random_delta[0] - posx - 5)/scaleH + (rx/2 - 5)/scaleH, (-m.h/2 + m.random_delta[1] - posy + 400)/scaleH,
+               -m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1] + base_tri);
+
+    ofTriangle(m.w/2 + m.random_delta[2] - base_tri, -m.h/2 + m.random_delta[3],
+               (m.w/2 + m.random_delta[2] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (-m.h/2 + m.random_delta[3] + 400- posy)/scaleH,
+                m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3] + base_tri);
+
+    ofTriangle(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5] - base_tri,
+               (m.w/2 + m.random_delta[4] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (m.h/2 + m.random_delta[5] - posy  + 400)/scaleH + 100,
+                m.w/2 + m.random_delta[4] - base_tri, m.h/2 + m.random_delta[5]);
+    
+    ofTriangle(-m.w/2 + m.random_delta[6] + base_tri, m.h/2 + m.random_delta[7],
+               (-m.w/2 + m.random_delta[6] -posx - 5)/scaleH + (rx/2 - 5)/scaleH, (m.h/2 + m.random_delta[7] -posy + 400)/scaleH + 100,
+               -m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7] - base_tri);
+    
+    ofPopMatrix();
+
     ofPopMatrix();
     ofPopStyle();
     
