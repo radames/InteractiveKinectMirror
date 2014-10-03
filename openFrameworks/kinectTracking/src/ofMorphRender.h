@@ -20,7 +20,7 @@ public:
     enum RenderType {
         BARS,
         SPIKES,
-        GRADIENT,
+//        GRADIENT,
         ALL_GRADIENT
     };
     

@@ -459,12 +459,16 @@ void ofApp::keyPressed (int key) {
             //if not exist Add
             if(!morphRender.morphs.count(0)){
                 morphRender.addMorph(kinectWidth/2,ofRandom(kinectHeight),0);
+                morphRender.addMorph(kinectWidth/2 + 10,ofRandom(kinectHeight),1);
+
             }
             break;
         case 'x':
             //if exists delete
             if(morphRender.morphs.count(0)){
                 morphRender.deleteMorph(0);
+                morphRender.deleteMorph(1);
+
             }
             break;
 

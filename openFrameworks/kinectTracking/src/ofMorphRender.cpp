@@ -64,9 +64,9 @@ void ofMorphRender::draw() {
                     case BARS:
                         draw_bar(it->second, i);
                         break;
-                    case GRADIENT:
+                    /* case GRADIENT:
                         draw_gradient(&it->second, i);
-                        break;
+                        break; */
                     case SPIKES:
                         draw_spikes(it->second, i);
                         break;
@@ -113,7 +113,6 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
     }
     
     for (int j = 0; j < 15; ++j) {
-        cout << j;
         for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
             ofPath poly;
             ofMorph *m = &it->second;
@@ -147,8 +146,8 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
                 ofPushStyle();
                 ofPushMatrix();
             ofTranslate(posx, posy);
-            // float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
-            float s = scaleH - j*(0.06);
+            float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
+            //float s = scaleH - j*(0.06);
             s = (s < 0)?0.5:s;
             ofScale(s, s);
          
