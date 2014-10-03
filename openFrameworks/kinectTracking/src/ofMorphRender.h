@@ -16,6 +16,7 @@
 
 class ofMorphRender {
     
+public:
     enum RenderType {
         BARS,
         SPIKES,
@@ -23,7 +24,6 @@ class ofMorphRender {
         ALL_GRADIENT
     };
     
-public:
     ofMorphRender();
     
     void setup(ofFbo *screen1, ofFbo *screen2, ofFbo *screen3, int kinect_width, int kinect_height);

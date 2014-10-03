@@ -412,6 +412,10 @@ float ofApp::applyOffsetY(float _y){
 void ofApp::keyPressed (int key) {
 	switch (key) {
 
+        case 'i':
+            morphRender.render_type = ofMorphRender::RenderType((morphRender.render_type + 1) % 3);
+            break;
+            
         case 's':
             gui.saveToFile("settings.xml");
 
@@ -429,6 +433,7 @@ void ofApp::keyPressed (int key) {
         case 'd':
             bDebugMode = !bDebugMode;
             break;
+            
 		case 'm':
             enableMouse = !enableMouse;
 			break;

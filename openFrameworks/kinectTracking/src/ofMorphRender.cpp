@@ -15,7 +15,7 @@ ofMorphRender::ofMorphRender() {
 
 void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int _kinect_width, int _kinect_height){
     
-    render_type = ALL_GRADIENT;//RenderType(random() % 3);
+    render_type = SPIKES;//RenderType(random() % 3);
     screen1 = _screen1;
     screen2 = _screen2;
     screen3 = _screen3;
