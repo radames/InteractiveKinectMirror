@@ -325,13 +325,22 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
     float ry = CHEIGHT/(2*scaleH);
     float base_tri = 15;
     
+    float alpha1, alpha2, alpha3, alpha4;
     
-    ofTriangle(-m.w/2 + m.random_delta[0] + base_tri, -m.h/2 + m.random_delta[1],
+    alpha1 = (m.random_delta[1] -  m.random_delta[3])/(m.w + m.random_delta[0] - m.random_delta[2]);
+
+    if (m.random_delta[3] < m.random_delta[1]) {
+        alpha1 *= -1;
+    }
+    
+    alpha4 = (m.h + m.random_delta[1] - m.random_delta[7])/(m.random_delta[0] - m.random_delta[6]);
+    
+    ofTriangle(-m.w/2 + m.random_delta[0] + base_tri, -m.h/2 + m.random_delta[1] + (-m.w/2 + m.random_delta[0] + base_tri)*alpha1,
                (-m.w/2 + m.random_delta[0] - posx - 5)/scaleH + (rx/2 - 5)/scaleH, (-m.h/2 + m.random_delta[1] - posy + 400)/scaleH,
                -m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1] + base_tri);
 
     ofTriangle(m.w/2 + m.random_delta[2] - base_tri, -m.h/2 + m.random_delta[3],
-               (m.w/2 + m.random_delta[2] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (-m.h/2 + m.random_delta[3] + 400- posy)/scaleH,
+               (m.w/2 + m.random_delta[2] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (-m.h/2 + m.random_delta[3] + 400 - posy)/scaleH,
                 m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3] + base_tri);
 
     ofTriangle(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5] - base_tri,
@@ -339,7 +348,7 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
                 m.w/2 + m.random_delta[4] - base_tri, m.h/2 + m.random_delta[5]);
     
     ofTriangle(-m.w/2 + m.random_delta[6] + base_tri, m.h/2 + m.random_delta[7],
-               (-m.w/2 + m.random_delta[6] -posx - 5)/scaleH + (rx/2 - 5)/scaleH, (m.h/2 + m.random_delta[7] -posy + 400)/scaleH + 100,
+               (-m.w/2 + m.random_delta[6] - posx - 5)/scaleH + (rx/2 - 5)/scaleH, (m.h/2 + m.random_delta[7] -posy + 400)/scaleH + 100,
                -m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7] - base_tri);
     
     ofPopMatrix();

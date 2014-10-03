@@ -84,12 +84,12 @@ void ofApp::update() {
         }
     }
     
+    /*
     for(int i = 0; i < newLabels.size(); i++) {
         int label = newLabels[i];
         const cv::Rect& current = tracker.getCurrent(label);
         morphRender.addMorph(applyOffsetX(current.x), applyOffsetY(current.y), label);
-    }
-
+    }*/
 
 }
 
@@ -338,8 +338,8 @@ void ofApp::kinectSetup(){
 
 
     //blob tracking system parameter
-    contourFinder.getTracker().setPersistence(100);
-    contourFinder.getTracker().setMaximumDistance(32);
+    contourFinder.getTracker().setPersistence(10);
+    contourFinder.getTracker().setMaximumDistance(128);
 
 
 }
