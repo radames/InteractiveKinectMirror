@@ -329,13 +329,11 @@ void ofApp::kinectSetup(){
     grayThreshNear.allocate(kinect.width, kinect.height);
     grayThreshFar.allocate(kinect.width, kinect.height);
 
-
     ofSetFrameRate(60);
     // zero the tilt on startup
     kinect.setCameraTiltAngle(0);
     bDebugMode = true;
     nearThreshold = 255;
-
 
     //blob tracking system parameter
     contourFinder.getTracker().setPersistence(10);

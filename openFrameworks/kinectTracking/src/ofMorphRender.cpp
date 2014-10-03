@@ -147,7 +147,7 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
             ofTranslate(posx, posy);
             float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
             //float s = scaleH - j*(0.06);
-            s = (s < 0)?0.5:s;
+            s = (s < (float)gradient_min_width)?(float)gradient_min_width:s;
             ofScale(s, s);
          
             /*
