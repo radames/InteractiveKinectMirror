@@ -25,7 +25,8 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int
     generalGUI.setName("General Params");
     generalGUI.add(minNoiseCorner.set("min Noise Corner", 0,10,100));
     generalGUI.add(maxNoiseCorner.set("max Noise Corne", 0,10,100));
-    
+    generalGUI.add(cHeight.set("objects Height pos",480,0,960));
+                   
     gradientGUI.setName("Gradient");
     
     gradientGUI.add(gradient_min_width.set("min Width",0.2, 0,5));
@@ -78,7 +79,7 @@ void ofMorphRender::draw() {
 void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i) {
     ofFbo *screen;
         
-    float scaleH, dir, posx, posy = CHEIGHT/2;
+    float scaleH, dir, posx, posy = cHeight;
     long long now = ofGetElapsedTimeMillis();
 
     for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
@@ -242,7 +243,7 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
 
 void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     ofFbo *screen;
-    float scaleH, posx, posy = CHEIGHT/2;
+    float scaleH, posx, posy = CHEIGHT/2; //bars don't change the height position
     
     switch (screen_i) {
         case 0:
@@ -276,7 +277,7 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
 void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
     float rx;
     ofFbo *screen;
-    float scaleH, posx, posy = CHEIGHT/2;
+    float scaleH, posx, posy = cHeight;
     
     switch (screen_i) {
         case 0:
@@ -341,7 +342,7 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 
     ofTriangle(m.w/2 + m.random_delta[2] - base_tri, -m.h/2 + m.random_delta[3],
                (m.w/2 + m.random_delta[2] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (-m.h/2 + m.random_delta[3] + 400 - posy)/scaleH,
-                m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3] + base_tri);
+                m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3] + base_tri) ;
 
     ofTriangle(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5] - base_tri,
                (m.w/2 + m.random_delta[4] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (m.h/2 + m.random_delta[5] - posy  + 400)/scaleH + 100,
@@ -366,7 +367,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
     ofFbo *screen;
     ofPath poly;
     
-    float scaleH, dir, posx, posy = CHEIGHT/2;
+    float scaleH, dir, posx, posy = cHeight;
     long long now = ofGetElapsedTimeMillis();
 
     if (now - m->last_time > gradient_time_frames) {

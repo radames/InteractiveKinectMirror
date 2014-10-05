@@ -458,8 +458,8 @@ void ofApp::keyPressed (int key) {
         case 'z':
             //if not exist Add
             if(!morphRender.morphs.count(0)){
-                morphRender.addMorph(kinectWidth/2,ofRandom(kinectHeight),0);
-                morphRender.addMorph(kinectWidth/2 + 10,ofRandom(kinectHeight),1);
+                morphRender.addMorph(kinectWidth/2,kinectHeight/2,0);
+                morphRender.addMorph(kinectWidth/2,kinectHeight/2,1);
 
             }
             break;

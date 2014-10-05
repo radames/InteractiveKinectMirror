@@ -74,8 +74,9 @@ public:
     //General Parameters
     ofParameter<int> minNoiseCorner;
     ofParameter<int> maxNoiseCorner;
+    ofParameter<int> cHeight= 960; //canvas height
 
-    static const int CHEIGHT = 960; //canvas height
+    static const int CHEIGHT = 960;
     static const int CWIDTH1 = 768; //canvas width 1
     static const int CWIDTH2 = 960; //canvas width 2
     static const int CWIDTH3 = 768; //canvas width 3
