@@ -13,6 +13,7 @@ void ofApp::setup() {
 
     guiSetup(); //GUI Setup
 
+
 }
 
 //--------------------------------------------------------------
@@ -176,7 +177,7 @@ void ofApp::debugMode(){
     //loop through all blobs detected and draw the centroid and lables
 
     RectTracker& tracker = contourFinder.getTracker();
-
+    
     for(int i=0; i < contourFinder.size(); i++){
         unsigned int label = contourFinder.getLabel(i);
 
@@ -338,8 +339,7 @@ void ofApp::kinectSetup(){
     //blob tracking system parameter
     contourFinder.getTracker().setPersistence(10);
     contourFinder.getTracker().setMaximumDistance(128);
-
-
+    
 }
 
 
@@ -459,7 +459,6 @@ void ofApp::keyPressed (int key) {
             //if not exist Add
             if(!morphRender.morphs.count(0)){
                 morphRender.addMorph(kinectWidth/2,kinectHeight/2,0);
-                morphRender.addMorph(kinectWidth/2,kinectHeight/2,1);
 
             }
             break;
@@ -467,7 +466,6 @@ void ofApp::keyPressed (int key) {
             //if exists delete
             if(morphRender.morphs.count(0)){
                 morphRender.deleteMorph(0);
-                morphRender.deleteMorph(1);
 
             }
             break;

@@ -66,14 +66,16 @@ public:
     ofParameter<float> bars_max_width = 150;
     
     // Spikes Parameters
-    ofParameter<int> spikes_min_num;
-    ofParameter<int> spikes_max_num;
-    ofParameter<int> minSpikesRandPoints;
-    ofParameter<int> maxSpikesRandPoints;
+
+    ofParameter<int> maxSpikesRandPoints = 10;
+    ofParameter<float> spikeMinSize = 40;
+    ofParameter<float> spikeMaxSize = 600;
+    
     
     //General Parameters
-    ofParameter<int> minNoiseCorner;
-    ofParameter<int> maxNoiseCorner;
+
+    ofParameter<int> minNoiseCorner = 5;
+    ofParameter<int> maxNoiseCorner = 20;
     ofParameter<int> cHeight= 960; //canvas height
 
     static const int CHEIGHT = 960;

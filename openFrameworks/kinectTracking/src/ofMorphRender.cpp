@@ -41,10 +41,9 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int
     barsGUI.add(bars_max_width.set("bar width max",0,10,300));
     
     spikesGUI.setName("Spikes");
-    spikesGUI.add(minSpikesRandPoints.set("min Rand Points", 0,3,10));
-    spikesGUI.add(maxSpikesRandPoints.set("max Rand Points", 0,20,50));
-    spikesGUI.add(spikes_min_num.set("min num",0,0,20));
-    spikesGUI.add(spikes_max_num.set("max num",0,0,20));
+    spikesGUI.add(maxSpikesRandPoints.set("max Rand Points", 10,2,100));
+    spikesGUI.add(spikeMinSize.set("min Size", 40, 40,200));
+    spikesGUI.add(spikeMaxSize.set("max Size", 100, 40,600));
 
     morphs.clear();
 
@@ -306,7 +305,6 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
 
     screen->begin();
     
-    
     ofPushStyle();
     ofPushMatrix();
     //ofTranslate(posx, posy);
@@ -315,45 +313,31 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
     ofSetColor(0,0,0);
     
     ofFill();
-        ofPushMatrix();
-            ofBeginShape();
+
+    
+        ofBeginShape();
             ofVertex(-m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1]);
             ofVertex(m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3]);
             ofVertex(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5]);
             ofVertex(-m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7]);
-            ofEndShape();
-    
-    float ry = CHEIGHT/(2*scaleH);
-    float base_tri = 15;
-    
-    float alpha1, alpha2, alpha3, alpha4;
-    
-    alpha1 = (m.random_delta[1] -  m.random_delta[3])/(m.w + m.random_delta[0] - m.random_delta[2]);
+        ofEndShape();
 
-    if (m.random_delta[3] < m.random_delta[1]) {
-        alpha1 *= -1;
-    }
-    
-    alpha4 = (m.h + m.random_delta[1] - m.random_delta[7])/(m.random_delta[0] - m.random_delta[6]);
-    
-    ofTriangle(-m.w/2 + m.random_delta[0] + base_tri, -m.h/2 + m.random_delta[1] + (-m.w/2 + m.random_delta[0] + base_tri)*alpha1,
-               (-m.w/2 + m.random_delta[0] - posx - 5)/scaleH + (rx/2 - 5)/scaleH, (-m.h/2 + m.random_delta[1] - posy + 400)/scaleH,
-               -m.w/2 + m.random_delta[0], -m.h/2 + m.random_delta[1] + base_tri);
 
-    ofTriangle(m.w/2 + m.random_delta[2] - base_tri, -m.h/2 + m.random_delta[3],
-               (m.w/2 + m.random_delta[2] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (-m.h/2 + m.random_delta[3] + 400 - posy)/scaleH,
-                m.w/2 + m.random_delta[2], -m.h/2 + m.random_delta[3] + base_tri) ;
-
-    ofTriangle(m.w/2 + m.random_delta[4], m.h/2 + m.random_delta[5] - base_tri,
-               (m.w/2 + m.random_delta[4] - posx + 5)/scaleH + (rx/2 + 50)/scaleH, (m.h/2 + m.random_delta[5] - posy  + 400)/scaleH + 100,
-                m.w/2 + m.random_delta[4] - base_tri, m.h/2 + m.random_delta[5]);
     
-    ofTriangle(-m.w/2 + m.random_delta[6] + base_tri, m.h/2 + m.random_delta[7],
-               (-m.w/2 + m.random_delta[6] - posx - 5)/scaleH + (rx/2 - 5)/scaleH, (m.h/2 + m.random_delta[7] -posy + 400)/scaleH + 100,
-               -m.w/2 + m.random_delta[6], m.h/2 + m.random_delta[7] - base_tri);
+        for (int i = 0; i < m.spikesPoints.size(); ++i) {
+            for (int j = 0; j < m.spikesPoints[i].size(); ++j) {
+                ofSetColor(0,0,0);
+                ofFill();
+                ofTriangle(m.spikesPoints[i][j].esq1, m.spikesPoints[i][j].esq2,
+                           m.spikesPoints[i][j].pt1/scaleH - (posx-rx/2)/scaleH, m.spikesPoints[i][j].pt2/scaleH - (posy-cHeight)/scaleH,
+                           m.spikesPoints[i][j].dir1,m.spikesPoints[i][j].dir2);
+            }
+        }
     
-    ofPopMatrix();
+    
+    
 
+    
     ofPopMatrix();
     ofPopStyle();
     
@@ -511,7 +495,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
 // morph add function, needs an unique ID and star X and Y position
 void ofMorphRender::addMorph(float x, float y, int id){
     ofMorph *m = new ofMorph();
-    m->setup(x, y, minSpikesRandPoints, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner);
+    m->setup(x, y, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner, spikeMinSize, spikeMaxSize);
     morphs.insert(std::make_pair<int, ofMorph>(id, *m));
 }
 

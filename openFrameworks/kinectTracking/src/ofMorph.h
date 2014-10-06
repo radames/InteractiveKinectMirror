@@ -3,9 +3,17 @@
 // than once which would confuse the compiler
 
 #include "ofMain.h"
+#include "ofxCv.h"
 
 struct gradient_data {
     float posx, posy;
+};
+
+
+struct pointpointTuple {
+    float esq1,esq2;
+    float dir1,dir2;
+    float pt1,pt2;
 };
 
 class ofMorph {
@@ -13,14 +21,19 @@ class ofMorph {
 public: // place public functions or variables declarations here
     // methods, equivalent to specific functions of your class objects
     void update();  // update method, used to refresh your objects properties
-    void updatePosition(float _x, float _y);
+    void updatePosition( float _x, float _y);
     void draw();    // draw method, this where you'll do the object's drawing
-    void setup(float _x, float _y, int minSpikesRandPoints, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner);
+    void setup( float _x, float _y, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner, float spike_min_size, float spike_max_size);
     float x, y;
     float center_x, center_y;
     float w, h;
+    
+    
     float random_delta[8];
-    vector<ofPoint> random_points;
+
+    //spikes
+    vector<vector<pointpointTuple> > spikesPoints;
+    
     bool screens[3];
     ofColor c;
     
@@ -30,7 +43,15 @@ public: // place public functions or variables declarations here
     int grad_added = 0;
     int grad_max = 15;
     float dt = 0;
+    
+    ofxCv::KalmanPosition kalman;
 
+
+private:
+    
+    void ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, float spike_max_size);
+    
+    
 };
 
 #endif

@@ -49,6 +49,7 @@ public:
     ofxSyphonServer syphonServer;
     ofxCv::ContourFinder contourFinder;
 
+
 	ofxCvColorImage colorImg;
 	ofxCvGrayscaleImage grayImage; // grayscale depth image
 	ofxCvGrayscaleImage grayThreshNear; // the near thresholded image
@@ -61,14 +62,14 @@ public:
     
 
     ofParameter<bool> enableMouse;
-    ofParameter<int> farThreshold;
+    ofParameter<int> farThreshold = 143;
     ofParameter<float> offsetX;
     ofParameter<float> offsetY;
-    ofParameter<int> numMaxBlobs;
-    ofParameter<int> minBlobSize;
-    ofParameter<int> maxBlobSize;
-    ofParameter<int> kinectWidth;
-    ofParameter<int> kinectHeight;
+    ofParameter<int> numMaxBlobs = 15;
+    ofParameter<int> minBlobSize = 22;
+    ofParameter<int> maxBlobSize = 354;
+    ofParameter<int> kinectWidth = 640;
+    ofParameter<int> kinectHeight = 480;
     
     
     //options variables
@@ -91,5 +92,6 @@ public:
     
     vector<ofMorph> morphs;
         
+
 
 };
