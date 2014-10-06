@@ -14,14 +14,24 @@
 		<min_Noise_Corner>17</min_Noise_Corner>
 		<max_Noise_Corne>48</max_Noise_Corne>
 		<objects_Height_pos>480</objects_Height_pos>
+	<min_noise_corner>12</min_noise_corner>
+		<max_noise_corne>32</max_noise_corne>
+		<objects_height_pos>636</objects_height_pos>
+		<block_width>76.8878</block_width>
+		<block_Height>200</block_Height>
+		<movement_Smooth>3</movement_Smooth>
+	<block_height>206.99</block_height>
+		<movement_smooth>3</movement_smooth>
 	</General_Params>
 	<Gradient>
 		<min_Width>0.2</min_Width>
 		<max_Width>3</max_Width>
 		<time_per_frame>10</time_per_frame>
-		<size_change_per_level>0.05</size_change_per_level>
-		<animation_speed>5</animation_speed>
+		<size_change_per_level>0.0612245</size_change_per_level>
+		<animation_speed>8.16327</animation_speed>
 		<animation_max_time>3</animation_max_time>
+	<min_width>0.2</min_width>
+		<max_width>3</max_width>
 	</Gradient>
 	<Bars>
 		<bar_width_min>41.0714</bar_width_min>
@@ -29,8 +39,11 @@
 	</Bars>
 	<Spikes>
 		<max_Rand_Points>10</max_Rand_Points>
-		<min_Size>61.2245</min_Size>
-		<max_Size>100</max_Size>
+		<min_Size>18.9286</min_Size>
+		<max_Size>163.189</max_Size>
+	<max_num_spikes>5</max_num_spikes>
+		<spikes_angle>40.8163</spikes_angle>
+	<base_len>3.87755</base_len>
 	</Spikes>
 <Settings/>
 </Settings>

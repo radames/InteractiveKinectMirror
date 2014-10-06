@@ -3,7 +3,6 @@
 // than once which would confuse the compiler
 
 #include "ofMain.h"
-#include "ofxCv.h"
 
 struct gradient_data {
     float posx, posy;
@@ -23,11 +22,12 @@ public: // place public functions or variables declarations here
     void update();  // update method, used to refresh your objects properties
     void updatePosition( float _x, float _y);
     void draw();    // draw method, this where you'll do the object's drawing
-    void setup( float _x, float _y, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner, float spike_min_size, float spike_max_size);
+    void setup( float _x, float _y, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner, float blockWidth, float blockHeight,
+                float spike_min_size, float spike_max_size, float spike_angle, float half_base, float _smooth_value);
     float x, y;
     float center_x, center_y;
     float w, h;
-    
+    float smooth_value;
     
     float random_delta[8];
 
@@ -44,12 +44,9 @@ public: // place public functions or variables declarations here
     int grad_max = 15;
     float dt = 0;
     
-    ofxCv::KalmanPosition kalman;
-
-
 private:
     
-    void ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, float spike_max_size);
+    void ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, float spike_max_size,float spike_angle, float half_base);
     
     
 };

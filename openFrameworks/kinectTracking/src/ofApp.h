@@ -73,7 +73,7 @@ public:
     
     
     //options variables
-    bool bDebugMode;
+    bool bDebugMode = false;
 	int nearThreshold;
 	
     float blobx,bloby;

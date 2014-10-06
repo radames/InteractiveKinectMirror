@@ -1,16 +1,16 @@
 #include "ofMorph.h"
 
-using namespace ofxCv;
-using namespace cv;
-
-void ofMorph::setup(float _x, float _y, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner, float spike_min_size, float spike_max_size)
+void ofMorph::setup(float _x, float _y, int maxSpikesRandPoints, int minNoiseCorner, int maxNoiseCorner, float blockWidth, float blockHeight,
+                    float spike_min_size, float spike_max_size, float spike_angle, float half_base, float _smooth_value)
+                    
 {
     x = _x;
     y = _y;
     
-    w = 100;
-    h = 200;
+    w = blockWidth;
+    h = blockHeight;
     
+    smooth_value = _smooth_value;
     for (int i = 0; i < 3; ++i) {
         screens[i] = true; (ofRandom(0, 1) >= 0.5)?true:false;
     }
@@ -21,9 +21,7 @@ void ofMorph::setup(float _x, float _y, int maxSpikesRandPoints, int minNoiseCor
     }
 
     
-    ofRandomSpikes(maxSpikesRandPoints, spike_min_size, spike_max_size); //initialize spikes
-  
-    kalman.init(1e-4, 1e-1);
+    ofRandomSpikes(maxSpikesRandPoints, spike_min_size, spike_max_size, spike_angle, half_base); //initialize spikes
     
 }
 
@@ -35,11 +33,11 @@ void ofMorph::updatePosition(float _x, float _y){
    // x = point.x;
    // y = point.y;
     
-    if (abs(_x - x) > 3) {
+    if (abs(_x - x) > smooth_value) {
         x = _x;
     }
     
-    if (abs(_y - y) > 3) {
+    if (abs(_y - y) > smooth_value) {
         y = _y;
     }
     
@@ -50,7 +48,7 @@ void ofMorph::draw(){
 }
 
 
-void ofMorph::ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, float spike_max_size){
+void ofMorph::ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, float spike_max_size, float spike_angle, float half_base){
     
     
     int nspikes_side = 0; //random num max of spikes for each side
@@ -59,10 +57,8 @@ void ofMorph::ofRandomSpikes(int maxSpikesRandPoints, float spike_min_size, floa
     float rand_x, rand_y, rand_len,random_del;
     float alpha, spike_len, spike_delta;
     
-    float half_base = 10;
     float rand_corner_min = 5;
     float rand_corner_max = 20;
-    float spike_angle = 50;
     
     float pol[4][2];
     

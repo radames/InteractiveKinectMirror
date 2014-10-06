@@ -70,6 +70,8 @@ public:
     ofParameter<int> maxSpikesRandPoints = 10;
     ofParameter<float> spikeMinSize = 40;
     ofParameter<float> spikeMaxSize = 600;
+    ofParameter<float> spike_angle = 30;
+    ofParameter<float> half_base = 5;
     
     
     //General Parameters
@@ -77,6 +79,11 @@ public:
     ofParameter<int> minNoiseCorner = 5;
     ofParameter<int> maxNoiseCorner = 20;
     ofParameter<int> cHeight= 960; //canvas height
+    ofParameter<float> blockWidth = 100;
+    ofParameter<float> blockHeight = 200;
+    ofParameter<float> smooth_value = 3;
+
+
 
     static const int CHEIGHT = 960;
     static const int CWIDTH1 = 768; //canvas width 1

@@ -23,14 +23,16 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int
     kinect_height = _kinect_height;
 
     generalGUI.setName("General Params");
-    generalGUI.add(minNoiseCorner.set("min Noise Corner", 0,10,100));
-    generalGUI.add(maxNoiseCorner.set("max Noise Corne", 0,10,100));
-    generalGUI.add(cHeight.set("objects Height pos",480,0,960));
-                   
+    generalGUI.add(minNoiseCorner.set("min noise corner", 0,10,100));
+    generalGUI.add(maxNoiseCorner.set("max noise corne", 0,10,100));
+    generalGUI.add(cHeight.set("objects height pos",480,0,960));
+    generalGUI.add(blockWidth.set("block width", 20, 10, 200));
+    generalGUI.add(blockHeight.set("block height", 50, 10, 400));
+    generalGUI.add(smooth_value.set("movement smooth",3, 0, 10));
     gradientGUI.setName("Gradient");
     
-    gradientGUI.add(gradient_min_width.set("min Width",0.2, 0,5));
-    gradientGUI.add(gradient_max_width.set("max Width",3, 0,5));
+    gradientGUI.add(gradient_min_width.set("min width",0.2, 0,5));
+    gradientGUI.add(gradient_max_width.set("max width",3, 0,5));
     gradientGUI.add(gradient_time_frames.set("time per frame", 10, 0, 1000));
     gradientGUI.add(gradient_change_per_level.set("size change per level", 0.05, 0, 2));
     gradientGUI.add(gradient_animation_speed.set("animation speed", 5, 0, 100));
@@ -41,9 +43,13 @@ void ofMorphRender::setup(ofFbo *_screen1, ofFbo *_screen2, ofFbo *_screen3, int
     barsGUI.add(bars_max_width.set("bar width max",0,10,300));
     
     spikesGUI.setName("Spikes");
-    spikesGUI.add(maxSpikesRandPoints.set("max Rand Points", 10,2,100));
-    spikesGUI.add(spikeMinSize.set("min Size", 40, 40,200));
-    spikesGUI.add(spikeMaxSize.set("max Size", 100, 40,600));
+    spikesGUI.add(maxSpikesRandPoints.set("max num spikes", 10,2,100));
+    spikesGUI.add(spikeMinSize.set("min Size", 40, 5,200));
+    spikesGUI.add(spikeMaxSize.set("max Size", 100, 5,200));
+    spikesGUI.add(spike_angle.set("spikes angle",30, 20,60));
+    spikesGUI.add(half_base.set("base len", 5, 2, 25));
+    
+    
 
     morphs.clear();
 
@@ -495,7 +501,9 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
 // morph add function, needs an unique ID and star X and Y position
 void ofMorphRender::addMorph(float x, float y, int id){
     ofMorph *m = new ofMorph();
-    m->setup(x, y, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner, spikeMinSize, spikeMaxSize);
+    m->setup(x, y, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner, blockWidth, blockHeight, spikeMinSize, spikeMaxSize, spike_angle, half_base, smooth_value);
+
+    
     morphs.insert(std::make_pair<int, ofMorph>(id, *m));
 }
 

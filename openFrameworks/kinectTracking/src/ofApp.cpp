@@ -333,7 +333,6 @@ void ofApp::kinectSetup(){
     ofSetFrameRate(60);
     // zero the tilt on startup
     kinect.setCameraTiltAngle(0);
-    bDebugMode = true;
     nearThreshold = 255;
 
     //blob tracking system parameter
@@ -476,8 +475,8 @@ void ofApp::keyPressed (int key) {
 
     //if debugMode and not mouse move the blob with the keyboard
     if(!enableMouse){
-        if(morphRender.morphs.size() > 0){
-
+        if(morphRender.morphs.count(0)> 0){
+            
             morphRender.morphs[0].x = applyOffsetX(blobx);
             morphRender.morphs[0].y = applyOffsetY(bloby);
 
@@ -491,7 +490,7 @@ void ofApp::mouseMoved(int x, int y){
 
 
     if(enableMouse){
-        if(morphRender.morphs.size() > 0){
+        if(morphRender.morphs.count(0)> 0){
             blobx = ofMap(ofGetMouseX(), 0, ofGetScreenWidth(),  0, kinectWidth);
             bloby = ofMap(ofGetMouseY(), 0, ofGetScreenHeight(), 0, kinectHeight);
 
