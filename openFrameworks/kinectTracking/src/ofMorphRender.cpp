@@ -299,15 +299,16 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
             screen = screen2;
             break;
         case 2:
-            scaleH = ofMap(m.x, 0, kinect_width, 0, 1, 0.5);
-            posx = ofMap(m.x, 0, kinect_width, 0, 0.5, 1);
+            scaleH = ofMap(m.x, 0, kinect_width, 0.5, 1);
+            posx = ofMap(m.y, 0, kinect_height, 0, CWIDTH3);
+            
             rx = CWIDTH3;
 
             screen = screen3;
             break;
     }
     
-    
+
 
     screen->begin();
     

@@ -17,7 +17,7 @@
 	<min_noise_corner>12</min_noise_corner>
 		<max_noise_corne>32</max_noise_corne>
 		<objects_height_pos>636</objects_height_pos>
-		<block_width>76.8878</block_width>
+		<block_width>87.551</block_width>
 		<block_Height>200</block_Height>
 		<movement_Smooth>3</movement_Smooth>
 	<block_height>206.99</block_height>
@@ -34,13 +34,13 @@
 		<max_width>3</max_width>
 	</Gradient>
 	<Bars>
-		<bar_width_min>41.0714</bar_width_min>
+		<bar_width_min>24.7959</bar_width_min>
 		<bar_width_max>106.173</bar_width_max>
 	</Bars>
 	<Spikes>
 		<max_Rand_Points>10</max_Rand_Points>
-		<min_Size>18.9286</min_Size>
-		<max_Size>163.189</max_Size>
+		<min_Size>5.9949</min_Size>
+		<max_Size>170.153</max_Size>
 	<max_num_spikes>5</max_num_spikes>
 		<spikes_angle>40.8163</spikes_angle>
 	<base_len>3.87755</base_len>
