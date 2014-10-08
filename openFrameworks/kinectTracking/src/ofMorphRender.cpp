@@ -93,7 +93,7 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
         if (now - m->last_time > gradient_time_frames) {
             m->dt += gradient_animation_speed/1000;
             if (m->dt > gradient_animation_max_time)
-                m->dt = 0;
+                m->dt = -gradient_animation_max_time;
         
             if (m->grad_added < m->grad_max) {
                 while (m->grad_added < m->grad_max) {
@@ -151,7 +151,7 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
                 ofPushStyle();
                 ofPushMatrix();
             ofTranslate(posx, posy);
-            float s = scaleH - j*(gradient_change_per_level) + m->dt*(m->grad_added - j - 1)/m->grad_added;
+            float s = scaleH - j*(gradient_change_per_level) + abs(m->dt)*(m->grad_added - j - 1)/m->grad_added;
             //float s = scaleH - j*(0.06);
             s = (s < (float)gradient_min_width)?(float)gradient_min_width:s;
             ofScale(s, s);
@@ -365,6 +365,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
         m->dt += gradient_animation_speed/1000;
         if (m->dt > gradient_animation_max_time)
             m->dt = 0;
+
         gradient_data g;
         g.posx = m->x;
         g.posy = m->y;

@@ -458,6 +458,7 @@ void ofApp::keyPressed (int key) {
             //if not exist Add
             if(!morphRender.morphs.count(0)){
                 morphRender.addMorph(kinectWidth/2,kinectHeight/2,0);
+                morphRender.addMorph(ofRandom(kinectWidth),kinectHeight/2,1);
 
             }
             break;
@@ -465,6 +466,7 @@ void ofApp::keyPressed (int key) {
             //if exists delete
             if(morphRender.morphs.count(0)){
                 morphRender.deleteMorph(0);
+                morphRender.deleteMorph(1);
 
             }
             break;
