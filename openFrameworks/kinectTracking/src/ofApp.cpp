@@ -235,6 +235,7 @@ void ofApp::debugMode(){
 
 
 
+
 }
 
 
@@ -474,14 +475,14 @@ void ofApp::keyPressed (int key) {
 
 
     //if debugMode and not mouse move the blob with the keyboard
-    if(!enableMouse){
-        if(morphRender.morphs.count(0)> 0){
-            
-            morphRender.morphs[0].x = applyOffsetX(blobx);
-            morphRender.morphs[0].y = applyOffsetY(bloby);
-
-        }
-    }
+//    if(!enableMouse){
+//        if(morphRender.morphs.count(0)> 0){
+//            
+//            morphRender.morphs[0].x = applyOffsetX(blobx);
+//            morphRender.morphs[0].y = applyOffsetY(bloby);
+//
+//        }
+//    }
 
 
 

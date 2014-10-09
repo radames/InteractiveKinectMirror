@@ -144,9 +144,10 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
                         break;
                     case 2:
                         scaleH = ofMap(g.posx, 0, kinect_width, gradient_min_width, gradient_max_width);
-                        posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
+                        posx = ofMap(g.posy, 0, kinect_height, 0, CWIDTH3);
                         break;
                 }
+            
                 
                 ofPushStyle();
                 ofPushMatrix();
@@ -253,17 +254,17 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     switch (screen_i) {
         case 0:
             scaleH = ofMap(m.x, kinect_width, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, kinect_height, 0, 0, CHEIGHT);
+            posx = ofMap(m.y, kinect_height, 0, 0, CWIDTH1);
             screen = screen1;
             break;
         case 1:
             scaleH = ofMap(m.y, kinect_height, 0, bars_min_width, bars_max_width);
-            posx = ofMap(m.x, 0, kinect_width, 0, CHEIGHT);
+            posx = ofMap(m.x, 0, kinect_width, 0, CWIDTH2);
             screen = screen2;
             break;
         case 2:
             scaleH = ofMap(m.x, 0, kinect_width, bars_min_width, bars_max_width);
-            posx = ofMap(m.y, 0, kinect_width, 0, CHEIGHT);
+            posx = ofMap(m.y, 0, kinect_height, 0, CWIDTH3);
             screen = screen3;
             break;
     }
@@ -402,7 +403,7 @@ void ofMorphRender::draw_gradient(ofMorph *m, int screen_i) {
                 break;
             case 2:
                 scaleH = ofMap(g.posx, 0, kinect_width, gradient_min_width, gradient_max_width);
-                posx = ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
+                posx = CWIDTH3-ofMap(g.posy, 0, kinect_width, 0, CWIDTH3);
                 break;
         }
         
