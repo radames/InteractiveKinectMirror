@@ -14,3 +14,19 @@ Overhead kinect sensor and three screens.
 <p align="center">
   <img src="imgs/img1.jpg"/>
 </p>
+
+
+##Modes
+
+
+<p align="center">
+  <img src="imgs/spikes.png"/>
+</p>
+
+<p align="center">
+  <img src="imgs/gradient.png"/>
+</p>
+
+<p align="center">
+  <img src="imgs/bars.png"/>
+</p>
