@@ -46,4 +46,44 @@
 	<base_len>3.87755</base_len>
 	</Spikes>
 <Settings/>
+<group>
+		<Mouse_DEBUG>1</Mouse_DEBUG>
+		<Kinect>
+			<Width>623</Width>
+			<Height>457</Height>
+			<Far_Threshold>225</Far_Threshold>
+			<Num_Max_Blos>6</Num_Max_Blos>
+			<max_Blob_Size>81</max_Blob_Size>
+			<min_Blob_Size>28</min_Blob_Size>
+			<Offset_X>10.2041</Offset_X>
+			<Offset_Y>14.2857</Offset_Y>
+		</Kinect>
+		<General_Params>
+			<min_noise_corner>10</min_noise_corner>
+			<max_noise_corne>44</max_noise_corne>
+			<objects_height_pos>367</objects_height_pos>
+			<block_width>53.6224</block_width>
+			<block_height>149.286</block_height>
+			<movement_smooth>3</movement_smooth>
+		</General_Params>
+		<Gradient>
+			<min_width>0.2</min_width>
+			<max_width>3</max_width>
+			<time_per_frame>10</time_per_frame>
+			<size_change_per_level>0.05</size_change_per_level>
+			<animation_speed>5</animation_speed>
+			<animation_max_time>3</animation_max_time>
+		</Gradient>
+		<Bars>
+			<bar_width_min>0</bar_width_min>
+			<bar_width_max>0</bar_width_max>
+		</Bars>
+		<Spikes>
+			<max_num_spikes>10</max_num_spikes>
+			<min_Size>40</min_Size>
+			<max_Size>100</max_Size>
+			<spikes_angle>30</spikes_angle>
+			<base_len>5</base_len>
+		</Spikes>
+	</group>
 </Settings>

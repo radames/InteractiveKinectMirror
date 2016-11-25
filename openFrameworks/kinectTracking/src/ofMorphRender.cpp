@@ -62,16 +62,16 @@ void ofMorphRender::draw() {
         }
         return;
     }
-    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
+    for(unordered_map<unsigned int, ofMorph>::iterator it = morphs.begin(); it != morphs.end(); it++){
         for (int i = 0; i < 3; ++i) {
             if (it->second.screens[i]) {
                 switch (render_type) {
                     case BARS:
                         draw_bar(it->second, i);
                         break;
-                    /* case GRADIENT:
+                    case GRADIENT:
                         draw_gradient(&it->second, i);
-                        break; */
+                        break; 
                     case SPIKES:
                         draw_spikes(it->second, i);
                         break;
@@ -81,13 +81,13 @@ void ofMorphRender::draw() {
     }
 }
 
-void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i) {
+void ofMorphRender::draw_all_gradient(unordered_map<unsigned int, ofMorph> *morphs, int screen_i) {
     ofFbo *screen;
         
     float scaleH, dir, posx, posy = cHeight;
     long long now = ofGetElapsedTimeMillis();
 
-    for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
+    for(unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
         ofMorph *m = &it->second;
 
         if (now - m->last_time > gradient_time_frames) {
@@ -118,7 +118,7 @@ void ofMorphRender::draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> 
     }
     
     for (int j = 0; j < 15; ++j) {
-        for(tr1::unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
+        for(unordered_map<unsigned int, ofMorph>::iterator it = morphs->begin(); it != morphs->end(); it++){
             ofPath poly;
             ofMorph *m = &it->second;
         
@@ -274,7 +274,7 @@ void ofMorphRender::draw_bar(ofMorph m, int screen_i) {
     ofSetRectMode(OF_RECTMODE_CENTER);
     ofSetColor(0, 0, 0);
     ofFill();
-    ofRect(posx, posy, scaleH, CHEIGHT);
+    ofDrawRectangle(posx, posy, scaleH, CHEIGHT);
     ofPopStyle();
     screen->end();
 
@@ -336,7 +336,7 @@ void ofMorphRender::draw_spikes(ofMorph m, int screen_i) {
             for (int j = 0; j < m.spikesPoints[i].size(); ++j) {
                 ofSetColor(0,0,0);
                 ofFill();
-                ofTriangle(m.spikesPoints[i][j].esq1, m.spikesPoints[i][j].esq2,
+                ofDrawTriangle(m.spikesPoints[i][j].esq1, m.spikesPoints[i][j].esq2,
                            m.spikesPoints[i][j].pt1/scaleH - (posx-rx/2)/scaleH, m.spikesPoints[i][j].pt2/scaleH - (posy-cHeight)/scaleH,
                            m.spikesPoints[i][j].dir1,m.spikesPoints[i][j].dir2);
             }
@@ -507,7 +507,7 @@ void ofMorphRender::addMorph(float x, float y, int id){
     m->setup(x, y, maxSpikesRandPoints, minNoiseCorner, maxNoiseCorner, blockWidth, blockHeight, spikeMinSize, spikeMaxSize, spike_angle, half_base, smooth_value);
 
     
-    morphs.insert(std::make_pair<int, ofMorph>(id, *m));
+    morphs.insert(make_pair(id, *m));
 }
 
 // morph delete function

@@ -12,7 +12,7 @@
 #include "ofParameter.h"
 #include "ofMain.h"
 #include "ofMorph.h"
-#include <tr1/unordered_map>
+#include <unordered_map>
 
 class ofMorphRender {
     
@@ -20,7 +20,7 @@ public:
     enum RenderType {
         BARS,
         SPIKES,
-//        GRADIENT,
+        GRADIENT,
         ALL_GRADIENT
     };
     
@@ -32,13 +32,13 @@ public:
     void draw_bar(ofMorph m, int screen_i);
     void draw_spikes(ofMorph m, int screen_i);
     void draw_gradient(ofMorph *m, int screen_i);
-    void draw_all_gradient(tr1::unordered_map<unsigned int, ofMorph> *morphs, int screen_i);
+    void draw_all_gradient(unordered_map<unsigned int, ofMorph> *morphs, int screen_i);
     void addMorph(float x, float y, int id);
     void deleteMorph(int id);
     
     void setKinectArea(int _kinectWidth,int _kinectHeight);
     
-    tr1::unordered_map <unsigned int, ofMorph> morphs;
+    unordered_map <unsigned int, ofMorph> morphs;
 
     int render_type;
     

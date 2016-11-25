@@ -130,11 +130,11 @@ void ofApp::debugMode(){
 
         ofSetColor(255, 130, 0);
         ofFill();		// draw "filled shapes"
-        ofRect(0, 0, CHEIGHT, CHEIGHT);
-        ofRect(CWIDTH1 + CWIDTH2, 0, 768, CHEIGHT);
+        ofDrawRectangle(0, 0, CHEIGHT, CHEIGHT);
+        ofDrawRectangle(CWIDTH1 + CWIDTH2, 0, 768, CHEIGHT);
         ofSetColor(255,0,0);
         ofFill();
-        ofRect(CWIDTH3, 0, 960, CHEIGHT);
+        ofDrawRectangle(CWIDTH3, 0, 960, CHEIGHT);
         ofSetColor(255, 255, 255);
 
 
@@ -158,7 +158,7 @@ void ofApp::debugMode(){
                 ofSetRectMode(OF_RECTMODE_CENTER);
                 ofSetColor(255,0,0,100);
                 ofFill();
-                ofRect(0,0, kinectWidth, kinectHeight);
+                ofDrawRectangle(0,0, kinectWidth, kinectHeight);
 
                 ofPopStyle();
             ofPopMatrix();
@@ -168,8 +168,8 @@ void ofApp::debugMode(){
     //draw simuled blob
     ofSetColor(0,255,0);
     ofFill();
-    ofCircle(blobx ,bloby, 5);
-
+    ofDrawCircle(blobx ,bloby, 5);
+    
     ofPopStyle();
 
     ofPopMatrix();
@@ -190,14 +190,14 @@ void ofApp::debugMode(){
             ofPushMatrix();
                 ofTranslate(0,400);
                 ofScale(300.0/kinect.width,200.0/kinect.height);
-                ofEllipse(center.x,center.y,10,10);
+                ofDrawEllipse(center.x,center.y,10,10);
                 string msg = ofToString(label) + ":" + ofToString(tracker.getAge(label));
                 ofDrawBitmapString(msg,center.x,center.y);
                 ofVec2f velocity = toOf(contourFinder.getVelocity(i));
                 ofPushMatrix();
                     ofTranslate(center.x, center.y);
                     ofScale(10, 10);
-                    ofLine(0, 0, velocity.x, velocity.y);
+                    ofDrawLine(0, 0, velocity.x, velocity.y);
                     ofPopMatrix();
                 ofPopMatrix();
             ofPopMatrix();
@@ -284,8 +284,8 @@ void ofApp::kinectUpdate(){
     if(kinect.isFrameNew()) {
 
         // load grayscale depth image from the kinect source
-        grayImage.setFromPixels(kinect.getDepthPixels(), kinect.width, kinect.height);
-
+        grayImage.setFromPixels(kinect.getDepthPixels());
+        
         // we do two thresholds - one for the far plane and one for the near plane
         // we then do a cvAnd to get the pixels which are a union of the two thresholds
         grayThreshNear = grayImage;
