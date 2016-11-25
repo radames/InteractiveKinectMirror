@@ -1,4 +1,4 @@
-# Interactive Mirror at Galeria Melissa London
+# Interactive Mirror at [Galeria Melissa London](https://www.melissa.com.br/us/galleries/uk)
 
 In collaboration with [Multi Randolph](http://www.mutirandolph.com/projects/5441731), develop by [Edgar](https://www.github.com/aivuk) and [me](https://www.github.com/radames)
 
@@ -29,4 +29,10 @@ Overhead kinect sensor and three screens.
 
 <p align="center">
   <img src="imgs/bars.png"/>
+</p>
+
+
+##Debug image
+<p align="center">
+  <img src="imgs/debug.png"/>
 </p>
